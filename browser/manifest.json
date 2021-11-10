@@ -1,0 +1,21 @@
+{
+    "name": "JIMMI Media",
+    "version": "1.0",
+    "declarative_net_request": {
+        "rule_resources": [
+            {
+                "id": "rules-1",
+                "enabled": true,
+                "path": "rules.json"
+            }
+        ]
+    },
+    "permissions": [
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "https://jimmi.xyz/*",
+        "https://*.googlevideo.com/*"
+    ],
+    "manifest_version": 3
+}
