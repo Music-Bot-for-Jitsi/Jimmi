@@ -1,30 +1,22 @@
 <script lang="ts">
-  import { onMount, setContext } from "svelte";
+  import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
+
+  import type { JimmiApi } from "../models/JimmiApi";
+  import type { IJimmiCommands } from "../models/JimmiPlugin";
   import Jitsi from "../components/Jitsi.svelte";
   import Navbar from "../components/Navbar.svelte";
   import Spinner from "../components/Spinner.svelte";
-  import MusicPlugin from "../plugins/music";
+  import MusicPlugin from "../plugins/MusicPlugin";
 
-  export let params: { instance: string; room: string }; // spa url parameters
+  export let params: { instance: string; room: string }; // SPA url parameters
 
   let jitsi: Jitsi;
   let isJoined: boolean;
+  let jimmiApi: JimmiApi | null;
 
   const plugins = [MusicPlugin]; // all plugins to register
-  const commands: { [key: string]: CallableFunction } = {};
-  plugins.forEach((plugin) => {
-    Object.keys(plugin.commands || {}).forEach((rawCmd) => {
-      const prefixed = `!${rawCmd}`; // cmd has to be prefixed
-      if (prefixed in commands) {
-        console.warn(
-          `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`
-        );
-      } else {
-        commands[prefixed] = plugin.commands[rawCmd];
-      }
-    });
-  });
+  const commands: IJimmiCommands = {};
 
   function onMessage(event: CustomEvent<{ text: string }>) {
     if (event.detail.text.startsWith("!")) {
@@ -44,7 +36,31 @@
       },
       bosh: `https://${params.instance}/http-bind?room=${params.room}`,
     };
-    jitsi.joinConference(options);
+    jitsi.joinConference(options); // jimmiApi is initialized during function call
+
+    const cmdRegex = new RegExp(/^\w+$/); // matches a single alphanumeric word including underscore
+    plugins
+      .map((plugin) => new plugin(jimmiApi!))
+      .forEach((plugin) => {
+        Object.keys(plugin.commands || {}).forEach((rawCmd) => {
+          const prefixed = `!${rawCmd}`; // cmd must be prefixed
+
+          if (!cmdRegex.test(rawCmd)) {
+            // ToDo: Proper error handling
+            console.error(
+              `Invalid command: "${rawCmd}" provided by plugin "${plugin.meta.name}" is not a valid command name!`
+            );
+          }
+          else if (prefixed in commands) {
+            // ToDo: Proper error handling
+            console.warn(
+              `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`
+            );
+          } else {
+            commands[prefixed] = plugin.commands[rawCmd];
+          }
+        });
+      });
   });
 </script>
 
@@ -56,5 +72,11 @@
   </div>
 {/if}
 <div class:hidden={!isJoined}>
-  <Jitsi roomName={params.room} bind:this={jitsi} bind:isJoined on:message={onMessage} />
+  <Jitsi
+    roomName={params.room}
+    bind:this={jitsi}
+    bind:isJoined
+    bind:jimmiApi
+    on:message={onMessage}
+  />
 </div>

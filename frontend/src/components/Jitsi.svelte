@@ -3,14 +3,17 @@
   import { _ } from "svelte-i18n";
 
   // ToDo: Replace with official types once https://github.com/jitsi/lib-jitsi-meet/pull/1682 is ready
-  import type JitsiConference from "src/types/jitsi/JitsiConference";
-  import type JitsiConnection from "src/types/jitsi/JitsiConnection";
-  import type { JitsiConferenceOptions } from "src/types/jitsi/JitsiConnection";
-  import type { InitOptions, JitsiMeetJSType } from "src/types/jitsi/JitsiMeetJS";
-  import type JitsiLocalTrack from "src/types/jitsi/modules/RTC/JitsiLocalTrack";
+  import type JitsiConference from "types/jitsi/JitsiConference";
+  import type JitsiConnection from "types/jitsi/JitsiConnection";
+  import type { JitsiConferenceOptions } from "types/jitsi/JitsiConnection";
+  import type { InitOptions, JitsiMeetJSType } from "types/jitsi/JitsiMeetJS";
+  import type JitsiParticipant from "types/jitsi/JitsiParticipant";
+  import type JitsiLocalTrack from "types/jitsi/modules/RTC/JitsiLocalTrack";
 
-  import Audio from "./Audio.svelte";
+  import Audio from "../components/Audio.svelte";
   import Participant from "./Participant.svelte";
+  import { JimmiApi } from "../models/JimmiApi";
+  import { config } from "../config";
 
   /**
    * Boolean indicating whether the connection to the given conference has been established
@@ -22,13 +25,18 @@
    */
   export let roomName: string;
 
+  /**
+   * Jimmi API object. This will only be initialized when joinConference is invoked
+   */
+  export let jimmiApi: JimmiApi | null;
+
   let audio: Audio; // audio component binding
   let connection: JitsiConnection;
-  let room: JitsiConference;
+  let conference: JitsiConference;
   let localTracks: JitsiLocalTrack[] = []; // local audio and video tracks for jitsi
 
   const dispatch = createEventDispatcher();
-  $: participants = [];
+  $: participants = <JitsiParticipant[]>[];
 
   const JitsiMeetJS: JitsiMeetJSType = (window as any).JitsiMeetJS;
   JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN);
@@ -37,7 +45,7 @@
    * Helper function to update list of reactive participants
    */
   function updateParticipants() {
-    participants = room.getParticipants();
+    participants = conference.getParticipants();
   }
 
   /**
@@ -47,8 +55,8 @@
     for (let i = 0; i < localTracks.length; i++) {
       localTracks[i].dispose();
     }
-    if (room) {
-      room.leave();
+    if (conference) {
+      conference.leave();
     }
     if (connection) {
       connection.disconnect();
@@ -68,7 +76,7 @@
       return;
     }
     for (let i = 0; i < localTracks.length; i++) {
-      room.addTrack(localTracks[i]);
+      conference.addTrack(localTracks[i]);
     }
   }
 
@@ -77,7 +85,7 @@
    */
   function registerEventListeners() {
     // register real message event listener
-    room.addEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, ((
+    conference.addEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, ((
       from: string,
       msg: string
     ) => {
@@ -96,12 +104,12 @@
 
     // register dummy listener to mark old messages as read
     const dummyListener = () => {};
-    room.addEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, dummyListener);
+    conference.addEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, dummyListener);
 
     // unregister dummy listener after one second. ToDo: Consider cleaner method
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(1000);
-    room.removeEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, dummyListener);
+    conference.removeEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, dummyListener);
 
     // register real event listeners
     registerEventListeners();
@@ -115,13 +123,13 @@
     const confOptions: JitsiConferenceOptions = {
       startAudioMuted: false,
     };
-    room = connection.initJitsiConference(roomName.toLowerCase(), confOptions);
-    room.setDisplayName("DJ Jim");
-    room.on(JitsiMeetJS.events.conference.CONFERENCE_JOINED, onConferenceJoined);
-    room.on(JitsiMeetJS.events.conference.USER_JOINED, updateParticipants);
-    room.on(JitsiMeetJS.events.conference.USER_LEFT, updateParticipants);
-    room.on(JitsiMeetJS.events.conference.DISPLAY_NAME_CHANGED, updateParticipants);
-    room.join("");
+    conference = connection.initJitsiConference(roomName.toLowerCase(), confOptions);
+    conference.setDisplayName(config.default.jitsiDisplayName);
+    conference.on(JitsiMeetJS.events.conference.CONFERENCE_JOINED, onConferenceJoined);
+    conference.on(JitsiMeetJS.events.conference.USER_JOINED, updateParticipants);
+    conference.on(JitsiMeetJS.events.conference.USER_LEFT, updateParticipants);
+    conference.on(JitsiMeetJS.events.conference.DISPLAY_NAME_CHANGED, updateParticipants);
+    conference.join("");
   }
 
   /**
@@ -167,7 +175,7 @@
     };
 
     JitsiMeetJS.init(initOptions);
-    connection = new JitsiMeetJS.JitsiConnection(null, null, options);
+    connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
 
     connection.addEventListener(
       JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
@@ -182,10 +190,12 @@
     connection.connect();
 
     JitsiMeetJS.createLocalTracks({ devices: ["audio"] })
-      .then(updateLocalTracks)
+      .then(updateLocalTracks as any) // ToDo: Fix type mismatch or wait for Jitsi team :)
       .catch((error) => {
         throw error;
       });
+
+    jimmiApi = new JimmiApi(audio, this);
   }
 
   /**

@@ -1,29 +1,29 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { queue } from "../stores";
+  import type { Video } from "../models/Video";
+  import { config } from '../config';
 
-  export let initialVolume = 20;
   let gainNode: GainNode;
   let audio: HTMLAudioElement;
+  export const queue: Video[] = [];
+
   /**
-   * Function to get current gain value in percent
+   * Retrieve the current gain value in percent
    *
-   * @returns {number} - The gain in percent
+   * @returns The gain in percent
    */
-  function getGain() {
+  export function getGain(): number {
     return Math.floor(gainNode.gain.value * 100);
   }
 
   /**
-   * Set the gain value and unmute if gain > 0
+   * Set the gain value
    *
-   * @param {number} gain - The gain value in percent
+   * @param gain - The gain value in percent
    */
-  function setGain(gain) {
-    gain = (gain / 100).toPrecision(3);
+  export function setGain(gain: number) {
     // normalize gain to be between 0 and 1
-    gainNode.gain.value = [0, gain, 1].sort()[1];
-    // if (gain) unmute();
+    gainNode.gain.value = [0, gain / 100, 1].sort()[1];
   }
 
   /**
@@ -34,7 +34,7 @@
     const track = audioContext.createMediaElementSource(audio);
     gainNode = audioContext.createGain();
     const destStream = audioContext.createMediaStreamDestination();
-    setGain(initialVolume);
+    setGain(config.default.initialVolume);
 
     track.connect(gainNode).connect(destStream);
 
@@ -45,35 +45,25 @@
   }
 
   /**
-   * Take an url to an audio file and use it as microphone input
+   * Play a new video or resume playback of current media stream
    *
-   * @param {string} url - The url to play back
+   * @param video - The video to playback. If no video is provided, the current stream is resumed.
    */
-  export async function playAudio(url) {
-    await audio.pause();
-    // unmute();
-    audio.setAttribute("src", url);
+  export async function play(video?: Video) {
+    if (video) {
+      audio.src = video.source;
+    }
     await audio.play();
   }
 
   /**
-   * Called when local audio ends playing
+   * Called when local audio ends playing. If queue contains further tracks, the first one is played.
    */
   function onAudioEnded() {
-    if ($queue.length > 0) {
-      audio.src = $queue[0].source;
+    if (queue.length > 0) {
+      play(queue.shift());
     }
   }
-
-  /**
-   * Handles play event when queue is forced to be overwritten
-   */
-  queue.subscribe((queue) => {
-    if (audio) { // handle audio not initialized yet
-      audio.src = queue[0].source;
-      audio.play();
-    }
-  });
 
   onMount(initAudio);
 </script>
