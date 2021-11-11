@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type JitsiParticipant from "src/types/jitsi/JitsiParticipant";
+  import type JitsiParticipant from "../types/jitsi/JitsiParticipant";
 
   export let participant: JitsiParticipant;
 </script>

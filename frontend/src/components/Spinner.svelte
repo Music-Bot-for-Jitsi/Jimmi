@@ -1,4 +1,4 @@
-<div class="w-20 h-20 center border-4 border-indigo-600 rounded-full loader"></div>
+<div class="w-20 h-20 center border-4 border-indigo-600 rounded-full loader" />
 
 <style>
 	@keyframes loader-rotate {
