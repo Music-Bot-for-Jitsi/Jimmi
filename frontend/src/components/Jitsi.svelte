@@ -39,8 +39,10 @@
   const dispatch = createEventDispatcher();
   $: participants = <JitsiParticipant[]>[];
 
-  const JitsiMeetJS: JitsiMeetJSType = (window as any).JitsiMeetJS;
-  JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN);
+  let JitsiMeetJS: JitsiMeetJSType;
+
+  // container for lib-jitsi-meet.js, which is dynamically included from the given instance
+  let scriptContainer: HTMLDivElement;
 
   /**
    * Helper function to update list of reactive participants
@@ -176,40 +178,57 @@
   /**
    * Establish a connection to the given jitsi instance and join a conference
    *
-   * @param options - Object specifying the jitsi instance, xmpp-http-bind, etc.
+   * @param options - Object specifying the jitsi instance, xmpp-http-bind, etc. ToDo: Fix type
    */
-  export function joinConference(options: JitsiConferenceOptions) {
-    window.addEventListener("beforeunload", unload);
-    window.addEventListener("unload", unload);
+  export function joinConference(options: any) {
+    let script = document.createElement("script");
+    script.src = `https://${options.hosts.domain}/libs/lib-jitsi-meet.min.js`;
+    scriptContainer?.append(script);
 
-    const initOptions: InitOptions = {
-      disableAudioLevels: true,
-      disableThirdPartyRequests: true,
-      enableAnalyticsLogging: false,
-    };
+    var waitForJitsiMeet = setInterval(() => {
+      if (typeof (window as any).JitsiMeetJS != "undefined") {
+        // this code is executed once lib-jitsi-meet is initialized
+        JitsiMeetJS = (window as any).JitsiMeetJS;
+        JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN);
 
-    JitsiMeetJS.init(initOptions);
-    connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
+        window.addEventListener("beforeunload", unload);
+        window.addEventListener("unload", unload);
 
-    connection.addEventListener(
-      JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
-      onConnectionSuccess
-    );
-    connection.addEventListener(
-      JitsiMeetJS.events.connection.CONNECTION_FAILED,
-      onConnectionFailed
-    );
-    connection.addEventListener(JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED, disconnect);
+        const initOptions: InitOptions = {
+          disableAudioLevels: true,
+          disableThirdPartyRequests: true,
+          enableAnalyticsLogging: false,
+        };
 
-    connection.connect();
+        JitsiMeetJS.init(initOptions);
+        connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
 
-    JitsiMeetJS.createLocalTracks({ devices: ["audio"] })
-      .then(updateLocalTracks as any) // ToDo: Fix type mismatch or wait for Jitsi team :)
-      .catch((error) => {
-        throw error;
-      });
+        connection.addEventListener(
+          JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
+          onConnectionSuccess
+        );
+        connection.addEventListener(
+          JitsiMeetJS.events.connection.CONNECTION_FAILED,
+          onConnectionFailed
+        );
+        connection.addEventListener(
+          JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED,
+          disconnect
+        );
 
-    jimmiApi = new JimmiApi(audio, this);
+        connection.connect();
+
+        JitsiMeetJS.createLocalTracks({ devices: ["audio"] })
+          .then(updateLocalTracks as any) // ToDo: Fix type mismatch or wait for Jitsi team :)
+          .catch((error) => {
+            throw error;
+          });
+
+        jimmiApi = new JimmiApi(audio, this);
+
+        clearInterval(waitForJitsiMeet);
+      }
+    }, 10);
   }
 
   /**
@@ -228,6 +247,8 @@
     unload();
   });
 </script>
+
+<div bind:this={scriptContainer} />
 
 <div class="container mx-auto">
   <div class="flex flex-row flex-wrap py-4">

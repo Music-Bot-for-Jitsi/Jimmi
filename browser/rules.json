@@ -23,5 +23,32 @@
                 "media"
             ]
         }
+    },
+    {
+        "id": 2,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "access-control-allow-origin",
+                    "operation": "set",
+                    "value": "http://jimmi.xyz"
+                },
+                {
+                    "header": "access-control-allow-headers",
+                    "operation": "set",
+                    "value": "*"
+                },
+                {
+                    "header": "access-control-allow-methods",
+                    "operation": "set",
+                    "value": "GET, POST, OPTIONS"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "*http-bind"
+        }
     }
 ]

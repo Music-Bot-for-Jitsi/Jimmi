@@ -15,7 +15,8 @@
     ],
     "host_permissions": [
         "https://jimmi.xyz/*",
-        "https://*.googlevideo.com/*"
+        "https://*.googlevideo.com/*",
+        "https://*/http-bind*"
     ],
     "manifest_version": 3
 }
