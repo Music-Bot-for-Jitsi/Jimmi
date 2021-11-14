@@ -2,12 +2,13 @@
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
 
+  import type { ChatEvent } from "../models/ChatEvent";
   import type { JimmiApi } from "../models/JimmiApi";
   import type { IJimmiCommands } from "../models/JimmiPlugin";
   import Jitsi from "../components/Jitsi.svelte";
   import Navbar from "../components/Navbar.svelte";
   import Spinner from "../components/Spinner.svelte";
-  import MusicPlugin from "../plugins/MusicPlugin";
+  import { config } from "../config";
 
   export let params: { instance: string; room: string }; // SPA url parameters
 
@@ -15,15 +16,14 @@
   let isJoined: boolean;
   let jimmiApi: JimmiApi | null;
 
-  const plugins = [MusicPlugin]; // all plugins to register
   const commands: IJimmiCommands = {};
 
-  function onMessage(event: CustomEvent<{ text: string }>) {
+  function onMessage(event: CustomEvent<ChatEvent>) {
     if (event.detail.text.startsWith("!")) {
       // register chat commands of all plugins
-      const [cmd, ...params] = event.detail.text.split(" ");
+      const [cmd] = event.detail.text.split(" ");
       if (cmd in commands) {
-        commands[cmd](params);
+        commands[cmd](event.detail);
       }
     }
   }
@@ -39,7 +39,7 @@
     jitsi.joinConference(options); // jimmiApi is initialized during function call
 
     const cmdRegex = new RegExp(/^\w+$/); // matches a single alphanumeric word including underscore
-    plugins
+    config.plugins
       .map((plugin) => new plugin(jimmiApi!))
       .forEach((plugin) => {
         Object.keys(plugin.commands || {}).forEach((rawCmd) => {
@@ -50,8 +50,7 @@
             console.error(
               `Invalid command: "${rawCmd}" provided by plugin "${plugin.meta.name}" is not a valid command name!`
             );
-          }
-          else if (prefixed in commands) {
+          } else if (prefixed in commands) {
             // ToDo: Proper error handling
             console.warn(
               `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`

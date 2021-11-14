@@ -12,6 +12,7 @@
 
   import Audio from "../components/Audio.svelte";
   import Participant from "./Participant.svelte";
+  import { ChatEvent } from "../models/ChatEvent";
   import { JimmiApi } from "../models/JimmiApi";
   import { config } from "../config";
 
@@ -84,13 +85,26 @@
    * Register certain event listeners and dispatch events as component events
    */
   function registerEventListeners() {
-    // register real message event listener
+    // register real message event listeners
+    const dispatchChatEvent = (from: string, msg: string, isPrivate: boolean) =>
+      dispatch(
+        "message",
+        new ChatEvent(
+          msg,
+          conference.getParticipantById(from),
+          isPrivate,
+          conference.sendMessage.bind(conference)
+        )
+      );
+
+    conference.addEventListener(JitsiMeetJS.events.conference.PRIVATE_MESSAGE_RECEIVED, ((
+      from: string,
+      msg: string
+    ) => dispatchChatEvent(from, msg, true)) as any);
     conference.addEventListener(JitsiMeetJS.events.conference.MESSAGE_RECEIVED, ((
       from: string,
       msg: string
-    ) => {
-      dispatch("message", { text: msg });
-    }) as any);
+    ) => dispatchChatEvent(from, msg, false)) as any);
   }
 
   /**
@@ -196,6 +210,15 @@
       });
 
     jimmiApi = new JimmiApi(audio, this);
+  }
+
+  /**
+   * Simple wrapper to send messages to the public jitsi chat
+   *
+   * @param msg - The message to send
+   */
+  export function sendMessage(msg: string) {
+    conference.sendMessage(msg);
   }
 
   /**

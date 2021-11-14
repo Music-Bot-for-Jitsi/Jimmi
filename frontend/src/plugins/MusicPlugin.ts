@@ -1,20 +1,54 @@
+import type { ChatEvent } from "../models/ChatEvent";
+import type { JimmiApi } from "../models/JimmiApi";
 import type { SearchEntry } from "../models/invidious/SearchEntry";
 import type { VideoResponse } from "../models/invidious/VideoResponse";
-import type { Video } from "../models/Video";
 import { JimmiPlugin } from "../models/JimmiPlugin";
-import type { JimmiApi } from "../models/JimmiApi";
+import { Track } from "../models/Track";
 
 export default class MusicPlugin extends JimmiPlugin {
   readonly meta = {
+    id: "xyz.jimmi.music",
     name: "Music",
-    description: "A music plugin that allows for audio playback of youtube videos",
-    version: "0.1.0",
+    version: "0.2.0",
   };
 
   readonly commands = {
     "play": this.play.bind(this),
     "queue": this.queue.bind(this),
     "cue": this.queue.bind(this), // alias :)
+    "track": this.track.bind(this),
+  };
+
+  readonly translations = {
+    en: {
+      description: "A music plugin that allows for audio playback of youtube videos",
+      commands: {
+        play: {
+          usage: "!play <url|searchTerm> - Play a youtube video by url or search term",
+          playingTrack: "Playing {title}"
+        },
+        queue: {
+          usage: `!<queue|cue> - Show the current queue.
+  !<queue|cue> <url|searchTerm> - Add a youtube video to the queue.
+          `,
+          isEmpty: "The queue is currently empty",
+          content: "Queue content",
+          addedTrack: "Added {title} to queue"
+        },
+        track: {
+          usage: `\`!track\` - Display current track
+  \`!track skip\` - Skip the current track
+  \`!track ++\` or \`!track --\` - Fast forward or rewind. Add more \`+\` or \`-\` signs to increase duration
+  \`!track +10\`, \`!track +20\`, \`!track -15\` - Fast forward or rewind with specific duration in seconds
+          `,
+          currentlyPlaying: "Currently playing {title ?? 'nothing'}"
+        }
+      },
+      general: {
+        invalidArgs: "Invalid arguments. Usage:",
+        noVideo: "Sorry, I cannot find any video at the moment",
+      }
+    },
   };
 
   private baseUrl = "https://invidious.snopyta.org";
@@ -23,9 +57,10 @@ export default class MusicPlugin extends JimmiPlugin {
     super(api);
     this.fetch.bind(this);
     this.searchYtVideo.bind(this);
-    this.getVideoInfo.bind(this);
+    this.getTrack.bind(this);
     this.query.bind(this);
     this.play.bind(this);
+    this.track.bind(this);
   }
 
   /**
@@ -59,54 +94,103 @@ export default class MusicPlugin extends JimmiPlugin {
    * Retrieve details of a given youtube video
    *
    * @param videoId - The video ID
-   * @returns The video summary
+   * @returns The resulting track
    */
-  private async getVideoInfo(videoId: string): Promise<Video | null> {
+  private async getTrack(videoId: string): Promise<Track | null> {
     const res = await this.fetch<VideoResponse>(`videos/${videoId}`);
     if (res.error) {
       return null;
     }
-    const adaptiveFormat = res.adaptiveFormats.filter((format) => format.encoding === "opus")[0];
-    return <Video>{
-      title: res.title,
-      thumbnail: res.videoThumbnails[0].url,
-      source: adaptiveFormat.url,
-    }
+    return new Track(res);
   }
 
-  private async query(params: string[]): Promise<Video | null> {
+  private async query(params: string[]): Promise<Track | null> {
     const query = params.join(' ');
     const videoId = await this.searchYtVideo(query);
     if (!videoId) {
-      // ToDo: add error handling
       return null;
     }
-    return this.getVideoInfo(videoId);
+    return this.getTrack(videoId);
   }
 
-  async play(params: string[]): Promise<void> {
-    if (params.length === 0) {
-      // ToDo: add error handling
+  async play(event: ChatEvent): Promise<void> {
+    if (event.params.length === 0) {
+      event.respond(`:warning: ${this.$t('general.invalidArgs')}\n${this.$t('commands.play.usage')}`);
     } else {
-      const video = await this.query(params);
-      if (!video) {
-        // ToDo: handleError
+      const track = await this.query(event.params);
+      if (!track) {
+        event.respond(`${this.$t('general.noVideo')} :worried:`)
         return;
       }
-      this.api.play(video);
+      this.api.currentTrack = track;
+      this.api.sendMessage(
+        `:notes: ${this.$t('commands.play.playingTrack', { values: { title: track.title } })}`
+      );
     }
   }
 
-  async queue(params: string[]): Promise<void> {
-    if (params.length === 0) {
-      // ToDo: show queue
+  async queue(event: ChatEvent): Promise<void> {
+    if (event.params.length === 0) {
+      if (this.api.queue.length === 0) {
+        event.respond(`:notes: ${this.$t('commands.queue.isEmpty')}`);
+      } else {
+        let idx = 0;
+        const numRegex = new RegExp(/(\d)/ig)
+        // print human readable queue into chat
+        event.respond(this.api.queue.reduce((msg, track) =>
+          `${msg}\n${(++idx).toString().replaceAll(numRegex, ":$1:")} ${track.title}`,
+          `:notes: ${this.$t('commands.queue.content')}`
+        ));
+      }
     } else {
-      const video = await this.query(params);
-      if (!video) {
-        // ToDo: handleError
+      const track = await this.query(event.params);
+      if (!track) {
+        event.respond(`${this.$t('general.noVideo')} :worried:`)
         return;
       }
-      this.api.queue.push(video);
+      if (this.api.currentTrack) {
+        this.api.queue.push(track);
+      } else {
+        this.api.currentTrack = track;
+      }
+      event.respond(
+        `:notes: ${this.$t('commands.queue.addedTrack', { values: { title: track.title } })}`
+      );
+    }
+  }
+
+  async track(event: ChatEvent) {
+    switch (event.params.length) {
+      case 0:
+        event.respond(
+          `:notes: ${this.$t('commands.track.currentlyPlaying', { values: { title: this.api.currentTrack?.title } })}`
+        );
+        break;
+      case 1:
+        const param = event.params[0];
+        if (param === "skip") {
+          this.api.currentTrack = undefined;
+          return;
+        }
+
+        let seconds = 0;
+        const f = (x: number) => 2 * Math.E ^ (x - 1); // non-linear function to fast forward
+        if (/^\+\++$/.test(param)) {
+          seconds = f(param.length)
+        } else if (/^--+$/.test(param)) {
+          seconds = -f(param.length)
+        } else {
+          seconds = parseInt(param, 10);
+        }
+
+        if (!seconds) {
+          event.respond(`:warning: ${this.$t('general.invalidArgs')}\n${this.$t('commands.track.usage')}`);
+        } else {
+          this.api.forward(seconds);
+        }
+        break;
+      default:
+        event.respond(`:warning: ${this.$t('general.invalidArgs')}\n${this.$t('commands.track.usage')}`);
     }
   }
 }

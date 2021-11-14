@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Video } from "../models/Video";
-  import { config } from '../config';
+  import type { Track } from "../models/Track";
+  import { config } from "../config";
 
   let gainNode: GainNode;
   let audio: HTMLAudioElement;
-  export const queue: Video[] = [];
+  export const queue: Track[] = [];
+  $: currentTrack = <Track | null>null;
 
   /**
    * Retrieve the current gain value in percent
@@ -45,15 +46,29 @@
   }
 
   /**
-   * Play a new video or resume playback of current media stream
+   * Play a new track or resume playback of current media stream
    *
-   * @param video - The video to playback. If no video is provided, the current stream is resumed.
+   * @param track - The track to playback. If no track is provided, the current stream is resumed.
    */
-  export async function play(video?: Video) {
-    if (video) {
-      audio.src = video.source;
+  export async function play(track?: Track) {
+    if (track) {
+      currentTrack = track;
+    } else {
+      await audio.play();
     }
-    await audio.play();
+  }
+
+  export function getCurrentTrack(): Track | null {
+    return currentTrack;
+  }
+
+  /**
+   * Fast forward or rewind the current track.
+   *
+   * @param seconds - The duration in seconds to forward. Choose a negative value to rewind.
+   */
+  export function forward(seconds: number) {
+    audio.currentTime += seconds;
   }
 
   /**
@@ -62,10 +77,19 @@
   function onAudioEnded() {
     if (queue.length > 0) {
       play(queue.shift());
+    } else {
+      currentTrack = null;
     }
   }
 
   onMount(initAudio);
 </script>
 
-<audio crossorigin="anonymous" controls on:ended={onAudioEnded} bind:this={audio} />
+<audio
+  src={currentTrack?.source || undefined}
+  on:canplaythrough={() => play()}
+  on:ended={onAudioEnded}
+  bind:this={audio}
+  crossorigin="anonymous"
+  controls
+/>

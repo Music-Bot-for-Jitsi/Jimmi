@@ -1,6 +1,6 @@
 import type Audio from "./components/Audio.svelte";
 import type Jitsi from "./components/Jitsi.svelte";
-import type { Video } from "./Video";
+import type { Track } from "./Track";
 
 export class JimmiApi {
   constructor(private audio: Audio, private jitsi: Jitsi) {
@@ -9,8 +9,8 @@ export class JimmiApi {
     this.unmute.bind(this);
   }
 
-  async play(video?: Video) {
-    await this.audio.play(video);
+  async play() {
+    await this.audio.play();
     this.unmute();
   }
 
@@ -22,8 +22,24 @@ export class JimmiApi {
     // ToDo: implement
   }
 
-  get queue(): Video[] {
+  sendMessage(msg: string) {
+    this.jitsi.sendMessage(msg);
+  }
+
+  get queue(): Track[] {
     return this.audio.queue;
+  }
+
+  get currentTrack(): Track | undefined {
+    return this.audio.getCurrentTrack();
+  }
+
+  set currentTrack(track: Track | undefined) {
+    this.audio.play(track);
+  }
+
+  forward(seconds: number) {
+    this.audio.forward(seconds);
   }
 
   get volume(): number {
