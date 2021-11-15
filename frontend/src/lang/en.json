@@ -1,8 +1,10 @@
 {
   "general": {
+    "advancedConfiguration": "Advanced configuration",
     "connecting": "Connecting",
     "leave": "Leave",
-    "participants": "Participants"
+    "participants": "Participants",
+    "password": "Password"
   },
   "routes": {
     "home": {

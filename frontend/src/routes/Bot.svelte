@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { _ } from "svelte-i18n";
+  import { querystring } from "svelte-spa-router";
+  import { parse } from "qs";
 
   import type { ChatEvent } from "../models/ChatEvent";
   import type { JimmiApi } from "../models/JimmiApi";
@@ -10,7 +12,9 @@
   import Spinner from "../components/Spinner.svelte";
   import { config } from "../config";
 
-  export let params: { instance: string; room: string }; // SPA url parameters
+  export let params: { instance: string; room: string; }; // SPA url parameters
+
+  $: query = <{ password?: string }> parse($querystring);
 
   let jitsi: Jitsi;
   let isJoined: boolean;
@@ -28,7 +32,7 @@
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
     const options = {
       hosts: {
         domain: params.instance,
@@ -36,7 +40,7 @@
       },
       bosh: `https://${params.instance}/http-bind?room=${params.room}`,
     };
-    jitsi.joinConference(options); // jimmiApi is initialized during function call
+    await jitsi.joinConference(options); // jimmiApi is initialized during function call
 
     const cmdRegex = new RegExp(/^\w+$/); // matches a single alphanumeric word including underscore
     config.plugins
@@ -76,6 +80,7 @@
     bind:this={jitsi}
     bind:isJoined
     bind:jimmiApi
+    bind:conferencePassword={query.password}
     on:message={onMessage}
   />
 </div>
