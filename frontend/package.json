@@ -11,6 +11,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
     "@tsconfig/svelte": "^2.0.1",
+    "@types/qs": "^6.9.7",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.3.11",
     "svelte": "^3.44.1",
@@ -22,6 +23,7 @@
     "vite": "^2.6.13"
   },
   "dependencies": {
+    "qs": "^6.10.1",
     "svelte-forms-lib": "^2.0.0",
     "svelte-i18n": "^3.3.13",
     "svelte-spa-router": "^3.2.0",

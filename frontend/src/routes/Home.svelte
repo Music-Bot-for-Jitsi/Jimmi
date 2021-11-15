@@ -13,14 +13,16 @@
     initialValues: {
       domain: "",
       room: "",
+      password: "",
     },
     validationSchema: yup.object().shape({
       domain: yup.string().trim().matches(domainRegex),
-      test: yup.string(),
       room: yup.string().trim().min(1).matches(jitsiRoomRegex).required(),
+      password: yup.string().optional(),
     }),
     onSubmit: (values) => {
-      push(`/bot/${href}`);
+      const password = values.password ? `?password=${values.password}` : '';
+      push(`/bot/${href}${password}`);
     },
   });
 
@@ -81,6 +83,24 @@
           </p>
         {/if}
       </div>
+
+      <div class="relative mb-4">
+        <details>
+          <summary>{$_("general.advancedConfiguration")}</summary>
+          <label for="domain" class="leading-7 text-sm text-gray-600"
+            >{$_("general.password")}</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            on:change={handleChange}
+            bind:value={$form.password}
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </details>
+      </div>
+
       <button
         class="disabled:opacity-50 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
         type="submit">{$_("routes.home.joinButtonText")}</button

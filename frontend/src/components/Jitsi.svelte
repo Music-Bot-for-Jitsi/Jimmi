@@ -31,6 +31,8 @@
    */
   export let jimmiApi: JimmiApi | null;
 
+  export let conferencePassword: string = "";
+
   let audio: Audio; // audio component binding
   let connection: JitsiConnection;
   let conference: JitsiConference;
@@ -145,7 +147,7 @@
     conference.on(JitsiMeetJS.events.conference.USER_JOINED, updateParticipants);
     conference.on(JitsiMeetJS.events.conference.USER_LEFT, updateParticipants);
     conference.on(JitsiMeetJS.events.conference.DISPLAY_NAME_CHANGED, updateParticipants);
-    conference.join("");
+    conference.join(conferencePassword);
   }
 
   /**
@@ -175,60 +177,66 @@
     );
   }
 
+  async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Wait until lib-jitsi-meet has been loaded
+   */
+  async function waitForLibJitsi(): Promise<JitsiMeetJSType> {
+    const libjitsi = (window as any).JitsiMeetJS;
+    if (typeof libjitsi !== "undefined") {
+      return libjitsi;
+    }
+    await sleep(100);
+    return waitForLibJitsi();
+  }
+
   /**
    * Establish a connection to the given jitsi instance and join a conference
    *
    * @param options - Object specifying the jitsi instance, xmpp-http-bind, etc. ToDo: Fix type
    */
-  export function joinConference(options: any) {
+  export async function joinConference(options: any) {
     let script = document.createElement("script");
     script.src = `https://${options.hosts.domain}/libs/lib-jitsi-meet.min.js`;
     scriptContainer?.append(script);
 
-    var waitForJitsiMeet = setInterval(() => {
-      if (typeof (window as any).JitsiMeetJS != "undefined") {
-        // this code is executed once lib-jitsi-meet is initialized
-        JitsiMeetJS = (window as any).JitsiMeetJS;
-        JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN);
+    JitsiMeetJS = await waitForLibJitsi();
+    JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN);
 
-        window.addEventListener("beforeunload", unload);
-        window.addEventListener("unload", unload);
+    window.addEventListener("beforeunload", unload);
+    window.addEventListener("unload", unload);
 
-        const initOptions: InitOptions = {
-          disableAudioLevels: true,
-          disableThirdPartyRequests: true,
-          enableAnalyticsLogging: false,
-        };
+    const initOptions: InitOptions = {
+      disableAudioLevels: true,
+      disableThirdPartyRequests: true,
+      enableAnalyticsLogging: false,
+    };
 
-        JitsiMeetJS.init(initOptions);
-        connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
+    JitsiMeetJS.init(initOptions);
+    connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
 
-        connection.addEventListener(
-          JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
-          onConnectionSuccess
-        );
-        connection.addEventListener(
-          JitsiMeetJS.events.connection.CONNECTION_FAILED,
-          onConnectionFailed
-        );
-        connection.addEventListener(
-          JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED,
-          disconnect
-        );
+    connection.addEventListener(
+      JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
+      onConnectionSuccess
+    );
+    connection.addEventListener(
+      JitsiMeetJS.events.connection.CONNECTION_FAILED,
+      onConnectionFailed
+    );
+    connection.addEventListener(JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED, disconnect);
 
-        connection.connect();
+    connection.connect();
 
-        JitsiMeetJS.createLocalTracks({ devices: ["audio"] })
-          .then(updateLocalTracks as any) // ToDo: Fix type mismatch or wait for Jitsi team :)
-          .catch((error) => {
-            throw error;
-          });
+    JitsiMeetJS.createLocalTracks({ devices: ["audio"] })
+      .then(updateLocalTracks as any) // ToDo: Fix type mismatch or wait for Jitsi team :)
+      .catch((error) => {
+        throw error;
+      });
 
-        jimmiApi = new JimmiApi(audio, this);
-
-        clearInterval(waitForJitsiMeet);
-      }
-    }, 10);
+    jimmiApi = new JimmiApi(audio, this);
   }
 
   /**
