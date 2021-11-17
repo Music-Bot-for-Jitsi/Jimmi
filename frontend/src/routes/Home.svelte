@@ -111,7 +111,7 @@
 
       <div class="relative mb-4">
         <details>
-          <summary>{$_("general.advancedConfiguration")}</summary>
+          <summary class="cursor-pointer">{$_("general.advancedConfiguration")}</summary>
           <label for="domain" class="leading-7 text-sm text-gray-600"
             >{$_("general.password")}</label
           >
