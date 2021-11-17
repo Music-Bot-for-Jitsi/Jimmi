@@ -14,7 +14,7 @@
 
   export let params: { instance: string; room: string; }; // SPA url parameters
 
-  $: query = <{ password?: string }> parse($querystring);
+  $: query = <{ password?: string }> parse($querystring || '');
 
   let jitsi: Jitsi;
   let isJoined: boolean;
