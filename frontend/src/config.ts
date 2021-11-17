@@ -8,6 +8,7 @@ export const config = {
     jitsiDisplayName: "DJ Jim", // default name when joining a new conference
     initialVolume: 20, // default initial audio volume
   },
+  repoUrl: "https://github.com/p-fruck/Jimmi",
   url: "https://jimmi.xyz", // the redirect url when clicking on the navbar logo
   logo: "/jim.svg", // location of the logo displayed in navbar
   plugins: [MusicPlugin], // list of all plugins
