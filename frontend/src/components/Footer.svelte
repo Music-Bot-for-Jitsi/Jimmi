@@ -18,7 +18,7 @@
             href={config.repoUrl}
             class="text-indigo-500 ml-1"
             target="_blank"
-            rel="noopener noreferrer">Github</a
+            rel="noopener noreferrer">GitHub</a
           >
         </p>
       </div>
