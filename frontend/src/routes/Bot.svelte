@@ -69,9 +69,10 @@
 
 <Navbar />
 {#if !isJoined}
-  <div class="flex flex-col items-center justify-center h-full">
-    <Spinner />
-    <p class="p-5">{$_("general.connecting")}...</p>
+  <div class="flex flex-col items-center justify-center">
+    <Spinner>
+      <p class="p-5">{$_("general.connecting")}...</p>
+    </Spinner>
   </div>
 {/if}
 <div class:hidden={!isJoined}>
