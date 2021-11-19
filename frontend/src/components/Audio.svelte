@@ -165,7 +165,7 @@
         type="range"
         min="0"
         max={duration}
-        value={currentTime}
+        bind:value={currentTime}
         class="absolute h-full w-full"
       />
     </div>
