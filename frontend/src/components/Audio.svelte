@@ -10,7 +10,7 @@
   let duration = 0; // binding of duration
 
   export const queue: Track[] = [];
-  $: currentTrack = <Track | null>null;
+  $: currentTrack = <Track | null> null;
   $: isThumbnailInitialized = false; // Indicator if thumbnail is initialized.
 
   /**
@@ -36,6 +36,9 @@
    * Initialize audio context with gain node
    */
   function initAudio() {
+    if (!audio) {
+      throw new Error("Audio element not ready yet!"); // ToDo: Display error in WebGUI
+    }
     const audioContext = new AudioContext();
     const track = audioContext.createMediaElementSource(audio);
     gainNode = audioContext.createGain();
@@ -85,6 +88,7 @@
       play(queue.shift());
     } else {
       currentTrack = null;
+      audio!.src = "";
     }
   }
 
