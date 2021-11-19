@@ -13,10 +13,10 @@ export default class MusicPlugin extends JimmiPlugin {
   };
 
   readonly commands = {
-    "play": this.play.bind(this),
-    "queue": this.queue.bind(this),
-    "cue": this.queue.bind(this), // alias :)
-    "track": this.track.bind(this),
+    "play": this.play,
+    "queue": this.queue,
+    "cue": this.queue, // alias :)
+    "track": this.track,
   };
 
   readonly translations = {
@@ -28,19 +28,20 @@ export default class MusicPlugin extends JimmiPlugin {
           playingTrack: "Playing {title}"
         },
         queue: {
-          usage: `!<queue|cue> - Show the current queue.
-  !<queue|cue> <url|searchTerm> - Add a youtube video to the queue.
-          `,
+          usage: `!queue - Show the current queue.
+!queue <url|searchTerm> - Add a YouTube video to the queue.`,
           isEmpty: "The queue is currently empty",
           content: "Queue content",
           addedTrack: "Added {title} to queue"
         },
+        cue: {
+          usage: "!cue - Alias for !queue",
+        },
         track: {
-          usage: `\`!track\` - Display current track
-  \`!track skip\` - Skip the current track
-  \`!track ++\` or \`!track --\` - Fast forward or rewind. Add more \`+\` or \`-\` signs to increase duration
-  \`!track +10\`, \`!track +20\`, \`!track -15\` - Fast forward or rewind with specific duration in seconds
-          `,
+          usage: `!track - Display current track
+!track skip - Skip the current track
+!track ++ or !track -- - Fast forward or rewind. Add more + or - signs to increase duration
+!track +10, !track +20, !track -15 - Fast forward or rewind with specific duration in seconds`,
           currentlyPlaying: "Currently playing {title ?? 'nothing'}"
         }
       },
@@ -55,12 +56,12 @@ export default class MusicPlugin extends JimmiPlugin {
 
   constructor(api: JimmiApi) {
     super(api);
-    this.fetch.bind(this);
-    this.searchYtVideo.bind(this);
-    this.getTrack.bind(this);
-    this.query.bind(this);
-    this.play.bind(this);
-    this.track.bind(this);
+    this.fetch;
+    this.searchYtVideo;
+    this.getTrack;
+    this.query;
+    this.play;
+    this.track;
   }
 
   /**

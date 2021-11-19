@@ -6,28 +6,42 @@
 
   import type { ChatEvent } from "../models/ChatEvent";
   import type { JimmiApi } from "../models/JimmiApi";
-  import type { IJimmiCommands } from "../models/JimmiPlugin";
+  import { JimmiCommand } from "../models/JimmiCommand";
   import Jitsi from "../components/Jitsi.svelte";
   import Navbar from "../components/Navbar.svelte";
   import Spinner from "../components/Spinner.svelte";
   import { config } from "../config";
 
-  export let params: { instance: string; room: string; }; // SPA url parameters
+  export let params: { instance: string; room: string }; // SPA url parameters
 
-  $: query = <{ password?: string }> parse($querystring || '');
+  $: query = <{ password?: string }>parse($querystring || "");
 
   let jitsi: Jitsi;
   let isJoined: boolean;
   let jimmiApi: JimmiApi | null;
 
-  const commands: IJimmiCommands = {};
+  const commands: { [key: string]: JimmiCommand } = {};
+
+  function printHelpMenu(event: ChatEvent) {
+    if (!jimmiApi) return;
+    let helpMessage = Object.keys(commands).reduce(
+      (msg, cmd) =>
+        (msg += `\n${commands[cmd].description || $_("general.noDescriptionForCommand")}`),
+      "The following commands are available:\n!help - Display this help menu"
+    );
+    event.respond(helpMessage);
+  }
 
   function onMessage(event: CustomEvent<ChatEvent>) {
     if (event.detail.text.startsWith("!")) {
-      // register chat commands of all plugins
-      const [cmd] = event.detail.text.split(" ");
+      // execute chat commands of registered plugins
+      let [cmd] = event.detail.text.split(" ");
+      cmd = cmd.toLocaleLowerCase(); // allow for case insensitive commands
+      if (cmd === "!help") {
+        return printHelpMenu(event.detail);
+      }
       if (cmd in commands) {
-        commands[cmd](event.detail);
+        commands[cmd].exec(event);
       }
     }
   }
@@ -60,7 +74,7 @@
               `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`
             );
           } else {
-            commands[prefixed] = plugin.commands[rawCmd];
+            commands[prefixed] = new JimmiCommand(rawCmd, plugin);
           }
         });
       });
