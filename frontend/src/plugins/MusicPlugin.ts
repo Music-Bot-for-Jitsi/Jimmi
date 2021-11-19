@@ -29,7 +29,7 @@ export default class MusicPlugin extends JimmiPlugin {
         },
         queue: {
           usage: `!queue - Show the current queue.
-!queue <url|searchTerm> - Add a youtube video to the queue.`,
+!queue <url|searchTerm> - Add a YouTube video to the queue.`,
           isEmpty: "The queue is currently empty",
           content: "Queue content",
           addedTrack: "Added {title} to queue"
