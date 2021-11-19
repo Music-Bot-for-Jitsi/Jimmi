@@ -66,6 +66,18 @@
     }
   }
 
+  /**
+   * Toggle audio playback
+   */
+  function togglePause(): void {
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+
   export function getCurrentTrack(): Track | null {
     return currentTrack;
   }
@@ -133,7 +145,7 @@
 <audio
   class="hidden"
   src={currentTrack?.source || undefined}
-  on:canplaythrough={() => play()}
+  on:loadeddata={() => play()}
   on:ended={onAudioEnded}
   bind:this={audio}
   bind:currentTime
@@ -179,7 +191,7 @@
       {formatTime(currentTime, duration)}
     </div>
     <div class="flex space-x-3 p-2">
-      <button class="focus:outline-none">
+      <button class="focus:outline-none" on:click={() => forward(-currentTime)}>
         <svg
           class="w-4 h-4"
           viewBox="0 0 24 24"
@@ -193,18 +205,32 @@
       </button>
       <button
         class="rounded-full w-8 h-8 flex items-center justify-center pl-0.5 ring-2 ring-gray-100 focus:outline-none"
+        on:click={togglePause}
       >
-        <svg
-          class="w-5 h-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg
-        >
+        {#if audio?.paused}
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg
+          >
+        {:else}
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><polygon points="7,3 7,21" /><polygon points="17,3 17,21" /></svg
+          >
+        {/if}
       </button>
-      <button class="focus:outline-none">
+      <button class="focus:outline-none" on:click={() => forward(duration)}>
         <svg
           class="w-4 h-4"
           viewBox="0 0 24 24"
