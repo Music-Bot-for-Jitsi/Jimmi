@@ -53,7 +53,7 @@ Remember that you have to install the browser extension before. See below for ho
 
 # :rocket: Get started!
 
-Caused the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session.
+Caused by the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session.
 
 :warning: Currently only Google Chrome and Chromium are supported
 
