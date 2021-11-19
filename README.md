@@ -19,7 +19,7 @@
 <h4 align="center">A music bot interface for your meeting in <a href="https://jitsi.org/" target="_blank">Jitsi</a>.</h4>
 
 <p align="center">
-  <a href="https://github.com/p-fruck/Jimmi/blob/master/LICENSE">
+  <a href="https://github.com/p-fruck/Jimmi/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/p-fruck/Jimmi" />
   </a>
   <a href="https://github.com/p-fruck/Jimmi/stargazers">
