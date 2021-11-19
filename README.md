@@ -28,6 +28,9 @@
   <a href="https://github.com/p-fruck/Jimmi/issues">
     <img src="https://img.shields.io/github/issues/p-fruck/Jimmi" />
   </a>
+  <a href="https://github.com/p-fruck/Jimmi/wiki/FAQ">
+    <img src="https://img.shields.io/badge/Questions%3F-FAQ-32a852" />
+  </a>
   <a href="https://meet.jit.si/">
     <img src="https://img.shields.io/badge/Built%20for-Jitsi%20Meet-5e87d4" />
   </a>
