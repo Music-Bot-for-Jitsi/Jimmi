@@ -13,10 +13,10 @@ export default class MusicPlugin extends JimmiPlugin {
   };
 
   readonly commands = {
-    "play": this.play.bind(this),
-    "queue": this.queue.bind(this),
-    "cue": this.queue.bind(this), // alias :)
-    "track": this.track.bind(this),
+    "play": this.play,
+    "queue": this.queue,
+    "cue": this.queue, // alias :)
+    "track": this.track,
   };
 
   readonly translations = {
@@ -55,12 +55,12 @@ export default class MusicPlugin extends JimmiPlugin {
 
   constructor(api: JimmiApi) {
     super(api);
-    this.fetch.bind(this);
-    this.searchYtVideo.bind(this);
-    this.getTrack.bind(this);
-    this.query.bind(this);
-    this.play.bind(this);
-    this.track.bind(this);
+    this.fetch;
+    this.searchYtVideo;
+    this.getTrack;
+    this.query;
+    this.play;
+    this.track;
   }
 
   /**

@@ -6,7 +6,7 @@
 
   import type { ChatEvent } from "../models/ChatEvent";
   import type { JimmiApi } from "../models/JimmiApi";
-  import type { IJimmiCommands } from "../models/JimmiPlugin";
+  import { JimmiCommand } from "../models/JimmiCommand";
   import Jitsi from "../components/Jitsi.svelte";
   import Navbar from "../components/Navbar.svelte";
   import Spinner from "../components/Spinner.svelte";
@@ -20,14 +20,14 @@
   let isJoined: boolean;
   let jimmiApi: JimmiApi | null;
 
-  const commands: IJimmiCommands = {};
+  const commands: {[key: string]: JimmiCommand} = {};
 
   function onMessage(event: CustomEvent<ChatEvent>) {
     if (event.detail.text.startsWith("!")) {
       // register chat commands of all plugins
       const [cmd] = event.detail.text.split(" ");
       if (cmd in commands) {
-        commands[cmd](event.detail);
+        commands[cmd].exec(event);
       }
     }
   }
@@ -60,7 +60,7 @@
               `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`
             );
           } else {
-            commands[prefixed] = plugin.commands[rawCmd];
+            commands[prefixed] = new JimmiCommand(rawCmd, plugin);
           }
         });
       });
