@@ -17,8 +17,12 @@ interface IJimmiTranslation extends IJimmiTranslationObject {
   description: string;
 }
 
-export interface IJimmiCommands {
-  [key: string]: (event: ChatEvent) => any;
+export interface IJimmiExecFunction {
+  (event: ChatEvent): any;
+}
+
+export interface IJimmiCommandMap {
+  [key: string]: IJimmiExecFunction;
 }
 
 export abstract class JimmiPlugin {
@@ -34,7 +38,7 @@ export abstract class JimmiPlugin {
    * Register callback functions for chat commands. Note that cmd has to
    * match a single word and will be prefixed with an exclamation mark.
    */
-  abstract readonly commands?: IJimmiCommands;
+  abstract readonly commands?: IJimmiCommandMap;
 
   abstract readonly translations?: {
     en: IJimmiTranslation;

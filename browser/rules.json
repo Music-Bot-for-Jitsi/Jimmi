@@ -33,7 +33,7 @@
                 {
                     "header": "access-control-allow-origin",
                     "operation": "set",
-                    "value": "http://jimmi.xyz"
+                    "value": "https://jimmi.xyz"
                 },
                 {
                     "header": "access-control-allow-headers",

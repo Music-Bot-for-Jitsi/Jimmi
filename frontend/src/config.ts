@@ -10,6 +10,6 @@ export const config = {
   },
   repoUrl: "https://github.com/p-fruck/Jimmi",
   url: "https://jimmi.xyz", // the redirect url when clicking on the navbar logo
-  logo: "/jim.svg", // location of the logo displayed in navbar
+  logo: "/jimmi.svg", // location of the logo displayed in navbar
   plugins: [MusicPlugin], // list of all plugins
 }
