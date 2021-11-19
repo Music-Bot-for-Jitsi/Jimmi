@@ -22,23 +22,23 @@
 
   const commands: { [key: string]: JimmiCommand } = {};
 
-  function printHelpMenu() {
+  function printHelpMenu(event: ChatEvent) {
     if (!jimmiApi) return;
     let helpMessage = Object.keys(commands).reduce(
       (msg, cmd) =>
         (msg += `\n${commands[cmd].description || $_("general.noDescriptionForCommand")}`),
       "The following commands are available:\n!help - Display this help menu"
     );
-    jimmiApi.sendMessage(helpMessage);
+    event.respond(helpMessage);
   }
 
   function onMessage(event: CustomEvent<ChatEvent>) {
     if (event.detail.text.startsWith("!")) {
       // execute chat commands of registered plugins
       let [cmd] = event.detail.text.split(" ");
-      cmd = cmd.toLocaleLowerCase(); // allow for case insensitivity
+      cmd = cmd.toLocaleLowerCase(); // allow for case insensitive commands
       if (cmd === "!help") {
-        return printHelpMenu();
+        return printHelpMenu(event.detail);
       }
       if (cmd in commands) {
         commands[cmd].exec(event);
