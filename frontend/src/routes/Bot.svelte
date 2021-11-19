@@ -12,20 +12,34 @@
   import Spinner from "../components/Spinner.svelte";
   import { config } from "../config";
 
-  export let params: { instance: string; room: string; }; // SPA url parameters
+  export let params: { instance: string; room: string }; // SPA url parameters
 
-  $: query = <{ password?: string }> parse($querystring || '');
+  $: query = <{ password?: string }>parse($querystring || "");
 
   let jitsi: Jitsi;
   let isJoined: boolean;
   let jimmiApi: JimmiApi | null;
 
-  const commands: {[key: string]: JimmiCommand} = {};
+  const commands: { [key: string]: JimmiCommand } = {};
+
+  function printHelpMenu() {
+    if (!jimmiApi) return;
+    let helpMessage = Object.keys(commands).reduce(
+      (msg, cmd) =>
+        (msg += `\n${commands[cmd].description || $_("general.noDescriptionForCommand")}`),
+      "The following commands are available:\n!help - Display this help menu"
+    );
+    jimmiApi.sendMessage(helpMessage);
+  }
 
   function onMessage(event: CustomEvent<ChatEvent>) {
     if (event.detail.text.startsWith("!")) {
-      // register chat commands of all plugins
-      const [cmd] = event.detail.text.split(" ");
+      // execute chat commands of registered plugins
+      let [cmd] = event.detail.text.split(" ");
+      cmd = cmd.toLocaleLowerCase(); // allow for case insensitivity
+      if (cmd === "!help") {
+        return printHelpMenu();
+      }
       if (cmd in commands) {
         commands[cmd].exec(event);
       }

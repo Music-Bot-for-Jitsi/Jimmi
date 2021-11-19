@@ -1,3 +1,5 @@
+import { _ } from "svelte-i18n";
+import type { MessageFormatter } from "svelte-i18n/types/runtime/types";
 import type { ChatEvent } from "./ChatEvent";
 import type { IJimmiExecFunction, JimmiPlugin } from "./JimmiPlugin";
 
@@ -5,6 +7,7 @@ export class JimmiCommand {
   #cmdName: string;
   #pluginId: string;
   #execFunction: IJimmiExecFunction;
+  #translator?: MessageFormatter;
 
   constructor(cmd: string, plugin: JimmiPlugin) {
     this.#cmdName = cmd;
@@ -13,6 +16,8 @@ export class JimmiCommand {
       throw new Error("Cannot construct JimmiCommand for plugin without commands")
     }
     this.#execFunction = plugin.commands[this.#cmdName].bind(plugin);
+    // subscribe to svelte i18n translator
+    _.subscribe((fmt) => this.#translator = fmt);
   }
 
   /**
@@ -36,5 +41,15 @@ export class JimmiCommand {
    */
   exec(event: CustomEvent<ChatEvent>) {
     this.#execFunction(event.detail);
+  }
+
+  /**
+   * The translated description of the command
+   */
+  get description(): string {
+    if (this.#translator) {
+      return this.#translator(`plugins.${this.pluginId}.commands.${this.#cmdName}.usage`);
+    }
+    return '';
   }
 }

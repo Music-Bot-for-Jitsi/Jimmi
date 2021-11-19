@@ -3,6 +3,7 @@
     "advancedConfiguration": "Advanced configuration",
     "connecting": "Connecting",
     "leave": "Leave",
+    "noDescriptionForCommand": "No description for this command is available",
     "participants": "Participants",
     "password": "Password"
   },
