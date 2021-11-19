@@ -1,9 +1,3 @@
----
-name: ✨ Feature Pull Request
-about: Add a new feature to Jimmi.
-labels: feature
----
-
 ## Description
 <!--
   Describe your changes in detail.
