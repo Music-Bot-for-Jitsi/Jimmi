@@ -2,6 +2,7 @@ import type { ChatEvent } from "../models/ChatEvent";
 import type { JimmiApi } from "../models/JimmiApi";
 import type { SearchEntry } from "../models/invidious/SearchEntry";
 import type { VideoResponse } from "../models/invidious/VideoResponse";
+import type { IJimmiEventMap } from "../models/JimmiPlugin";
 import { JimmiPlugin } from "../models/JimmiPlugin";
 import { Track } from "../models/Track";
 
@@ -18,6 +19,8 @@ export default class MusicPlugin extends JimmiPlugin {
     "cue": this.queue, // alias :)
     "track": this.track,
   };
+
+  readonly events?: IJimmiEventMap | undefined;
 
   readonly translations = {
     en: {

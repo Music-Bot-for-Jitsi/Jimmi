@@ -9,6 +9,7 @@
   import type { InitOptions, JitsiMeetJSType } from "types/jitsi/JitsiMeetJS";
   import type JitsiParticipant from "types/jitsi/JitsiParticipant";
   import type JitsiLocalTrack from "types/jitsi/modules/RTC/JitsiLocalTrack";
+  import type { JitsiConferenceEvents } from "types/jitsi/JitsiConferenceEvents";
 
   import Audio from "../components/Audio.svelte";
   import Participant from "./Participant.svelte";
@@ -37,6 +38,7 @@
   let connection: JitsiConnection;
   let conference: JitsiConference;
   let localTracks: JitsiLocalTrack[] = []; // local audio and video tracks for jitsi
+  let resolveConference: (value: unknown) => void; // promise resolve function to indicate
 
   const dispatch = createEventDispatcher();
   $: participants = <JitsiParticipant[]>[];
@@ -116,6 +118,7 @@
    */
   async function onConferenceJoined() {
     console.info("Successfully joined conference!");
+    resolveConference(null); // resolve promise in joinConference function
     isJoined = true;
 
     updateLocalTracks();
@@ -215,6 +218,8 @@
       enableAnalyticsLogging: false,
     };
 
+    const waitForConference = new Promise((resolve) => { resolveConference = resolve })
+
     JitsiMeetJS.init(initOptions);
     connection = new JitsiMeetJS.JitsiConnection(undefined, null, options);
 
@@ -236,6 +241,8 @@
         throw error;
       });
 
+    await waitForConference;
+
     jimmiApi = new JimmiApi(audio, this);
   }
 
@@ -246,6 +253,16 @@
    */
   export function sendMessage(msg: string) {
     conference.sendMessage(msg);
+  }
+
+  /**
+   * Register an event listener for a jitsi conference event, e.g. user joins
+   *
+   * @param event - The event to listen for
+   * @param listener - The function to invoke when event is triggered
+   */
+  export function addConferenceEventListener(event: JitsiConferenceEvents, listener: (...args: any) => {}) {
+    conference.addEventListener(event, listener);
   }
 
   /**
