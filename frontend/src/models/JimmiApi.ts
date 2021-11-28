@@ -1,9 +1,9 @@
+import type JitsiConference from "types/jitsi/JitsiConference";
 import type Audio from "./components/Audio.svelte";
-import type Jitsi from "./components/Jitsi.svelte";
 import type { Track } from "./Track";
 
 export class JimmiApi {
-  constructor(private audio: Audio, private jitsi: Jitsi) {
+  constructor(private audio: Audio, public readonly conference: JitsiConference) {
     this.play.bind(this);
     this.mute.bind(this);
     this.unmute.bind(this);
@@ -20,10 +20,6 @@ export class JimmiApi {
 
   unmute() {
     // ToDo: implement
-  }
-
-  sendMessage(msg: string) {
-    this.jitsi.sendMessage(msg);
   }
 
   get queue(): Track[] {

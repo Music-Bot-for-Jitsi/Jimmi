@@ -243,16 +243,7 @@
 
     await waitForConference;
 
-    jimmiApi = new JimmiApi(audio, this);
-  }
-
-  /**
-   * Simple wrapper to send messages to the public jitsi chat
-   *
-   * @param msg - The message to send
-   */
-  export function sendMessage(msg: string) {
-    conference.sendMessage(msg);
+    jimmiApi = new JimmiApi(audio, conference);
   }
 
   /**

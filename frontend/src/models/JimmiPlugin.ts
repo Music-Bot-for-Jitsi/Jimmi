@@ -22,7 +22,7 @@ export interface IJimmiCommandFunction {
 }
 
 export interface IJimmiEventHandler {
-  (event: ChatEvent): any;
+  (...params: any): any;
 }
 
 export interface IJimmiCommandMap {

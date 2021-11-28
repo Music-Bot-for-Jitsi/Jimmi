@@ -1,6 +1,7 @@
 import { JitsiConferenceEvents } from "../types/jitsi/JitsiConferenceEvents.d";
 import type { IJimmiCommandMap, IJimmiTranslation } from "../models/JimmiPlugin";
 import { JimmiPlugin } from "../models/JimmiPlugin";
+// import JitsiParticipant from "../types/jitsi/JitsiParticipant.d";
 
 export default class ModeratorPlugin extends JimmiPlugin {
   readonly meta = {
@@ -17,7 +18,11 @@ export default class ModeratorPlugin extends JimmiPlugin {
 
   translations?: { en: IJimmiTranslation; } | undefined;
 
-  onUserJoined() {
-    console.warn("onUserJoined")
+  onUserJoined(participantId: string) {
+    const { conference } = this.api;
+    const participant = conference.getParticipantById(participantId);
+    if (participant && conference.isModerator() && conference.getParticipants().length === 1) {
+      participant.setRole('moderator');
+    }
   }
 }

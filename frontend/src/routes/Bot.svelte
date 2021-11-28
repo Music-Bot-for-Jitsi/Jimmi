@@ -83,7 +83,7 @@
         // register event listeners
         Object.keys(plugin.events || {}).forEach((event) => {
           if (Object.values(JitsiConferenceEvents).includes(event as JitsiConferenceEvents)) {
-            jitsi.addConferenceEventListener(event as JitsiConferenceEvents, plugin.events![event])
+            jitsi.addConferenceEventListener(event as JitsiConferenceEvents, plugin.events![event].bind(plugin))
           } else {
             // ToDo: Proper error handling
             console.error(
