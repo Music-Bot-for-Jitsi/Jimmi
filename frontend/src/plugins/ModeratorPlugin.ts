@@ -20,9 +20,8 @@ export default class ModeratorPlugin extends JimmiPlugin {
 
   onUserJoined(participantId: string) {
     const { conference } = this.api;
-    const participant = conference.getParticipantById(participantId);
-    if (participant && conference.isModerator() && conference.getParticipants().length === 1) {
-      participant.setRole('moderator');
+    if (conference.isModerator()) {
+      conference.grantOwner(participantId);
     }
   }
 }
