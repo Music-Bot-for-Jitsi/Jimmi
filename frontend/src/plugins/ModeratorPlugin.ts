@@ -1,7 +1,6 @@
 import { JitsiConferenceEvents } from "../types/jitsi/JitsiConferenceEvents.d";
 import type { IJimmiCommandMap, IJimmiTranslation } from "../models/JimmiPlugin";
 import { JimmiPlugin } from "../models/JimmiPlugin";
-// import JitsiParticipant from "../types/jitsi/JitsiParticipant.d";
 
 export default class ModeratorPlugin extends JimmiPlugin {
   readonly meta = {
