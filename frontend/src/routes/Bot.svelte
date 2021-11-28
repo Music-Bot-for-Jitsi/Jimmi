@@ -11,6 +11,7 @@
   import Navbar from "../components/Navbar.svelte";
   import Spinner from "../components/Spinner.svelte";
   import { config } from "../config";
+  import { JitsiConferenceEvents } from "../types/jitsi/JitsiConferenceEvents.d";
 
   export let params: { instance: string; room: string }; // SPA url parameters
 
@@ -60,21 +61,34 @@
     config.plugins
       .map((plugin) => new plugin(jimmiApi!))
       .forEach((plugin) => {
+        // register commands
         Object.keys(plugin.commands || {}).forEach((rawCmd) => {
           const prefixed = `!${rawCmd}`; // cmd must be prefixed
 
           if (!cmdRegex.test(rawCmd)) {
             // ToDo: Proper error handling
             console.error(
-              `Invalid command: "${rawCmd}" provided by plugin "${plugin.meta.name}" is not a valid command name!`
+              `Invalid command: "${rawCmd}" provided by plugin "${plugin.meta.id}" is not a valid command name!`
             );
           } else if (prefixed in commands) {
             // ToDo: Proper error handling
             console.warn(
-              `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.name}" is already used!`
+              `Duplicate command: "${prefixed}" provided by plugin "${plugin.meta.id}" is already used!`
             );
           } else {
             commands[prefixed] = new JimmiCommand(rawCmd, plugin);
+          }
+        });
+
+        // register event listeners
+        Object.keys(plugin.events || {}).forEach((event) => {
+          if (Object.values(JitsiConferenceEvents).includes(event as JitsiConferenceEvents)) {
+            jitsi.addConferenceEventListener(event as JitsiConferenceEvents, plugin.events![event].bind(plugin))
+          } else {
+            // ToDo: Proper error handling
+            console.error(
+              `Invalid jitsi conference event: ${event} provided by plugin "${plugin.meta.id}"`
+            );
           }
         });
       });

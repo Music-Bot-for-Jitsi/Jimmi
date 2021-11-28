@@ -26,6 +26,29 @@
     },
   });
 
+  /**
+   * EventHandler for onBeforeInput event. If a complete jitsi url is pasted into the input field,
+   * the domain and conference are extracted automatically.
+   *
+   * @param event - The onBeforeInput event
+   */
+  function beforeInput(event: Event) {
+    if (event instanceof InputEvent && event.data && event.inputType === "insertFromPaste") {
+      const { data } = event;
+      const urlRegex = new RegExp('^http(s?)://(.*)/(.*)$');
+      if (!urlRegex.test(data)) return;
+      const execArray = urlRegex.exec(data);
+      if (!(execArray && execArray.length >= 4)) return;
+      const domain = execArray[2];
+      const conference = execArray[3];
+      if (domainRegex.test(domain) && jitsiRoomRegex.test(conference)) {
+        event.preventDefault();
+        $form.domain = domain;
+        $form.room = conference;
+      }
+    }
+  }
+
   $: href = `${$form.domain || "meet.jit.si"}/${$form.room}`;
 </script>
 
@@ -54,6 +77,7 @@
           type="text"
           id="domain"
           name="domain"
+          on:beforeinput={beforeInput}
           on:change={handleChange}
           bind:value={$form.domain}
           placeholder="meet.jit.si"
@@ -73,6 +97,7 @@
           type="text"
           id="room"
           name="room"
+          on:beforeinput={beforeInput}
           on:change={handleChange}
           bind:value={$form.room}
           class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"

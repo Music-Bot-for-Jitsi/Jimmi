@@ -13,16 +13,24 @@ export interface IJimmiTranslationObject {
   [key:string]: string | IJimmiTranslationObject;
 }
 
-interface IJimmiTranslation extends IJimmiTranslationObject {
+export interface IJimmiTranslation extends IJimmiTranslationObject {
   description: string;
 }
 
-export interface IJimmiExecFunction {
+export interface IJimmiCommandFunction {
   (event: ChatEvent): any;
 }
 
+export interface IJimmiEventHandler {
+  (...params: any): any;
+}
+
 export interface IJimmiCommandMap {
-  [key: string]: IJimmiExecFunction;
+  [key: string]: IJimmiCommandFunction;
+}
+
+export interface IJimmiEventMap {
+  [key: string]: IJimmiEventHandler;
 }
 
 export abstract class JimmiPlugin {
@@ -35,10 +43,16 @@ export abstract class JimmiPlugin {
   abstract readonly meta: IJimmiPluginMeta;
 
   /**
-   * Register callback functions for chat commands. Note that cmd has to
+   * Register callback functions for chat commands. Note that the key has to
    * match a single word and will be prefixed with an exclamation mark.
    */
   abstract readonly commands?: IJimmiCommandMap;
+
+  /**
+   * Register callback functions for conference events. Note that the key
+   * has match a JitsiConferenceEvent.
+   */
+  abstract readonly events?: IJimmiEventMap;
 
   abstract readonly translations?: {
     en: IJimmiTranslation;

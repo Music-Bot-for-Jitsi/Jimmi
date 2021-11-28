@@ -1,12 +1,12 @@
 import { _ } from "svelte-i18n";
 import type { MessageFormatter } from "svelte-i18n/types/runtime/types";
 import type { ChatEvent } from "./ChatEvent";
-import type { IJimmiExecFunction, JimmiPlugin } from "./JimmiPlugin";
+import type { IJimmiCommandFunction, JimmiPlugin } from "./JimmiPlugin";
 
 export class JimmiCommand {
   #cmdName: string;
   #pluginId: string;
-  #execFunction: IJimmiExecFunction;
+  #execFunction: IJimmiCommandFunction;
   #translator?: MessageFormatter;
 
   constructor(cmd: string, plugin: JimmiPlugin) {
