@@ -2,6 +2,7 @@ import type { ChatEvent } from "../models/ChatEvent";
 import type { JimmiApi } from "../models/JimmiApi";
 import type { SearchEntry } from "../models/invidious/SearchEntry";
 import type { VideoResponse } from "../models/invidious/VideoResponse";
+import type { IJimmiEventMap } from "../models/JimmiPlugin";
 import { JimmiPlugin } from "../models/JimmiPlugin";
 import { Track } from "../models/Track";
 
@@ -18,6 +19,8 @@ export default class MusicPlugin extends JimmiPlugin {
     "cue": this.queue, // alias :)
     "track": this.track,
   };
+
+  readonly events?: IJimmiEventMap | undefined;
 
   readonly translations = {
     en: {
@@ -42,7 +45,7 @@ export default class MusicPlugin extends JimmiPlugin {
 !track skip - Skip the current track
 !track ++ or !track -- - Fast forward or rewind. Add more + or - signs to increase duration
 !track +10, !track +20, !track -15 - Fast forward or rewind with specific duration in seconds`,
-          currentlyPlaying: "Currently playing {title ?? 'nothing'}"
+          currentlyPlaying: "Currently playing {title}"
         }
       },
       general: {
@@ -53,16 +56,6 @@ export default class MusicPlugin extends JimmiPlugin {
   };
 
   private baseUrl = "https://invidious.snopyta.org";
-
-  constructor(api: JimmiApi) {
-    super(api);
-    this.fetch;
-    this.searchYtVideo;
-    this.getTrack;
-    this.query;
-    this.play;
-    this.track;
-  }
 
   /**
    * Internal fetch method that contructs the API url and formats the response as json
@@ -124,7 +117,7 @@ export default class MusicPlugin extends JimmiPlugin {
         return;
       }
       this.api.currentTrack = track;
-      this.api.sendMessage(
+      this.api.conference.sendMessage(
         `:notes: ${this.$t('commands.play.playingTrack', { values: { title: track.title } })}`
       );
     }
@@ -164,7 +157,7 @@ export default class MusicPlugin extends JimmiPlugin {
     switch (event.params.length) {
       case 0:
         event.respond(
-          `:notes: ${this.$t('commands.track.currentlyPlaying', { values: { title: this.api.currentTrack?.title } })}`
+          `:notes: ${this.$t('commands.track.currentlyPlaying', { values: { title: this.api.currentTrack?.title ?? 'nothing' } })}`
         );
         break;
       case 1:
