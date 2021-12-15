@@ -143,7 +143,7 @@ export default class MusicPlugin extends JimmiPlugin {
         return;
       }
       if (this.api.currentTrack) {
-        this.api.queue.push(track);
+        this.api.addToQueue(track);
       } else {
         this.api.currentTrack = track;
       }
