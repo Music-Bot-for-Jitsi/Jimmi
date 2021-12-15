@@ -31,7 +31,15 @@ jobs:
         run: npm ci --prefix frontend
 
       - name: "Run build"
-        run: npm run build --prefix frontend
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]
+          then
+              # build for the main website
+              npm run build --prefix frontend
+          else
+              # build for the beta subfolder
+              npm run build --prefix frontend -- --base=/beta
+          fi
 
       - name: "Determine sublocation"
         id: determine_sublocation
