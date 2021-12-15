@@ -9,7 +9,7 @@
   let currentTime = 0; // binding of current time
   let duration = 0; // binding of duration
 
-  export const queue: Track[] = [];
+  $: queue = <Track[]>[];
   $: currentTrack = <Track | null> null;
   $: isThumbnailInitialized = false; // Indicator if thumbnail is initialized.
 
@@ -67,6 +67,26 @@
   }
 
   /**
+   * Add a new track to the queue and reassign the object so that sveltes change detection triggers
+   *
+   * @param track - The track to add to the queue.
+   */
+  export async function addToQueue(track: Track) {
+    queue = queue.concat(track);
+  }
+
+  export function getQueue() {
+    console.log(queue)
+    return Object.freeze(queue);
+  }
+
+  function playNext(idx: number): void {
+    play(queue[idx]);
+    queue.splice(idx, 1);
+    queue = queue; // trigger change detection
+  }
+
+  /**
    * Toggle audio playback
    */
   function togglePause(): void {
@@ -98,6 +118,7 @@
   function onAudioEnded() {
     if (queue.length > 0) {
       play(queue.shift());
+      queue = queue; // trigged svelte change detection
     } else {
       currentTrack = null;
       audio!.src = "";
@@ -161,7 +182,7 @@
         transition:fade
         src={currentTrack?.thumbnailUrl}
         alt="Video thumbnail"
-        class="object-fill"
+        class="h-80 w-full object-cover"
         class:invisible={!isThumbnailInitialized}
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
@@ -248,9 +269,9 @@
     </div>
   </div>
   <ul class="text-xs sm:text-base divide-y border-t cursor-default">
-    {#each queue as track}
+    {#each queue as track, idx}
       <li class="flex items-center space-x-3 hover:bg-gray-100">
-        <button class="p-3 hover:bg-green-500 group focus:outline-none">
+        <button on:click="{() => playNext(idx)}" class="p-3 hover:bg-green-500 group focus:outline-none">
           <svg
             class="w-4 h-4 group-hover:text-white"
             viewBox="0 0 24 24"
@@ -263,19 +284,6 @@
         </button>
 
         <div class="flex-1">{track.title}</div>
-        <div class="text-xs text-gray-400">ToDo: DURATION!</div>
-        <button class="focus:outline-none pr-4 group">
-          <svg
-            class="w-4 h-4 group-hover:text-green-600"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" /></svg
-          >
-        </button>
       </li>
     {/each}
   </ul>

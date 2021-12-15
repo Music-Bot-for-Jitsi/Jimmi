@@ -23,7 +23,11 @@ export class JimmiApi {
   }
 
   get queue(): Track[] {
-    return this.audio.queue;
+    return this.audio.getQueue();
+  }
+
+  addToQueue(track: Track) {
+    this.audio.addToQueue(track);
   }
 
   get currentTrack(): Track | undefined {
