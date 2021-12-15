@@ -11,7 +11,7 @@
 
   $: queue = <Track[]>[];
   $: currentTrack = <Track | null> null;
-  $: isThumbnailInitialized = false; // Indicator if thumbnail is initialized.
+  $: isThumbnailInitialized = false; // Indicator if thumbnail is initialized
 
   /**
    * Retrieve the current gain value in percent
@@ -118,7 +118,7 @@
   function onAudioEnded() {
     if (queue.length > 0) {
       play(queue.shift());
-      queue = queue; // trigged svelte change detection
+      queue = queue; // trigger svelte change detection
     } else {
       currentTrack = null;
       audio!.src = "";
