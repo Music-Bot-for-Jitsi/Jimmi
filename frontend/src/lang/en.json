@@ -19,7 +19,8 @@
         "description": "JIMMI makes it possible to create a Musicbot for Jitsi right within your browser. The Jitsi Integrated Musicbot himself (his friends call him Jim) will join your room soon and you can completely control him using this webinterface."
       },
       "roomError": "Please enter a valid room name.",
-      "roomLabel": "Room name"
+      "roomLabel": "Room name",
+      "toggleBetaMode": "Toggle beta mode"
     }
   }
 }
