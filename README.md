@@ -51,6 +51,14 @@ An awesome Jitsi Meet Party has never been so easy! - Go to [jimmi.xyz](https://
 
 Remember that you have to install the browser extension before. See below for how to install.
 
+# :sparkles: Features
+
+At the moment Jimmi only supports simple music playback but he already has an extension system which offers much room for improvement. For the beginning, this is how music playback looks like in the management interface:
+
+<p align="center">
+  <img alt="Media playback in management interface" src="https://user-images.githubusercontent.com/30511472/146185113-9a45c745-fec3-45eb-97d4-b3fe1001dec6.png"></img>
+</p>
+
 # :rocket: Get started!
 
 Caused by the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session.
