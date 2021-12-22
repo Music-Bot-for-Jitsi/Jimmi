@@ -55,7 +55,7 @@ Remember that you have to install the browser extension before. See below for ho
 
 Caused by the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session.
 
-:warning: Currently only Google Chrome and Chromium are supported
+:warning: Currently only Chromium based browsers are supported since Firefox does not yet support the Webmanifest V3. Google Chrome and Chromium have been tested, but browsers like Edge, Brave and Opera should also work.
 
 ## Installation
 
