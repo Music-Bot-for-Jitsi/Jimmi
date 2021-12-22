@@ -77,9 +77,18 @@ export default class MusicPlugin extends JimmiPlugin {
    * @returns The ID of the first search result or null if nothing was found.
    */
   private async searchYtVideo(search: string): Promise<string | null> {
-    const res = await this.fetch<SearchEntry[]>(`search/?q=${encodeURIComponent(search)}`);
-    if (res.length > 0) {
-      return res[0].videoId;
+    if (new RegExp('https?:\/\/').test(search)) {
+      // search query is link. Try to get video param
+      const id = new URLSearchParams(search.split('?')[1]).get('v');
+      if (id) return id;
+      // id is not in query parameter. Return the last part of the url path
+      const paths = search.split('/');
+      return paths[paths.length - 1].split('?')[0];
+    } else {
+      const res = await this.fetch<SearchEntry[]>(`search/?q=${encodeURIComponent(search)}`);
+      if (res.length > 0) {
+        return res[0].videoId;
+      }
     }
     return null;
   }
@@ -143,7 +152,7 @@ export default class MusicPlugin extends JimmiPlugin {
         return;
       }
       if (this.api.currentTrack) {
-        this.api.queue.push(track);
+        this.api.addToQueue(track);
       } else {
         this.api.currentTrack = track;
       }

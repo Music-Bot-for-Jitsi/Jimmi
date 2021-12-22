@@ -3,6 +3,13 @@
   import * as yup from "yup";
   import { push } from "svelte-spa-router";
   import { _ } from "svelte-i18n";
+  import ToogleSlider from "../components/ToggleSlider.svelte";
+
+  $: isBeta = window.location.href.split("/")[3].startsWith("beta");
+
+  let toggleBetaMode = () => {
+    window.location.href = isBeta ? "/" : "/beta";
+  };
 
   const domainRegex = new RegExp(
     /^$|^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/
@@ -21,7 +28,7 @@
       password: yup.string().optional(),
     }),
     onSubmit: (values) => {
-      const password = values.password ? `?password=${values.password}` : '';
+      const password = values.password ? `?password=${values.password}` : "";
       push(`/bot/${href}${password}`);
     },
   });
@@ -35,7 +42,7 @@
   function beforeInput(event: Event) {
     if (event instanceof InputEvent && event.data && event.inputType === "insertFromPaste") {
       const { data } = event;
-      const urlRegex = new RegExp('^http(s?)://(.*)/(.*)$');
+      const urlRegex = new RegExp("^http(s?)://(.*)/(.*)$");
       if (!urlRegex.test(data)) return;
       const execArray = urlRegex.exec(data);
       if (!(execArray && execArray.length >= 4)) return;
@@ -58,9 +65,12 @@
       <h1 class="title-font font-medium text-3xl text-gray-900">
         {$_("routes.home.mainContent.heading")}
       </h1>
-      <p class="leading-relaxed mt-4">
+      <p class="leading-relaxed mt-4 mb-4">
         {$_("routes.home.mainContent.description")}
       </p>
+      <ToogleSlider bind:onClick={toggleBetaMode} bind:checked={isBeta}>
+        {$_("routes.home.toggleBetaMode")}
+      </ToogleSlider>
     </div>
     <form
       on:submit={handleSubmit}
@@ -111,7 +121,7 @@
 
       <div class="relative mb-4">
         <details>
-          <summary>{$_("general.advancedConfiguration")}</summary>
+          <summary class="cursor-pointer">{$_("general.advancedConfiguration")}</summary>
           <label for="domain" class="leading-7 text-sm text-gray-600"
             >{$_("general.password")}</label
           >
