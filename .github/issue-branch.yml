@@ -9,6 +9,8 @@ branches:
     prefix: bugfix/
   - label: security
     prefix: security/
+  - label: automation
+    prefix: automation/
 openDraftPR: true
 copyIssueDescriptionToPR: false
 copyIssueLabelsToPR: true
