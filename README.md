@@ -41,7 +41,7 @@ Welcome to Jimmi, the Jitsi Integrated Musicbot Management Interface. Jimmi aims
 
 # 🚧 Refactoring
 
-During their `Software Engineering II` lession five students decided to put their combined effort into refactoring and enhancing Jimmi. The goals of this project are the following:
+During their `Software Engineering II` lesson, five students decided to put their combined effort into refactoring and enhancing Jimmi. The goals of this project are the following:
 
 ## Improve code structure and architecture
 
