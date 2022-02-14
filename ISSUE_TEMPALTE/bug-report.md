@@ -1,6 +1,6 @@
 ---
 name: "🪳 New Bug Report"
-about: Create a new report and help us, to improve the project!
+about: Create a new report and help us to improve the project!
 title: ""
 labels: "bug, help wanted, needs assignee"
 assignees: ''
@@ -20,7 +20,6 @@ Steps to reproduce the behavior:
 ### What was supposed to happen?
 What do you think should happen if there is no bug?
 
-
 ### Further information:
 
 **Environment(please complete the following information):**
@@ -34,7 +33,7 @@ If you have any screenshots of the bug by chance, please paste them here. Remove
 **Log**
 If your log provides any additional information by chance, please paste it here. Remove this section if it is not necessary.
 ```
-[here your log]
+[paste your log here]
 ```
 
 **Additional**
