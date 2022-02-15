@@ -1,4 +1,4 @@
-name: SonarCloud
+name: CI - SonarCloud
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+  schedule:
+    - cron: '42 20 * * 6'
 
 jobs:
   analysis:
