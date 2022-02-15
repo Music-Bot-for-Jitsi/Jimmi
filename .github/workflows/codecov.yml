@@ -11,7 +11,7 @@ on:
 
 jobs:
   analysis:
-    name: SonarCloud Analysis
+    name: Codecov Analysis
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
