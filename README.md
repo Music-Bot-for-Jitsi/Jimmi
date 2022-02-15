@@ -1,3 +1,6 @@
+[comment]: <> "LTeX: language=en-US"
+<!-- markdownlint-disable MD033 -->
+
 <h1 align="center">
   Hi, I'm JIMMI!
   <br />
@@ -35,6 +38,47 @@
   </a>
 </p>
 
+<h3 align="center">🔒 SonarCloud Monitored</h3>
+<p align="center">
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=alert_status" alt="Quality Gate Status" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=sqale_rating" alt="Maintainability Rating" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=reliability_rating" alt="Reliability Rating" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=security_rating" alt="Security Rating" />
+  </a>
+</p>
+<p align="center">
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=ncloc" alt="Lines of Code" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=vulnerabilities" alt="Vulnerabilities" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=sqale_index" alt="Technical Debt" />
+  </a>
+</p>
+<p align="center">
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=code_smells" alt="Code Smells" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=coverage" alt="Coverage" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=duplicated_lines_density" alt="Duplicated Lines (%)" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=Music-Bot-for-Jitsi_Jimmi">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=Music-Bot-for-Jitsi_Jimmi&metric=bugs" alt="Bugs" />
+  </a>
+</p>
+
 # 🤖 Who is Jimmi?
 
 Welcome to Jimmi, the Jitsi Integrated Musicbot Management Interface. Jimmi aims to provide an easy way to bring some music to your Jitsi conference 🎶.
@@ -55,7 +99,7 @@ Instead of writing everything as a single codebase, reusable components will be 
 
 ## Stability
 
-The old codebase had very weak error handling which led to many issues. During this refactoring error handling will be much improved and unit tests will be written to automatically test functions and ensure they are working as expected.
+The old codebase had very weak error handling which led to many issues. During this refactoring error handling will be much improved, and unit tests will be written to automatically test functions and ensure they are working as expected.
 
 # 🎨 Your ideas
 
