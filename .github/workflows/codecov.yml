@@ -1,0 +1,25 @@
+name: Codecov
+# https://github.com/marketplace/actions/codecov
+# https://app.codecov.io/gh/Music-Bot-for-Jitsi/Jimmi
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analysis:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: echo "add unit testing command here" && touch coverage.xml
+    - uses: codecov/codecov-action@v2
+      with:
+        files: ./coverage.xml # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
