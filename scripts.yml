@@ -1,0 +1,6 @@
+---
+scripts:
+  start:
+    pll: # These commands are executed in parallel
+      - cd backend && trex run start
+      - cd frontend && trex run start

@@ -1,9 +1,8 @@
 {
   "scripts": {
-    "dev": "deno run --allow-read --allow-net src/app.ts --config deno.json",
-    "start": "trex run dev --watch",
-    "lint": "deno run lint --config deno.json",
-    "fmt": "deno run fmt --config deno.json"
+    "start": "deno run --allow-read --allow-net --config deno.json --watch src/app.ts",
+    "lint": "deno lint --config deno.json",
+    "fmt": "deno fmt --config deno.json"
   },
   "files": [
     "./src"
