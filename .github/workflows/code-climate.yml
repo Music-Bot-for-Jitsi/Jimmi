@@ -1,0 +1,21 @@
+name: Code Climate
+# https://docs.codeclimate.com/docs/github-actions-test-coverage
+# https://codeclimate.com/github/Music-Bot-for-Jitsi/Jimmi
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analysis:
+    name: Conde Climate Analysis
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: echo "add unit testing command here" && touch coverage.lcov
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
