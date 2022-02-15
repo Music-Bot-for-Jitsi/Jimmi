@@ -11,7 +11,7 @@ on:
 
 jobs:
   analysis:
-    name: Conde Climate Analysis
+    name: Code Climate Analysis
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
