@@ -4,7 +4,11 @@
     "dev": "trex run __internal__",
     "watch": "trex run __internal__ --watch",
     "start": "snel serve",
-    "build": "snel build"
+    "build": "snel build",
+    "lint": "deno lint --config deno.json",
+    "fmt": "deno fmt --config deno.json",
+    "test": "deno test --config deno.json",
+    "cov": "deno coverage --config deno.json"
   },
   "files": [
     "./src",
