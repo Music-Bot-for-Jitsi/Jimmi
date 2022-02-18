@@ -1,3 +1,4 @@
+mode: chatops
 branchName: '${issue.number}-${issue.title[0,40]}'
 gitSafeReplacementChar: '-'
 branches:
@@ -15,5 +16,5 @@ openDraftPR: true
 copyIssueDescriptionToPR: false
 copyIssueLabelsToPR: true
 copyIssueAssigneeToPR: true
-copyIssueProjectsToPR: true
+copyIssueProjectsToPR: false
 copyIssueMilestoneToPR: true
