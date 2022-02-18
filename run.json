@@ -1,5 +1,10 @@
 {
   "scripts": {
-    "start": "vr start"
+    "start": "vr start",
+    "build": "vr build",
+    "lint": "vr lint",
+    "fmt": "vr fmt",
+    "test": "vr test",
+    "cov": "vr cov"
   }
 }
