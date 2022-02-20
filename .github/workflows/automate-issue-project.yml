@@ -1,0 +1,23 @@
+name: Tools - Automate Issue Project Assignment
+
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+
+jobs:
+  add_issue_to_project_board:
+    name: Add issue to project board
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move issue to Backlog
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
+        with:
+          gh_app_ID: ${{ secrets.gh_app_ID }}
+          gh_app_installation_ID: ${{ secrets.gh_app_installation_ID }}
+          gh_app_secret_key: ${{ secrets.gh_app_secret_key }}
+          organization: Music-Bot-for-Jitsi
+          project_id: 1
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: Backlog # Target status
