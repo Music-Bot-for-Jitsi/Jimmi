@@ -14,9 +14,9 @@ jobs:
       - name: Move issue to Backlog
         uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
-          gh_app_ID: ${{ secrets.gh_app_ID }}
-          gh_app_installation_ID: ${{ secrets.gh_app_installation_ID }}
-          gh_app_secret_key: ${{ secrets.gh_app_secret_key }}
+          gh_app_ID: ${{ secrets.GH_APP_ID }}
+          gh_app_installation_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
+          gh_app_secret_key: ${{ secrets.GH_APP_SECRET_KEY }}
           organization: Music-Bot-for-Jitsi
           project_id: 1
           resource_node_id: ${{ github.event.issue.node_id }}
