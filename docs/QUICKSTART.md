@@ -44,5 +44,19 @@ Use the following command to install Velociraptor from nest.land:
 ## Starting the Application components
 
 ### Starting the Backend
+Change directory into the backend folder and run the following command:  
+
+`trex run start`  
+
+The backend service will be available at `http://localhost:{configured-port}`  
+
+By default, the configured port for the backend service is port 8000.
 
 ### Starting the Frontend
+Change directory into the frontend folder and run the following command:  
+
+`trex run start`  
+
+The frontend service will be available at `http://localhost:{configured-port}`  
+
+By default, the configured port for the frontend service is port 3000.
