@@ -39,7 +39,10 @@ Use the following command to install Velociraptor from deno.land:
   
 Use the following command to install Velociraptor from nest.land:  
   
-`deno install -qAn vr https://x.nest.land/velociraptor@1.4.0/cli.ts`
+`deno install -qAn vr https://x.nest.land/velociraptor@1.4.0/cli.ts`  
+
+If you are on Windows, make sure to make Velociraptor use a shell that can deal with `&&` (some PowerShell versions can't cope with it).  
+Instructions on how to set the shell used by Velociraptor can be found [here](https://deno.land/x/velociraptor@1.0.0-beta.18#shell-scripting).
 
 ## Starting the Application components
 
@@ -60,3 +63,16 @@ Change directory into the frontend folder and run the following command:
 The frontend service will be available at `http://localhost:{configured-port}`  
 
 By default, the configured port for the frontend service is port 3000.
+
+### Starting Frontend and Backend simultaneously with Velociraptor
+Change directory into the repository root and run the following command:  
+
+`vr start`  
+
+The frontend service will be available at `http://localhost:{configured-port}`  
+
+The backend service will be available at `http://localhost:{configured-port}`  
+
+By default, the configured port for the frontend service is port 3000.  
+
+By default, the configured port for the backend service is port 8000.
