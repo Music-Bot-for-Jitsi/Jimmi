@@ -35,14 +35,10 @@ Velociraptor is a script runner for Deno, inspired by npm's package.json scripts
 
 Use the following command to install Velociraptor from deno.land:  
   
-`deno install -qAn vr https://deno.land/x/velociraptor@1.4.0/cli.ts`
+`deno install -qAn vr https://deno.land/x/velociraptor/cli.ts`  
   
-Use the following command to install Velociraptor from nest.land:  
-  
-`deno install -qAn vr https://x.nest.land/velociraptor@1.4.0/cli.ts`  
-
 If you are on Windows, make sure to make Velociraptor use a shell that can deal with `&&` (some PowerShell versions can't cope with it).  
-Instructions on how to set the shell used by Velociraptor can be found [here](https://deno.land/x/velociraptor@1.0.0-beta.18#shell-scripting).
+Instructions on how to set the shell used by Velociraptor can be found [here](https://deno.land/x/velociraptor#shell-scripting).
 
 ## Starting the Application components
 
