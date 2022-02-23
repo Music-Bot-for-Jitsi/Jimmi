@@ -28,7 +28,7 @@ Use Deno to install the Trex package manager using the following command:
   
 `deno install -A --unstable --import-map=https://deno.land/x/trex/import_map.json -n trex --no-check https://deno.land/x/trex/cli.ts`  
   
-Further information on Trex can be found [here](https://deno.land/x/trex@v1.10.0).
+Further information on Trex can be found [here](https://deno.land/x/trex).
 
 ### Installing Velociraptor utilities
 Velociraptor is a script runner for Deno, inspired by npm's package.json scripts. It offers a similar experience but with out-of-the-box support for declarative Deno CLI options, environment variables, concurrency and git hooks.
