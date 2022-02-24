@@ -69,6 +69,7 @@ jobs:
         run: |
           pwd
           cd frontend/lib/jimmi-api-client
+          git config submodule.jimmi-api-client.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote -v
           ssh -T git@github.com || true
@@ -77,7 +78,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update api client" -a
-          git push git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
+          git push
           cd ../../../
 
       - name: Commit changes in main repo
