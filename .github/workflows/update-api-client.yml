@@ -76,6 +76,7 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
+          git submodule update --remote
           if git diff --quiet
           then
             git branch automation/api-client-update
