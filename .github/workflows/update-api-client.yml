@@ -36,9 +36,7 @@ jobs:
         working-directory: backend
         # Add & to background!
         run: |
-          trex --version
-          # deno run --no-check --allow-read --allow-net --config deno.json --watch src/app.ts &
-          trex run start &
+          deno run --no-check --allow-read --allow-net --config deno.json &
 
       - name: Delete old client
         working-directory: frontend/lib/jimmi-api-client
