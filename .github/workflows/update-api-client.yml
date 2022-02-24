@@ -72,7 +72,7 @@ jobs:
           git remote set-url origin git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote -v
-          ssh -vT git@github.com
+          ssh -vT git@github.com || true
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
