@@ -15,9 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          # Remove ref later!!!
-          ref: feature/42-Setup-automatic-API-Client-Generation
-          submodules: 'true'
+          submodules: true
           ssh-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
       - name: Setup deno
@@ -34,7 +32,6 @@ jobs:
 
       - name: Start backend
         working-directory: backend
-        # Add & to background!
         run: |
           deno run --no-check --allow-read --allow-net --config deno.json src/app.ts &
           sleep 1
@@ -82,12 +79,10 @@ jobs:
             git config --local user.name "GitHub Action"
             git add -A
             git commit -m "Update api client submodule" -a
-            git push origin automation/api-client-update
           fi
 
-      #- name: Push changes in a new branch
-      #  uses: ad-m/github-push-action@v0.6.0
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-      #    #branch: main
-      #    branch: automation/api-client-update
+      - name: Push changes in a new branch
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/api-client-update
