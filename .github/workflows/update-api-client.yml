@@ -42,6 +42,7 @@ jobs:
       - name: Delete old client
         run: |
           cd frontend/lib/jimmi-api-client
+          git checkout main
           rm -rf src
           mkdir src
           sleep 5
@@ -67,6 +68,7 @@ jobs:
       - name: Commit changes in submodule
         run: |
           pwd
+          git status
           cd frontend/lib/jimmi-api-client
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
