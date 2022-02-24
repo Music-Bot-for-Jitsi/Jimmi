@@ -64,19 +64,17 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           mv src/index.ts src/mod.ts
-          git status
-          if ! git diff --quiet
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if ! git diff-index --quiet --cached HEAD --
           then
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add -A
             git commit -m "Update api client" -a
             git push
           fi
 
       - name: Commit changes in main repo
         run: |
-          git diff --submodule=diff
           if ! git diff --quiet
           then
             git branch automation/api-client-update
