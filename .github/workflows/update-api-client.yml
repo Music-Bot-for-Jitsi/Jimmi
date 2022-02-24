@@ -69,7 +69,7 @@ jobs:
         run: |
           pwd
           cd frontend/lib/jimmi-api-client
-          git remote set-url origin git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
+          git remote set-url temp git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote -v
           ssh -vT git@github.com || true
@@ -78,7 +78,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update api client" -a
-          git push origin
+          git push temp
           cd ../../../
 
       - name: Commit changes in main repo
