@@ -70,6 +70,7 @@ jobs:
           pwd
           git config submodule.jimmi-api-client.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           cd frontend/lib/jimmi-api-client
+          git config remote.origin.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote -v
           ssh -T git@github.com || true
