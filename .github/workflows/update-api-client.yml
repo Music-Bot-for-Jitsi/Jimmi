@@ -76,12 +76,9 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
-          git submodule update --remote
-          git status
           git diff
-          git submodule update --remote --merge
-          git status
-          git diff
+          git diff --quiet
+          echo $?
           if git diff --quiet
           then
             git branch automation/api-client-update
