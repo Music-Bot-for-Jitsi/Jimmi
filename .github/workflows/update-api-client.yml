@@ -71,12 +71,13 @@ jobs:
           cd frontend/lib/jimmi-api-client
           git remote set-url origin git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
+          ssh -T git@github.com
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update api client" -a
-          git push
+          git push origin
           cd ../../../
 
       - name: Commit changes in main repo
