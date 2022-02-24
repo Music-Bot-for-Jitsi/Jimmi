@@ -64,7 +64,7 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           mv src/index.ts src/mod.ts
-          git diff
+          git diff --submodule=diff
           if ! git diff --quiet
           then
             git config --local user.email "action@github.com"
@@ -76,7 +76,7 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
-          git diff
+          git diff --submodule=diff
           if ! git diff --quiet
           then
             git branch automation/api-client-update
