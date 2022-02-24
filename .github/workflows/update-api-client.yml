@@ -64,7 +64,7 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           mv src/index.ts src/mod.ts
-          if ! git diff --quiet
+          if git diff --quiet
           then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
@@ -76,17 +76,19 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
-          if ! git diff --quiet
+          if git diff --quiet
           then
+            git branch automation/api-client-update
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add -A
             git commit -m "Update api client submodule" -a
+            git push origin automation/api-client-update
           fi
 
-      - name: Push changes in a new branch
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          #branch: main
-          branch: automation/api-client-update
+      #- name: Push changes in a new branch
+      #  uses: ad-m/github-push-action@v0.6.0
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    #branch: main
+      #    branch: automation/api-client-update
