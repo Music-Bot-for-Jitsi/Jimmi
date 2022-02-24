@@ -40,7 +40,7 @@ jobs:
           sleep 1
           ps | grep " $! "
 
-      - name: Delete old client
+      - name: Delete old client files
         working-directory: frontend/lib/jimmi-api-client
         run: |
           git checkout main
@@ -60,12 +60,11 @@ jobs:
           -g typescript \
           -o /local/src/
 
-      - name: Commit changes in submodule
+      - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client
         run: |
           mv src/index.ts src/mod.ts
-          git diff --quiet
-          if [ $? -ne 0 ]
+          if ! git diff --quiet
           then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
@@ -77,8 +76,7 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
-          git diff --quiet
-          if [ $? -ne 0 ]
+          if ! git diff --quiet
           then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
@@ -86,9 +84,9 @@ jobs:
             git commit -m "Update api client submodule" -a
           fi
 
-      - name: Push changes in main repo
+      - name: Push changes in a new branch
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           #branch: main
-          branch: feature/42-Setup-automatic-API-Client-Generation
+          branch: automation/api-client-update
