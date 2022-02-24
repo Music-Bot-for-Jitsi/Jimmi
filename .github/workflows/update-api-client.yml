@@ -51,6 +51,7 @@ jobs:
           pwd
           cd frontend/lib/jimmi-api-client
           docker run --rm \
+          --add-host host.docker.internal:host-gateway \
           -v "$(pwd)":/local \
           openapitools/openapi-generator-cli generate \
           -i http://host.docker.internal:8000/swagger.json \
