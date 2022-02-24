@@ -1,6 +1,5 @@
 import { opine } from 'https://deno.land/x/opine@2.1.1/mod.ts';
-import { swaggerDoc } from "../../../deno-swagger-doc/mod.ts";
-// import { swaggerDoc } from "https://deno.land/x/deno_swagger_doc/mod.ts";
+import { swaggerDoc } from "https://raw.githubusercontent.com/Music-Bot-for-Jitsi/deno-swagger-doc/master/mod.ts";
 
 const app = opine();
 
