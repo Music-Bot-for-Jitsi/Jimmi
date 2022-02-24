@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'true'
-          token: ${{ secrets.PAT }}
 
       - name: Setup deno
         uses: denoland/setup-deno@v1
