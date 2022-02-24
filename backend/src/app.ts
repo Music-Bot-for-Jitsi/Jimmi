@@ -14,7 +14,7 @@ const swaggerDefinition = {
     version: '1.0.0', // Version (required)
     description: 'A sample API', // Description (optional)
   },
-  host: `localhost:8000`, // Host (optional)
+  host: `localhost:8080`, // Host (optional)
   basePath: '/', // Base path (optional)
 };
 
@@ -44,7 +44,7 @@ app.get("/hello", async (req, res) => {
   res.send('Hello World');
 });
 
-const port = 8000;
+const port = 8080;
 
 app.listen(
   port,
