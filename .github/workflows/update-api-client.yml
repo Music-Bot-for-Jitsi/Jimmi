@@ -35,6 +35,7 @@ jobs:
         run: |
           cd backend
           trex run start &
+          sudo /home/runner/.deno/bin/trex run start
 
       - name: Delete old client
         run: |
