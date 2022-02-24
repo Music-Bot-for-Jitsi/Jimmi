@@ -69,7 +69,7 @@ jobs:
         run: |
           pwd
           cd frontend/lib/jimmi-api-client
-          git remote set-url temp git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
+          git remote add temp git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote -v
           ssh -vT git@github.com || true
