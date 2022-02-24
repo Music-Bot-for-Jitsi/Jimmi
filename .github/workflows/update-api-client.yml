@@ -61,36 +61,18 @@ jobs:
           -g typescript \
           -o /local/src/
 
-      #- name: Setup SSH deploy key
-      #  uses: webfactory/ssh-agent@v0.5.4
-      #  with:
-      #    ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
-
       - name: Commit changes in submodule
         run: |
-          pwd
-          git remote -v
-          git config submodule.jimmi-api-client.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           cd frontend/lib/jimmi-api-client
-          git config remote.origin.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
-          git remote set-url origin git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
-          git status
-          git remote add temp git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
-          git config --list --show-origin
-          git remote -v
-          ssh -T git@github.com || true
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update api client" -a
-          git push temp || true
-          git push origin
-          cd ../../../
+          git push
 
       - name: Commit changes in main repo
         run: |
-          pwd
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
