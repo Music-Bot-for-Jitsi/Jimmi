@@ -33,25 +33,24 @@ jobs:
           export PATH=$PATH:/home/runner/.deno/bin/trex
 
       - name: Start backend
+        working-directory: backend
         # Add & to background!
         run: |
-          cd backend
           trex --version
-          deno run --no-check --allow-read --allow-net --config deno.json --watch src/app.ts &
-          # trex run start &
+          # deno run --no-check --allow-read --allow-net --config deno.json --watch src/app.ts &
+          trex run start &
 
       - name: Delete old client
+        working-directory: frontend/lib/jimmi-api-client
         run: |
-          cd frontend/lib/jimmi-api-client
           git checkout main
           rm -rf src
           mkdir src
-          sleep 5
+          sleep 3
 
       - name: Generate api client
+        working-directory: frontend/lib/jimmi-api-client
         run: |
-          pwd
-          cd frontend/lib/jimmi-api-client
           docker run --rm \
           --add-host host.docker.internal:host-gateway \
           -v "$(pwd)":/local \
@@ -62,21 +61,30 @@ jobs:
           -o /local/src/
 
       - name: Commit changes in submodule
+        working-directory: frontend/lib/jimmi-api-client
         run: |
-          cd frontend/lib/jimmi-api-client
           mv src/index.ts src/mod.ts
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git commit -m "Update api client" -a
-          git push
+          git diff --quiet
+          if [ $? -ne 0 ]
+          then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add -A
+            if [ $? -ne 0 ]; then echo hi; fi
+            git commit -m "Update api client" -a
+            git push
+          fi
 
       - name: Commit changes in main repo
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git commit -m "Update api client submodule" -a
+          git diff --quiet
+          if [ $? -ne 0 ]
+          then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add -A
+            git commit -m "Update api client submodule" -a
+          fi
 
       - name: Push changes in main repo
         uses: ad-m/github-push-action@v0.6.0
