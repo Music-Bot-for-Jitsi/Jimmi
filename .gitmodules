@@ -1,3 +1,3 @@
 [submodule "jimmi-api-client"]
 	path = frontend/lib/jimmi-api-client
-	url = https://github.com/Music-Bot-for-Jitsi/jimmi-api-client
+	url = ../jimmi-api-client
