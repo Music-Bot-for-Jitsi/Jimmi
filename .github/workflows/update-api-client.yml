@@ -36,7 +36,9 @@ jobs:
         working-directory: backend
         # Add & to background!
         run: |
-          deno run --no-check --allow-read --allow-net --config deno.json &
+          deno run --no-check --allow-read --allow-net --config deno.json src/app.ts &
+          sleep 1
+          ps | grep " $! "
 
       - name: Delete old client
         working-directory: frontend/lib/jimmi-api-client
