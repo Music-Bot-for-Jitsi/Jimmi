@@ -29,6 +29,7 @@ jobs:
           deno install -A --unstable \
           --import-map=https://deno.land/x/trex/import_map.json \
           -n trex --no-check https://deno.land/x/trex/cli.ts
+          export PATH=$PATH:/home/runner/.deno/bin/trex
 
       - name: Start backend
         run: |
@@ -43,6 +44,8 @@ jobs:
 
       - name: Generate api client
         run: |
+          pwd
+          cd frontend/lib/jimmi-api-client
           docker run --rm \
           -v "$(pwd)":/local \
           openapitools/openapi-generator-cli generate \
@@ -59,6 +62,7 @@ jobs:
       - name: Commit changes in submodule
         run: |
           pwd
+          cd frontend/lib/jimmi-api-client
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
