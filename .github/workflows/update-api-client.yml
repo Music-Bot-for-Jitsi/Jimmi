@@ -15,6 +15,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
+          # Remove ref later!!!
+          ref: feature/42-Setup-automatic-API-Client-Generation
           submodules: 'true'
 
       - name: Setup deno
