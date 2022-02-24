@@ -68,8 +68,8 @@ jobs:
       - name: Commit changes in submodule
         run: |
           pwd
-          cd frontend/lib/jimmi-api-client
           git config submodule.jimmi-api-client.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
+          cd frontend/lib/jimmi-api-client
           git status
           git remote -v
           ssh -T git@github.com || true
