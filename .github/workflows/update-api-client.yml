@@ -74,6 +74,7 @@ jobs:
           git remote set-url origin git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           git status
           git remote add temp git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
+          git config --list --show-origin
           git remote -v
           ssh -T git@github.com || true
           mv src/index.ts src/mod.ts
