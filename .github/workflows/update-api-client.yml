@@ -36,6 +36,7 @@ jobs:
         run: |
           cd backend
           trex --version
+          deno run -Ldebug --no-check --allow-read --allow-net --config deno.json --watch src/app.ts
           trex run start
 
       - name: Delete old client
