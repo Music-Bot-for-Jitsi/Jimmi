@@ -18,6 +18,7 @@ jobs:
           # Remove ref later!!!
           ref: feature/42-Setup-automatic-API-Client-Generation
           submodules: 'true'
+          ssh-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
       - name: Setup deno
         uses: denoland/setup-deno@v1
@@ -60,14 +61,15 @@ jobs:
           -g typescript \
           -o /local/src/
 
-      - name: Setup SSH deploy key
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
+      #- name: Setup SSH deploy key
+      #  uses: webfactory/ssh-agent@v0.5.4
+      #  with:
+      #    ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
       - name: Commit changes in submodule
         run: |
           pwd
+          git remote -v
           git config submodule.jimmi-api-client.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
           cd frontend/lib/jimmi-api-client
           git config remote.origin.url git@github.com:Music-Bot-for-Jitsi/jimmi-api-client.git
