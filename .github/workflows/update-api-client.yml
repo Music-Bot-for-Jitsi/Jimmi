@@ -51,7 +51,7 @@ jobs:
       - name: Setup SSH deploy key
         uses: webfactory/ssh-agent@v0.5.4
         with:
-        ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
+          ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
       - name: Commit changes in submodule
         run: |
