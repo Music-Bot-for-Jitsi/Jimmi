@@ -64,7 +64,7 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           mv src/index.ts src/mod.ts
-          git diff --submodule=diff
+          git status
           if ! git diff --quiet
           then
             git config --local user.email "action@github.com"
