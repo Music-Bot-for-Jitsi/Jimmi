@@ -35,9 +35,7 @@ jobs:
         # Add & to background!
         run: |
           cd backend
-          deno --version
           trex --version
-          stat src/app.ts
           trex run start
 
       - name: Delete old client
