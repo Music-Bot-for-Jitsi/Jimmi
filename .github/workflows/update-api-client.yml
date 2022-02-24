@@ -34,7 +34,7 @@ jobs:
       - name: Start backend
         run: |
           cd backend
-          sudo trex run start &
+          trex run start &
 
       - name: Delete old client
         run: |
