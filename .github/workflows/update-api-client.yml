@@ -1,0 +1,78 @@
+name: Automation - Update API Client
+
+on:
+  push:
+    branches:
+      - main
+      - feature/42-Setup-automatic-API-Client-Generation
+  #path:
+  #  - backend/src/**.ts
+
+jobs:
+  update-api-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          token: ${{ secrets.PAT }}
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Install dependencies
+        run: |
+          deno install -A --unstable \
+          --import-map=https://deno.land/x/trex/import_map.json \
+          -n trex --no-check https://deno.land/x/trex/cli.ts
+
+      - name: Start backend
+        run: cd backend && trex run start &
+
+      - name: Delete old client
+        run: |
+          cd ../frontend/lib/jimmi-api-client
+          rm -rf src
+          sleep 5
+
+      - name: Generate api client
+        run: |
+          docker run --rm \
+          -v .:/local \
+          openapitools/openapi-generator-cli generate \
+          -i http://host.docker.internal:8000/swagger.json \
+          -c /local/config.yml \
+          -g typescript \
+          -o /local/src/
+
+      - name: Setup SSH deploy key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+        ssh-private-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
+
+      - name: Commit changes in submodule
+        run: |
+          mv src/index.ts src/mod.ts
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "Update api client" -a
+          git push
+          cd ../../../
+
+      - name: Commit changes in main repo
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "Update api client submodule" -a
+
+      - name: Push changes in main repo
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #branch: main
+          branch: feature/42-Setup-automatic-API-Client-Generation
