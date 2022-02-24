@@ -32,13 +32,11 @@ jobs:
 
       - name: Start backend
         run: |
-          sudo chmod 777 -R backend
           cd backend
-          trex run start &
+          sudo trex run start &
 
       - name: Delete old client
         run: |
-          pwd
           cd frontend/lib/jimmi-api-client
           rm -rf src
           sleep 5
@@ -46,7 +44,7 @@ jobs:
       - name: Generate api client
         run: |
           docker run --rm \
-          -v .:/local \
+          -v "$(pwd)":/local \
           openapitools/openapi-generator-cli generate \
           -i http://host.docker.internal:8000/swagger.json \
           -c /local/config.yml \
@@ -60,6 +58,7 @@ jobs:
 
       - name: Commit changes in submodule
         run: |
+          pwd
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -70,6 +69,7 @@ jobs:
 
       - name: Commit changes in main repo
         run: |
+          pwd
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
