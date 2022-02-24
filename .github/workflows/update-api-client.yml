@@ -31,14 +31,15 @@ jobs:
           -n trex --no-check https://deno.land/x/trex/cli.ts
 
       - name: Start backend
-        run: | 
+        run: |
+          sudo chmod 777 -R backend
           cd backend
           trex run start &
 
       - name: Delete old client
         run: |
           pwd
-          cd ../frontend/lib/jimmi-api-client
+          cd frontend/lib/jimmi-api-client
           rm -rf src
           sleep 5
 
