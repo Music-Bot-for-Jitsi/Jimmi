@@ -82,7 +82,7 @@ jobs:
 
       - name: Update submodule
         working-directory: frontend/lib/jimmi-api-client
-        run: git pull
+        run: git checkout main && git pull
 
       - name: Commit changes, push to new branch and create pull request in main repo
         uses: peter-evans/create-pull-request@v3
