@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    path:
+    paths:
       - backend/src/**.ts
   workflow_dispatch:
 
