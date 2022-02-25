@@ -43,7 +43,6 @@ jobs:
           git checkout main
           rm -rf src
           mkdir src
-          sleep 3
 
       - name: Generate api client
         working-directory: frontend/lib/jimmi-api-client
@@ -64,25 +63,23 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
+          # If there are staged changes commit and push them
           if ! git diff-index --quiet --cached HEAD --
           then
             git commit -m "Update api client" -a
             git push
           fi
 
-      - name: Commit changes in main repo
-        run: |
-          if ! git diff --quiet
-          then
-            git branch automation/api-client-update
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add -A
-            git commit -m "Update api client submodule" -a
-          fi
-
-      - name: Push changes in a new branch
-        uses: ad-m/github-push-action@v0.6.0
+      - name: Commit changes, push and create pull request in main repo
+        uses: peter-evans/create-pull-request@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update api client submodule
+          committer: GitHub Action <action@github.com>
           branch: automation/api-client-update
+          base: main
+          title: [Automation] API client updated
+          body: | 
+            The remote api client repository *jimmi-api-client* has been updated.
+            Please merge this PR to update the repos submodule to the newest version.
+          labels: automation
+          #reviewers: antonplagemann, p-fruck, piuswalter, Simon-Walz, tjarbo
