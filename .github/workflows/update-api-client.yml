@@ -69,6 +69,20 @@ jobs:
             git push
           fi
 
+  update-main-repo:
+    runs-on: ubuntu-latest
+    needs:
+     - update-api-client
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: feature/42-Setup-automatic-API-Client-Generation # main
+          submodules: true
+
+      - name: Update submodule
+        run: git submodule update --remote --merge
+
       - name: Commit changes, push to new branch and create pull request in main repo
         uses: peter-evans/create-pull-request@v3
         with:
