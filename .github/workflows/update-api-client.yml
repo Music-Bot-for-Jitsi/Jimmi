@@ -1,0 +1,93 @@
+name: Automation - Update API Client
+
+on:
+  push:
+    branches:
+      - main
+    path:
+      - backend/src/**.ts
+  workflow_dispatch:
+
+jobs:
+  update-api-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          submodules: true
+          ssh-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Start backend
+        working-directory: backend
+        run: |
+          deno run --no-check --allow-read --allow-net --config deno.json src/app.ts &
+          BACKEND_PID=$!
+          sleep 1
+          # Check if process is still running and fail if not
+          ps | grep " $BACKEND_PID "
+
+      - name: Delete old api client files
+        working-directory: frontend/lib/jimmi-api-client
+        run: git checkout main && rm -rf src/*
+
+      - name: Generate api client
+        working-directory: frontend/lib/jimmi-api-client
+        run: |
+          docker run --rm \
+          --add-host host.docker.internal:host-gateway \
+          -v "$(pwd)":/local \
+          openapitools/openapi-generator-cli generate \
+          -i http://host.docker.internal:8000/swagger.json \
+          -c /local/config.yml \
+          -g typescript \
+          -o /local/src/
+
+      - name: Commit and push changes in submodule
+        working-directory: frontend/lib/jimmi-api-client
+        run: |
+          sudo mv src/index.ts src/mod.ts
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          # If there are staged changes commit and push them
+          if ! git diff-index --quiet --cached HEAD --
+          then
+            git commit -m "Update api client" -a
+            git push
+          fi
+
+  update-main-repo:
+    runs-on: ubuntu-latest
+    needs:
+     - update-api-client
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          submodules: true
+
+      - name: Update submodule
+        working-directory: frontend/lib/jimmi-api-client
+        run: git checkout main && git pull
+
+      - name: Commit changes, push to new branch and create pull request in main repo
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update api client submodule
+          committer: GitHub Action <action@github.com>
+          branch: automation/api-client-update
+          title: '[Automation] API Client Updated'
+          body: | 
+            The remote api client repository *jimmi-api-client* has been updated.
+            Please merge this PR to update the repos submodule to the newest version.
+          labels: automation
+          reviewers: antonplagemann, p-fruck, piuswalter, Simon-Walz, tjarbo
