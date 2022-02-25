@@ -41,13 +41,13 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           docker run --rm \
-          --add-host host.docker.internal:host-gateway \
-          -v "$(pwd)":/local \
-          openapitools/openapi-generator-cli generate \
-          -i http://host.docker.internal:8000/swagger.json \
-          -c /local/config.yml \
-          -g typescript \
-          -o /local/src/
+            --add-host host.docker.internal:host-gateway \
+            -v "$(pwd)":/local \
+            openapitools/openapi-generator-cli generate \
+            -i http://host.docker.internal:8000/swagger.json \
+            -c /local/config.yml \
+            -g typescript \
+            -o /local/src/
 
       - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client
