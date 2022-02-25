@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-      - feature/42-Setup-automatic-API-Client-Generation
-  #path:
-  #  - backend/src/**.ts
+      - feature/42-Setup-automatic-API-Client-Generation # remove
+    path:
+      - backend/src/**.ts
+  workflow_dispatch:
 
 jobs:
   update-api-client:
@@ -15,6 +16,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
+          ref: feature/42-Setup-automatic-API-Client-Generation # main
           submodules: true
           ssh-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
@@ -23,26 +25,20 @@ jobs:
         with:
           deno-version: vx.x.x
 
-      - name: Install dependencies
-        run: |
-          deno install -A --unstable \
-          --import-map=https://deno.land/x/trex/import_map.json \
-          -n trex --no-check https://deno.land/x/trex/cli.ts
-          export PATH=$PATH:/home/runner/.deno/bin/trex
-
       - name: Start backend
         working-directory: backend
         run: |
           deno run --no-check --allow-read --allow-net --config deno.json src/app.ts &
+          BACKEND_PID=$!
           sleep 1
-          ps | grep " $! "
+          # Check if process is still running and fail if not
+          ps | grep " $BACKEND_PID "
 
       - name: Delete old client files
         working-directory: frontend/lib/jimmi-api-client
         run: |
           git checkout main
-          rm -rf src
-          mkdir src
+          rm -rf src/*
 
       - name: Generate api client
         working-directory: frontend/lib/jimmi-api-client
@@ -70,16 +66,15 @@ jobs:
             git push
           fi
 
-      - name: Commit changes, push and create pull request in main repo
+      - name: Commit changes, push to new branch and create pull request in main repo
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update api client submodule
           committer: GitHub Action <action@github.com>
           branch: automation/api-client-update
-          base: main
           title: '[Automation] API Client Updated'
           body: | 
             The remote api client repository *jimmi-api-client* has been updated.
             Please merge this PR to update the repos submodule to the newest version.
           labels: automation
-          #reviewers: antonplagemann, p-fruck, piuswalter, Simon-Walz, tjarbo
+          reviewers: antonplagemann, p-fruck, piuswalter, Simon-Walz, tjarbo
