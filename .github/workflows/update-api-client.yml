@@ -77,7 +77,7 @@ jobs:
           committer: GitHub Action <action@github.com>
           branch: automation/api-client-update
           base: main
-          title: [Automation] API client updated
+          title: '[Automation] API Client Updated'
           body: | 
             The remote api client repository *jimmi-api-client* has been updated.
             Please merge this PR to update the repos submodule to the newest version.
