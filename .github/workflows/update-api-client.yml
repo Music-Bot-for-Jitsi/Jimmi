@@ -57,7 +57,8 @@ jobs:
         run: |
           pwd
           ls src
-          mv src/index.ts src/mod.ts
+          stat src/index.ts
+          sudo mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
