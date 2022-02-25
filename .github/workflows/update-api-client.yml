@@ -81,6 +81,7 @@ jobs:
           submodules: true
 
       - name: Update submodule
+        working-directory: frontend/lib/jimmi-api-client
         run: git submodule update --remote --merge
 
       - name: Commit changes, push to new branch and create pull request in main repo
