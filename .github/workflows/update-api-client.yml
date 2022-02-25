@@ -55,6 +55,8 @@ jobs:
       - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client
         run: |
+          pwd
+          ls src
           mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
