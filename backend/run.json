@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "deno run --allow-read --allow-net --config deno.json --watch src/app.ts",
+    "build": "deno compile --config deno.json src/app.ts -o dist/jimmi",
+    "lint": "deno lint --config deno.json",
+    "fmt": "deno fmt --config deno.json",
+    "test": "deno test --config deno.json",
+    "cov": "deno coverage --config deno.json"
+  },
+  "files": [
+    "./src"
+  ]
+}

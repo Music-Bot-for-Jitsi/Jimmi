@@ -1,0 +1,31 @@
+---
+scripts:
+  start:
+    pll: # These commands are executed in parallel
+      - cd backend && trex run start
+      - cd frontend && trex run start
+  build:
+    cmd:
+      - cd frontend && trex run build
+      - cd backend  && trex run build
+  lint:
+    cmd:
+      - cd frontend && trex run lint
+      - cd backend  && trex run lint
+  fmt:
+    cmd:
+      - cd frontend && trex run fmt
+      - cd backend  && trex run fmt
+  test:
+    cmd:
+      - cd frontend && trex run test
+      - cd backend  && trex run test
+  cov:
+    cmd:
+      - cd frontend && trex run cov
+      - cd backend  && trex run cov
+  pre-commit: # these tasks should be executed automatically before each commit
+    cmd:
+      - vr fmt
+      - vr lint
+    gitHook: pre-commit

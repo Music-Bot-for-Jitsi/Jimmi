@@ -1,0 +1,20 @@
+{
+  "name": "Jimmi",
+   "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "bullseye"
+    }
+  },
+  "settings": {
+    "deno.enable": true,
+    "deno.lint": true,
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "extensions": [
+    "denoland.vscode-deno",
+    "svelte.svelte-vscode"
+  ],
+  "postStartCommand": "vr start",
+  "remoteUser": "vscode"
+}
