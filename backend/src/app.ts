@@ -1,11 +1,10 @@
 import { opine } from 'opine/mod.ts';
 import { swaggerDoc } from 'swagger-doc/mod.ts';
+import { getStaticFileServer } from './serveStatic.ts';
 
 const app = opine();
 
-app.get('/', function (req, res) {
-  res.send('Hello World');
-});
+app.use(await getStaticFileServer());
 
 const swaggerDefinition = {
   info: {
