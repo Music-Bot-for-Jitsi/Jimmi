@@ -5,16 +5,10 @@
  */
 import { encode } from 'std/encoding/base64.ts';
 import { walk } from 'std/fs/mod.ts';
-import { dirname, join } from 'std/path/mod.ts';
+import { translatePath } from './utils.ts';
 
-const __dirname = dirname(import.meta.url);
-
-function getPath(...paths: string[]): string {
-  return join(__dirname, ...paths).replace('file:', '');
-}
-
-const frontendDist = getPath('..', 'frontend', 'dist');
-const staticFilesPath = getPath('..', 'backend', 'dist', 'staticFiles.json');
+const frontendDist = translatePath('../frontend/dist');
+const staticFilesPath = translatePath('../backend/dist/staticFiles.json');
 
 const files: { [key: string]: string } = {};
 
