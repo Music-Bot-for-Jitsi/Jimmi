@@ -1,5 +1,5 @@
-import { opine } from 'https://deno.land/x/opine@2.1.1/mod.ts';
-import { swaggerDoc } from "https://raw.githubusercontent.com/Music-Bot-for-Jitsi/deno-swagger-doc/master/mod.ts";
+import { opine } from 'opine/mod.ts';
+import { swaggerDoc } from 'swagger-doc/mod.ts';
 
 const app = opine();
 
@@ -26,8 +26,8 @@ const options = {
 
 const swaggerSpec = swaggerDoc(options);
 
-app.get("/swagger.json", async (req, res) => {
-  res.send(swaggerSpec)
+app.get('/swagger.json', async (req, res) => {
+  res.send(swaggerSpec);
 });
 
 /**
@@ -39,7 +39,7 @@ app.get("/swagger.json", async (req, res) => {
  *       200:
  *         description: hello world
  */
-app.get("/hello", async (req, res) => {
+app.get('/hello', async (req, res) => {
   res.send('Hello World');
 });
 
