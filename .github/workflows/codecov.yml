@@ -15,11 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - run: echo "add unit testing command here" && touch coverage.xml
+
+    - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+    - name: Create coverage files
+        run: deno test --unstable --coverage=coverage # create coverage files
+
+    - name: Create coverage report
+        run: deno --unstable coverage ./coverage --lcov > coverage.lcov # create coverage report
+
+    - name: Collect coverage
     - uses: codecov/codecov-action@v2
       with:
-        files: ./coverage.xml # optional
+        files: ./coverage.lcov
         flags: unittests # optional
-        name: codecov-umbrella # optional
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
