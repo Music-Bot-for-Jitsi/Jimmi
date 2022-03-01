@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - automation/26-Setup-Codecov
   pull_request:
     types: [opened, synchronize, reopened]
 
