@@ -2,7 +2,7 @@
 
 # Architecture Decisions, Automations and Contributions
 
-This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as also used automations and all contributions made during this project.
+This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as used automations and all contributions made during this project.
 
 ---
 
@@ -22,14 +22,14 @@ We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for 
 
 ### Snel
 
-[Snel](https://deno.land/x/snel@v0.6.0) is a tool/framework to compile Svelte components to JavaScript files using Deno and Svelte to create web applications.
+[Snel](https://deno.land/x/snel) is a tool/framework to compile Svelte components to JavaScript files using Deno and Svelte to create web applications.
 Advantages:
 
 - Simple setup
 - Fast compilation
 - Hot reloading
 - Import maps support
-- Support for scss and less out of the box
+- Support for SCSS and Less out of the box
 - TypeScript support
 
 ### Opine
