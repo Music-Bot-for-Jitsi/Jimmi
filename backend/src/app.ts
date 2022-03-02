@@ -1,10 +1,10 @@
-import { join, dirname } from 'std/path/mod.ts';
+import { dirname, join } from 'std/path/mod.ts';
 import { opine, serveStatic } from 'opine/mod.ts';
 
 const app = opine();
 
 const __dirname = dirname(import.meta.url);
-app.use(serveStatic(join(__dirname, "frontend")));
+app.use(serveStatic(join(__dirname, 'frontend')));
 
 /**
  * @swagger
