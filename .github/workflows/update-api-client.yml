@@ -27,7 +27,7 @@ jobs:
       - name: Start backend
         working-directory: backend
         run: |
-          deno run --no-check --allow-read --allow-net --config deno.json src/app.ts &
+          deno run --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net src/app.ts &
           BACKEND_PID=$!
           sleep 1
           # Check if process is still running and fail if not
