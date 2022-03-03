@@ -10,7 +10,7 @@ This file describes all used frameworks and packages, the reasoning behind them 
 
 ### Deno
 
-We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-ruleset to limit what applications can do if no special permissions given.
+We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.
 
 ### Svelte
 
