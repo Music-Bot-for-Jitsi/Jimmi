@@ -5,7 +5,7 @@ RUN ["deno", "run", "--allow-run", "--allow-read", "https://deno.land/x/snel/ins
 RUN ["snel", "build"]
 
 
-FROM nginx:1.21.6 as NGINX_BUILDER
+FROM nginx:1.21 as NGINX_BUILDER
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/jimmi.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /opt/var/cache/nginx && \
