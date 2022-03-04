@@ -77,10 +77,6 @@ The Quality Gate status, among other metrics, are displayed as badges on the [RE
 
 We use the GitHub Dependabot automation to keep all dependencies up to date and secure. If there is a known security vulnerability within a dependency, Dependabot will automatically open a pull request for bumping it to a secure version.
 
-### Code Climate / CodeCov
-
-We are currently evaluating if CodeCov or Code Climate are offering any benefits to coverage and unit testing reports that SonarCloud does not provide.
-
 ### Issue Branches
 
 We use an [automation pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/automate-issue-branch.yml) to create branches and pull requests for new issues so that every branch and PR follows the same naming convention and can be tracked back to the originating issue. For every issue, a comment with the command `/cib` will trigger the pipeline and create a new branch and pull request (draft).
