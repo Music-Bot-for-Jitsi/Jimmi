@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     # example how to load an updated jimmi.conf file
     # volumes:
-    #   - 'custom-jimmi.conf://etc/nginx/conf.d/default.conf'
+    #   - 'custom-jimmi.conf:/etc/nginx/conf.d/default.conf'
     labels:
       - "traefik.enable=true"
       # HTTP

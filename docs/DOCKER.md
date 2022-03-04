@@ -14,7 +14,7 @@ The backend Docker image executes the Deno application. Its HTTP web server list
 
 ### Frontend Docker Image
 
-The frontend docker image is powered by a lightweight nginx webserver. You can find the default configurations at `./frontend/nginx`. If you are NOT using a reverse proxy that forwards `/api*` traffic to the backend container, please copy/paste the `jimmi.conf` and update `server 127.0.0.1:503;` with the name (and listening port!) of the backend container (like `server jimmi_backend:8000;`). The `docker-compose.yml` file shows an example how to load your updated `custom-jimmi.conf`.
+The frontend docker image is powered by a lightweight nginx webserver. You can find the default configurations at `./frontend/nginx`. If you do **not** use our docker compose file (see [here](#production-example)) or another reverse proxy that forwards `/api*` traffic to the backend container, please copy/paste the `jimmi.conf` and update `server 127.0.0.1:503;` with the name (and listening port!) of the backend container (like `server jimmi_backend:8000;`). Then mount your modifed configuration into the frontend container located at `/etc/nginx/conf.d/default.conf` (example in `docker-compose.yml`).
 
 ## Production Example
 
