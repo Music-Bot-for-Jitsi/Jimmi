@@ -2,7 +2,7 @@
 
 # Architecture Decisions, Automations and Contributions
 
-This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as used automations and all contributions made during this project.
+This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as all used automations.
 
 ---
 
@@ -88,13 +88,3 @@ We use an [automation pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blo
 ### Issue to Project
 
 We use an [automation pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/automate-issue-project.yml) to add each new issue to the organization project board (with status `backlog`). This keeps the project board always up to date so that we don't miss any issue.
-
----
-
-## Contributions
-
-During the project some contributions to outside open source projects have been made. These contributions are listed below.
-
-### `deno-swagger-doc` Module
-
-Fixed old dependency function call. [See here](https://github.com/singhcool/deno-swagger-doc/pull/11) for more information.
