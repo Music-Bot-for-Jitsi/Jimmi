@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-      - bugfix/83-API-Client-Generation-Failing
-    #paths:
-    #  - backend/src/**.ts
+    paths:
+      - backend/src/**.ts
   workflow_dispatch:
 
 jobs:
