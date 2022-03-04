@@ -1,6 +1,6 @@
 [comment]: <> "LTeX: language=en-US"
 
-# Architecture Decisions, Automations and Contributions
+# Architecture Decisions, Automations
 
 This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as all used automations.
 
@@ -76,7 +76,7 @@ We use SonarCloud as static application security testing (SAST) provider. All ne
 | Security Hotspots Reviewed | is less than | 100% |
 | Security Rating | is worse than | A |
 
-The Quality Gate status, among other metrics, are displayed as badges on the [README](https://github.com/Music-Bot-for-Jitsi/Jimmi) page of the main repository. The corresponding [scanning pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/sonar.yml) is triggered on each pull request, push to main and also on a weekly basis to check for currently rising security vulnerabilities.
+The Quality Gate status, among other metrics, are displayed as badges on the [README](https://github.com/Music-Bot-for-Jitsi/Jimmi) page of the main repository. The corresponding [scanning pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/sonar.yml) is triggered on each pull request, push to main and also on a weekly basis to check for currently rising security vulnerabilities. SonarCloud is enabled on all (non-forked) repositories in the Jimmi organization.
 
 ### Dependabot
 
