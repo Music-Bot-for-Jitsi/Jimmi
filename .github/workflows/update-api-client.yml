@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - backend/src/**.ts
+      - bugfix/83-API-Client-Generation-Failing
+    #paths:
+    #  - backend/src/**.ts
   workflow_dispatch:
 
 jobs:
@@ -19,32 +20,25 @@ jobs:
           submodules: true
           ssh-key: ${{ secrets.JIMMI_API_CLIENT_REPO_DEPLOY_KEY }}
 
+      - name: Delete old api client files
+        working-directory: frontend/lib/jimmi-api-client
+        run: git checkout main && rm -rf src/*
+
       - name: Setup deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: vx.x.x
 
-      - name: Start backend
-        working-directory: backend
-        run: |
-          deno run --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net src/app.ts &
-          BACKEND_PID=$!
-          sleep 1
-          # Check if process is still running and fail if not
-          ps | grep " $BACKEND_PID "
-
-      - name: Delete old api client files
-        working-directory: frontend/lib/jimmi-api-client
-        run: git checkout main && rm -rf src/*
+      - name: Generate swagger json file
+        run: ./scripts/gen_openapi_spec.ts frontend/lib/jimmi-api-client/swagger.json
 
       - name: Generate api client
         working-directory: frontend/lib/jimmi-api-client
         run: |
           docker run --rm \
-            --add-host host.docker.internal:host-gateway \
             -v "$(pwd)":/local \
             openapitools/openapi-generator-cli generate \
-            -i http://host.docker.internal:8000/swagger.json \
+            -i /local/swagger.json \
             -c /local/config.yml \
             -g typescript \
             -o /local/src/
@@ -52,6 +46,7 @@ jobs:
       - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client
         run: |
+          rm swagger.json
           sudo mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
