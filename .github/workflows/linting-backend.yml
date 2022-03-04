@@ -26,6 +26,9 @@ jobs:
       - name: Exec do not make shit
         run: alias exec=""
 
+      - name: Source .bashrc
+        run: source "$HOME/.bashrc"
+
       - name: Format the backend
         run: cd backend/ && trex run fmt
 
