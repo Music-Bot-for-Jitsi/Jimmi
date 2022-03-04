@@ -10,7 +10,8 @@ This file describes all used frameworks and packages, the reasoning behind them 
 
 ### Deno
 
-We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.
+We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.  
+For deployment, we use the [deno compiler](https://deno.land/manual/tools/compiler) to provide a simple executable file that can run Jimmi without installation on all main platforms (Windows, Linux & macOS). The executable will run the backend and serve the static frontend.
 
 ### Svelte
 
@@ -51,6 +52,10 @@ Advantages:
 [Trex](https://deno.land/x/trex) is a package management tool for Deno similar to NPM but keeping close to the Deno philosophy. Packages are cached and only one `import_map.json` file is generated.  
 [Velociraptor](https://deno.land/x/velociraptor) is a script runner for Deno, inspired by NPM's `package.json` scripts. It offers a similar experience but with out-of-the-box support for declarative Deno CLI options, environment variables, concurrency and git hooks.  
 In this project we use Velociraptor to have a single command that starts frontend and backend (or other tasks) in parallel.
+
+### Docker
+
+As an alternative to using the compiled binaries we provide also a setup using Docker (or another container runtime) or Docker Compose. The setup process and all details are described [here](./DOCKER.md) in more detail.
 
 ## Automations
 
