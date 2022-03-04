@@ -1,0 +1,33 @@
+# https://deno.land/manual@v1.19.2/continuous_integration
+
+name: CI - Linting - Backend
+
+on:
+  push:
+    branches:
+      - 'automation/22-Setup-CI'
+  pull_request:
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Install Trex
+        run: deno install -A --unstable --import-map=https://deno.land/x/trex/import_map.json -n trex --no-check https://deno.land/x/trex/cli.ts
+
+      - name: Format the backend
+        run: cd backend/ && trex run fmt
+
+      - name: Lint the backend
+        run: cd backend/ && trex run lint
+
+      - name: Test the backend
+        run: cd backend/ && trex run test
