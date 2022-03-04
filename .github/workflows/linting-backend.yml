@@ -20,8 +20,11 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Setup Trex alias
-        run: alias trex="deno run --allow-all --quiet --no-check --unstable --import-map 'https://deno.land/x/trex/import_map.json' 'https://deno.land/x/trex/cli.ts'"
+      - name: Install Trex
+        run: deno install -A --unstable --import-map=https://deno.land/x/trex/import_map.json -n trex --no-check https://deno.land/x/trex/cli.ts
+
+      - name: Exec do not make shit
+        run: alias exec=""
 
       - name: Format the backend
         run: cd backend/ && trex run fmt
