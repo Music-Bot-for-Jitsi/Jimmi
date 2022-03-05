@@ -3,9 +3,6 @@
 name: CI - Linting - Backend
 
 on:
-  push:
-    branches:
-      - 'automation/22-Setup-CI'
   pull_request:
     paths:
       - 'backend/**'
