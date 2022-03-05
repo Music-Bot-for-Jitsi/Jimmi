@@ -1,8 +1,8 @@
 [comment]: <> "LTeX: language=en-US"
 
-# Architecture Decisions, Automations and Contributions
+# Architecture Decisions, Automations
 
-This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as used automations and all contributions made during this project.
+This file describes all used frameworks and packages, the reasoning behind them and all other architectural decisions as well as all used automations.
 
 ---
 
@@ -10,7 +10,8 @@ This file describes all used frameworks and packages, the reasoning behind them 
 
 ### Deno
 
-We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.
+We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.  
+For deployment, we use the [deno compiler](https://deno.land/manual/tools/compiler) to provide a simple executable file that can run Jimmi without installation on all main platforms (Windows, Linux & macOS). The executable will run the backend and serve the static frontend.
 
 ### Svelte
 
@@ -52,6 +53,10 @@ Advantages:
 [Velociraptor](https://deno.land/x/velociraptor) is a script runner for Deno, inspired by NPM's `package.json` scripts. It offers a similar experience but with out-of-the-box support for declarative Deno CLI options, environment variables, concurrency and git hooks.  
 In this project we use Velociraptor to have a single command that starts frontend and backend (or other tasks) in parallel.
 
+### Docker
+
+As an alternative to using the compiled binaries we provide container images that can be used with Docker (or another container runtime). Additionally we provide an example Docker Compose file. The setup process and all details are described [here](./DOCKER.md).
+
 ## Automations
 
 ### API Client Generation
@@ -71,15 +76,11 @@ We use SonarCloud as static application security testing (SAST) provider. All ne
 | Security Hotspots Reviewed | is less than | 100% |
 | Security Rating | is worse than | A |
 
-The Quality Gate status, among other metrics, are displayed as badges on the [README](https://github.com/Music-Bot-for-Jitsi/Jimmi) page of the main repository. The corresponding [scanning pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/sonar.yml) is triggered on each pull request, push to main and also on a weekly basis to check for currently rising security vulnerabilities.
+The Quality Gate status, among other metrics, are displayed as badges on the [README](https://github.com/Music-Bot-for-Jitsi/Jimmi) page of the main repository. The corresponding [scanning pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/sonar.yml) is triggered on each pull request, push to main and also on a weekly basis to check for currently rising security vulnerabilities. SonarCloud is enabled on all (non-forked) repositories in the Jimmi organization.
 
 ### Dependabot
 
 We use the GitHub Dependabot automation to keep all dependencies up to date and secure. If there is a known security vulnerability within a dependency, Dependabot will automatically open a pull request for bumping it to a secure version.
-
-### Code Climate / CodeCov
-
-We are currently evaluating if CodeCov or Code Climate are offering any benefits to coverage and unit testing reports that SonarCloud does not provide.
 
 ### Issue Branches
 
@@ -88,13 +89,3 @@ We use an [automation pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blo
 ### Issue to Project
 
 We use an [automation pipeline](https://github.com/Music-Bot-for-Jitsi/Jimmi/blob/main/.github/workflows/automate-issue-project.yml) to add each new issue to the organization project board (with status `backlog`). This keeps the project board always up to date so that we don't miss any issue.
-
----
-
-## Contributions
-
-During the project some contributions to outside open source projects have been made. These contributions are listed below.
-
-### `deno-swagger-doc` Module
-
-Fixed old dependency function call. [See here](https://github.com/singhcool/deno-swagger-doc/pull/11) for more information.
