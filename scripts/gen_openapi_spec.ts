@@ -1,5 +1,5 @@
 #!/usr/bin/env -S deno run --no-check --allow-read --allow-write --import-map import_map.json
-import { dirname, join } from 'std/path/mod.ts';
+import { dirname, join, fromFileUrl } from 'std/path/mod.ts';
 import { swaggerDoc } from 'swagger-doc/mod.ts';
 
 if (Deno.args.length !== 1) {
@@ -15,9 +15,9 @@ if (Deno.args.length !== 1) {
  * @returns A translated path devided by the operating systems delimeter
  */
 function translatePaths(...paths: string[]) {
-  const __dirname = dirname(import.meta.url);
+  const __dirname = fromFileUrl(dirname(import.meta.url));
   const backendDir = join(__dirname, '..', 'backend');
-  return paths.map((path) => join(backendDir, ...path.split('/')).substring(5));
+  return paths.map((path) => join(backendDir, ...path.split('/')));
 }
 
 const swaggerDefinition = {
