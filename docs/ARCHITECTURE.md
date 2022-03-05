@@ -55,7 +55,7 @@ In this project we use Velociraptor to have a single command that starts fronten
 
 ### Docker
 
-As an alternative to using the compiled binaries we provide also a setup using Docker (or another container runtime) or Docker Compose. The setup process and all details are described [here](./DOCKER.md) in more detail.
+As an alternative to using the compiled binaries we provide container images that can be used with Docker (or another container runtime). Additionally we provide an example Docker Compose file. The setup process and all details are described [here](./DOCKER.md).
 
 ## Automations
 
