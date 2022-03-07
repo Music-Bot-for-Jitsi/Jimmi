@@ -8,6 +8,11 @@ on:
       - 'frontend/**'
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+    working-directory: frontend
+
 jobs:
   build:
     runs-on: ubuntu-20.04
