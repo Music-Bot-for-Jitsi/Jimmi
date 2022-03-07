@@ -1,16 +1,38 @@
-import UrlFinder from "./url-finder.ts";
-import InstanceFinder from "./invidious-instance-finder.ts";
+import AudioFileUrlFinder from "./audio-file-url-finder.ts";
+import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
 
-const instanceFinder = new InstanceFinder(
+export default class FullUrlFinder {
+  invidiousInstanceFinder: InvidiousInstanceFinder;
+  instanceListUrl: string;
+  constructor(instanceListUrl: string) {
+    this.instanceListUrl = instanceListUrl;
+    this.invidiousInstanceFinder = new InvidiousInstanceFinder(
+      instanceListUrl,
+    );
+  }
+
+  async findAudioFileUrl(youtubeVideoUrl: string): Promise<string> {
+    const invidiousVideoUrl = await this.buildInvidiousUrl(youtubeVideoUrl);
+    const audioFileUrlFinder = new AudioFileUrlFinder(invidiousVideoUrl);
+    return await audioFileUrlFinder.findAudioFileUrl();
+  }
+
+  async buildInvidiousUrl(youtubeVideoUrl: string): Promise<string> {
+    const params: URLSearchParams = new URLSearchParams(youtubeVideoUrl);
+    const invidiousInstanceUrl: string = await this.invidiousInstanceFinder
+      .extractSingleInstanceUrl();
+
+    return "https://" + invidiousInstanceUrl + "/api/v1/videos/" +
+      params.get("https://www.youtube.com/watch?v");
+  }
+}
+
+const fullUrlFinder = new FullUrlFinder(
   "https://api.invidious.io/instances.json",
 );
 
-const urlFinder = new UrlFinder(
-  "https://invidious.snopyta.org/api/v1/videos/cDdlg9eqZlsa",
+const url = await fullUrlFinder.findAudioFileUrl(
+  "https://www.youtube.com/watch?v=cIY95KCnnNk&ab_channel=Dream",
 );
 
-const res = await urlFinder.findUrl();
-
-res.json().then((json) => {
-  console.log(json.adaptiveFormats);
-});
+console.log(url);
