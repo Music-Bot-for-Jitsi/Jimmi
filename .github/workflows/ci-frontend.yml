@@ -3,6 +3,9 @@
 name: CI - Frontend
 
 on:
+  push:
+    branches:
+      - 'automation/22-Setup-CI'
   pull_request:
     paths:
       - 'frontend/**'
@@ -14,19 +17,32 @@ defaults:
     working-directory: frontend
 
 jobs:
-  lint-frontend:
+  check_formatting:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: denoland/setup-deno@v1
         with:
           deno-version: vx.x.x
-
       - name: Check frontend formatting
         run: deno fmt --config deno.json --check
 
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
       - name: Lint the frontend
         run: deno lint --config deno.json
 
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
       - name: Test the frontend
         run: deno test --config deno.json --import-map=../import_map.json
