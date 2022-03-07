@@ -1,6 +1,6 @@
 # https://deno.land/manual@v1.19.2/continuous_integration
 
-name: CI - Linting - Backend
+name: CI - Backend
 
 on:
   pull_request:
