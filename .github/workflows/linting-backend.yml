@@ -17,11 +17,11 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Format the backend
-        run: cd backend/ && deno fmt --config deno.json
+      - name: Check backend formatting
+        run: deno fmt --config deno.json --check
 
       - name: Lint the backend
-        run: cd backend/ && deno lint --config deno.json
+        run: deno lint --config deno.json
 
       - name: Test the backend
-        run: cd backend/ && deno test --config deno.json --import-map=../import_map.json
+        run: deno test --config deno.json --import-map=../import_map.json
