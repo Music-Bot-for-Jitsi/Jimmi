@@ -1,9 +1,0 @@
-{
-  "imports": {
-    "opine/": "https://deno.land/x/opine@2.1.1/",
-    "std/": "https://deno.land/std@0.126.0/",
-    "https://deno.land/std/": "https://deno.land/std@0.126.0/",
-    "swagger-doc/": "https://deno.land/x/deno_swagger_doc@releasev2.0.0/",
-    "superdeno/": "https://deno.land/x/superdeno@4.7.2/"
-  }
-}

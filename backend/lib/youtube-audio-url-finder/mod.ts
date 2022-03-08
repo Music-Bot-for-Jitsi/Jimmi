@@ -1,3 +1,5 @@
+import { createError } from "http_errors/mod.ts";
+
 import AudioFileUrlFinder from "./audio-file-url-finder.ts";
 import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
 
@@ -27,9 +29,12 @@ export default class YoutubeAudioUrlFinder {
   extractVideoParameter(youtubeVideoUrl: string) {
     const parts: string[] = youtubeVideoUrl.split("?");
     if (parts.length != 2) {
-      throw new Error();
+      throw createError(400, "Malformed Youtube Video URL detected.");
     }
     const params: URLSearchParams = new URLSearchParams(parts[1]);
+    if (!params.has("v")) {
+      throw createError(400, "Malformed Youtube Video URL detected.");
+    }
     return params.get("v");
   }
 }
@@ -39,7 +44,7 @@ const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder(
 );
 
 const url: string = await youtubeAudioUrlFinder.findAudioFileUrl(
-  "https://www.youtube.com/watch?v=cIY95KCnnNk&ab_channel=Dream",
+  "https://www.youtube.com/watch?v=PWr8pM6GzhY&ab_channel=OneFootballEnglish",
 );
 
 console.log(url);

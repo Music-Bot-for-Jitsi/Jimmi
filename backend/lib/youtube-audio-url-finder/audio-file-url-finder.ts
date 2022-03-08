@@ -1,3 +1,5 @@
+import { createError } from "http_errors/mod.ts";
+
 import {
   AudioFileAdaptiveFormat,
   AudioFileData,
@@ -19,7 +21,12 @@ export default class AudioFileUrlFinder {
       },
     });
     if (res.status != 200) {
-      throw new Error(res.status.toString());
+      console.log(res.status);
+      throw createError(
+        502,
+        "Unexpected Response from Invidious instance. Check if your provided Youtube Video URL is valid." +
+          res.status,
+      );
     }
     const json: AudioFileData = await res.json();
     return json;
@@ -31,7 +38,10 @@ export default class AudioFileUrlFinder {
     const adaptiveFormatList: AudioFileAdaptiveFormat[] =
       audioFileData.adaptiveFormats;
     if (adaptiveFormatList.length === 0) {
-      throw new Error();
+      throw createError(
+        502,
+        "Invidious instance could not provide suitable adaptive formats.",
+      );
     }
     return adaptiveFormatList[0].url;
   }

@@ -1,3 +1,5 @@
+import { createError } from "http_errors/mod.ts";
+
 import { InvidiousData, InvidiousInstance } from "./invidious.interfaces.ts";
 
 export default class InvidiousIstanceFinder {
@@ -15,7 +17,7 @@ export default class InvidiousIstanceFinder {
       },
     });
     if (res.status != 200) {
-      throw new Error(res.status.toString());
+      throw createError(502, "Could not find Invidious instance list.");
     }
     const json: InvidiousInstance[] = await res.json();
     return json.map((instance) => instance[1]);
@@ -32,9 +34,9 @@ export default class InvidiousIstanceFinder {
   async extractSingleInstance(): Promise<InvidiousData> {
     const urlList = await this.extractFilteredOrderedInstances();
     if (urlList.length === 0) {
-      throw new Error();
+      throw createError(502, "Could not find suitable Invidious instance.");
     }
-    return urlList[1];
+    return urlList[0];
   }
 
   async extractSingleInstanceUrl(): Promise<string> {
@@ -47,6 +49,9 @@ export default class InvidiousIstanceFinder {
       return false;
     }
     if (instance.api != false) {
+      return false;
+    }
+    if (instance.uri === "https://yewtu.be") {
       return false;
     }
     return true;
