@@ -21,11 +21,9 @@ export default class AudioFileUrlFinder {
       },
     });
     if (res.status != 200) {
-      console.log(res.status);
       throw createError(
         502,
-        "Unexpected Response from Invidious instance. Check if your provided Youtube Video URL is valid." +
-          res.status,
+        "Unexpected Response from Invidious instance. Check if your provided Youtube Video URL is valid.",
       );
     }
     const json: AudioFileData = await res.json();
