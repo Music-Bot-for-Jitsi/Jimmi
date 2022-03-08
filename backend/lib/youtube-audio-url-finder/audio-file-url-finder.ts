@@ -1,3 +1,8 @@
+import {
+  AudioFileAdaptiveFormat,
+  AudioFileData,
+} from "./invidious.interfaces.ts";
+
 export default class AudioFileUrlFinder {
   invidiousVideoUrl: string;
 
@@ -5,7 +10,7 @@ export default class AudioFileUrlFinder {
     this.invidiousVideoUrl = invidiousVideoUrl;
   }
 
-  async findAudioFileInfo() {
+  async findAudioFileData(): Promise<AudioFileData> {
     const res: Response = await fetch(this.invidiousVideoUrl, {
       method: "GET",
       headers: {
@@ -13,14 +18,21 @@ export default class AudioFileUrlFinder {
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
       },
     });
-    return res.json().then((json) => {
-      const adaptiveFormatList = json.adaptiveFormats;
-      return adaptiveFormatList;
-    });
+    if (res.status != 200) {
+      throw new Error(res.status.toString());
+    }
+    const json: AudioFileData = await res.json();
+    return json;
   }
 
   async findAudioFileUrl(): Promise<string> {
-    const adaptiveFormatList = await this.findAudioFileInfo();
-    return adaptiveFormatList[0]["url"];
+    const audioFileData: AudioFileData = await this
+      .findAudioFileData();
+    const adaptiveFormatList: AudioFileAdaptiveFormat[] =
+      audioFileData.adaptiveFormats;
+    if (adaptiveFormatList.length === 0) {
+      throw new Error();
+    }
+    return adaptiveFormatList[0].url;
   }
 }

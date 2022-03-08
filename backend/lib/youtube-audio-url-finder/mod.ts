@@ -1,7 +1,7 @@
 import AudioFileUrlFinder from "./audio-file-url-finder.ts";
 import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
 
-export default class FullUrlFinder {
+export default class YoutubeAudioUrlFinder {
   invidiousInstanceFinder: InvidiousInstanceFinder;
   instanceListUrl: string;
   constructor(instanceListUrl: string) {
@@ -18,20 +18,27 @@ export default class FullUrlFinder {
   }
 
   async buildInvidiousUrl(youtubeVideoUrl: string): Promise<string> {
-    const params: URLSearchParams = new URLSearchParams(youtubeVideoUrl);
     const invidiousInstanceUrl: string = await this.invidiousInstanceFinder
       .extractSingleInstanceUrl();
+    return invidiousInstanceUrl + "/api/v1/videos/" +
+      this.extractVideoParameter(youtubeVideoUrl);
+  }
 
-    return "https://" + invidiousInstanceUrl + "/api/v1/videos/" +
-      params.get("https://www.youtube.com/watch?v");
+  extractVideoParameter(youtubeVideoUrl: string) {
+    const parts: string[] = youtubeVideoUrl.split("?");
+    if (parts.length != 2) {
+      throw new Error();
+    }
+    const params: URLSearchParams = new URLSearchParams(parts[1]);
+    return params.get("v");
   }
 }
 
-const fullUrlFinder = new FullUrlFinder(
+const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder(
   "https://api.invidious.io/instances.json",
 );
 
-const url = await fullUrlFinder.findAudioFileUrl(
+const url: string = await youtubeAudioUrlFinder.findAudioFileUrl(
   "https://www.youtube.com/watch?v=cIY95KCnnNk&ab_channel=Dream",
 );
 
