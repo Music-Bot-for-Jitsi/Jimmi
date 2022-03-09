@@ -5,18 +5,20 @@ import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
 
 export default class YoutubeAudioUrlFinder {
   invidiousInstanceFinder: InvidiousInstanceFinder;
+  audioFileUrlFinder: AudioFileUrlFinder;
   instanceListUrl: string;
   constructor(instanceListUrl: string) {
     this.instanceListUrl = instanceListUrl;
     this.invidiousInstanceFinder = new InvidiousInstanceFinder(
       instanceListUrl,
     );
+    this.audioFileUrlFinder = new AudioFileUrlFinder();
   }
 
   async findAudioFileUrl(youtubeVideoUrl: string): Promise<string> {
     const invidiousVideoUrl = await this.buildInvidiousUrl(youtubeVideoUrl);
-    const audioFileUrlFinder = new AudioFileUrlFinder(invidiousVideoUrl);
-    return await audioFileUrlFinder.findAudioFileUrl();
+    this.audioFileUrlFinder.setInvidiousVideoUrl(invidiousVideoUrl);
+    return await this.audioFileUrlFinder.findAudioFileUrl();
   }
 
   async buildInvidiousUrl(youtubeVideoUrl: string): Promise<string> {
