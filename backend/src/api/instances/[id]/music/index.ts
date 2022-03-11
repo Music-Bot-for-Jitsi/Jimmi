@@ -1,8 +1,8 @@
 import { Router } from 'opine/mod.ts';
 import { getHandler } from './get.handler.ts';
 
-const router = Router();
+const musicRouter = Router();
 
-router.get('/', getHandler);
+musicRouter.get('/', getHandler);
 
-export default router;
+export default musicRouter;
