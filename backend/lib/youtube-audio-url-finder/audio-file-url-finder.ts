@@ -1,5 +1,5 @@
-import { createError } from "http_errors/mod.ts";
-
+import { Errors } from "./errors.ts";
+import ErrorGenerator from "./error-generator.ts";
 import {
   AudioFileAdaptiveFormat,
   AudioFileData,
@@ -12,11 +12,34 @@ export default class AudioFileUrlFinder {
     this.invidiousVideoUrl = "";
   }
 
-  setInvidiousVideoUrl(invidiousVideoUrl: string) {
+  /**
+   * Sets the invidious video url used to receive data about a video
+   * @param invidiousVideoUrl The invidious video url
+   */
+  setInvidiousVideoUrl(invidiousVideoUrl: string): void {
     this.invidiousVideoUrl = invidiousVideoUrl;
   }
 
-  async findAudioFileData(): Promise<AudioFileData> {
+  /**
+   * Finds an audio file url (googlevideo) for the currently set invidious vieo url
+   * @returns The audio file url
+   *
+   * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   *
+   * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
+   */
+  async findAudioFileUrl(): Promise<string> {
+    const audioFileData: AudioFileData = await this.fetchAudioFileData();
+    return this.extractAudioFileUrl(audioFileData);
+  }
+
+  /**
+   * Collects data about the audio file from the invidious api
+   * @returns Data on the audio file
+   *
+   * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   */
+  private async fetchAudioFileData(): Promise<AudioFileData> {
     try {
       const res: Response = await fetch(this.invidiousVideoUrl, {
         method: "GET",
@@ -26,30 +49,32 @@ export default class AudioFileUrlFinder {
         },
       });
       if (res.status != 200) {
-        throw createError(
-          502,
-          "Unexpected response or no response from Invidious instance. Check if your provided Youtube Video URL is valid.",
+        throw new ErrorGenerator().createNamedError(
+          Errors.UNEXPECTED_OR_NO_RESPONSE,
         );
       }
       const json: AudioFileData = await res.json();
       return json;
     } catch {
-      throw createError(
-        502,
-        "Unexpected response or no response from Invidious instance. Check if your provided Youtube Video URL is valid.",
+      throw new ErrorGenerator().createNamedError(
+        Errors.UNEXPECTED_OR_NO_RESPONSE,
       );
     }
   }
 
-  async findAudioFileUrl(): Promise<string> {
-    const audioFileData: AudioFileData = await this
-      .findAudioFileData();
+  /**
+   * Extracts an audio file url from audio file data
+   * @param audioFileData The audio file data
+   * @returns The audio file url
+   *
+   * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
+   */
+  private extractAudioFileUrl(audioFileData: AudioFileData): string {
     const adaptiveFormatList: AudioFileAdaptiveFormat[] =
       audioFileData.adaptiveFormats;
     if (adaptiveFormatList.length === 0) {
-      throw createError(
-        502,
-        "Invidious instance could not provide suitable adaptive formats.",
+      throw new ErrorGenerator().createNamedError(
+        Errors.NO_SUITABLE_ADAPTIVE_FORMATS,
       );
     }
     return adaptiveFormatList[0].url;

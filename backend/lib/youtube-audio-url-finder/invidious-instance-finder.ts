@@ -1,5 +1,5 @@
-import { createError } from "http_errors/mod.ts";
-
+import { Errors } from "./errors.ts";
+import ErrorGenerator from "./error-generator.ts";
 import { InvidiousData, InvidiousInstance } from "./invidious.interfaces.ts";
 
 export default class InvidiousIstanceFinder {
@@ -8,11 +8,43 @@ export default class InvidiousIstanceFinder {
     this.instanceListUrl = instanceListUrl;
   }
 
-  setInstanceListUrl(instanceListUrl: string) {
+  /**
+   * Finds an invidious instance url for the currently set instance list url
+   *
+   * @returns The invidious instance url
+   *
+   * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   *
+   * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   */
+  async findInvidiousInstanceUrl(): Promise<string> {
+    const instanceList: InvidiousData[] = await this.fetchInstanceList();
+    const filteredOrderedInstanceList = this.extractFilteredOrderedInstances(
+      instanceList,
+    );
+    const instance: InvidiousData = this.extractSingleInstance(
+      filteredOrderedInstanceList,
+    );
+    return this.extractSingleInstanceUrl(instance);
+  }
+
+  /**
+   * Sets the instance list url used to retrieve an instance list from
+   *
+   * @param instanceListUrl The instance list url
+   */
+  setInstanceListUrl(instanceListUrl: string): void {
     this.instanceListUrl = instanceListUrl;
   }
 
-  async findInstanceList(): Promise<InvidiousData[]> {
+  /**
+   * Fetches an instance list
+   *
+   * @returns The instance list, instance data entries are stripped of names
+   *
+   * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   */
+  private async fetchInstanceList(): Promise<InvidiousData[]> {
     try {
       const res: Response = await fetch(this.instanceListUrl, {
         method: "GET",
@@ -22,46 +54,66 @@ export default class InvidiousIstanceFinder {
         },
       });
       if (res.status != 200) {
-        throw createError(
-          502,
-          "Unexpected response or no response from Invidious instance list host.",
+        throw new ErrorGenerator().createNamedError(
+          Errors.UNEXPECTED_OR_NO_RESPONSE,
         );
       }
       const json: InvidiousInstance[] = await res.json();
       return json.map((instance) => instance[1]);
     } catch {
-      throw createError(
-        502,
-        "Unexpected response or no response from Invidious instance list host.",
+      throw new ErrorGenerator().createNamedError(
+        Errors.UNEXPECTED_OR_NO_RESPONSE,
       );
     }
   }
 
-  async extractFilteredOrderedInstances(): Promise<InvidiousData[]> {
-    const instanceList = await this.findInstanceList();
+  /**
+   * Filters an instance list
+   *
+   * @param instanceList The instance list to filter
+   * @returns The filtered instance list
+   */
+  private extractFilteredOrderedInstances(
+    instanceList: InvidiousData[],
+  ): InvidiousData[] {
     const filteredInstanceList = instanceList.filter(
       this.isValidInstance,
     );
     return filteredInstanceList;
   }
 
-  async extractSingleInstance(): Promise<InvidiousData> {
-    const urlList = await this.extractFilteredOrderedInstances();
-    if (urlList.length === 0) {
-      throw createError(
-        502,
-        "Could not find suitable Invidious instance in instance list.",
+  /**
+   * Extracts the first instance from an instance list, if there is any instance in it
+   *
+   * @param instanceList The instance list
+   * @returns The first instance of the list
+   *
+   * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   */
+  private extractSingleInstance(instanceList: InvidiousData[]): InvidiousData {
+    if (instanceList.length === 0) {
+      throw new ErrorGenerator().createNamedError(
+        Errors.NO_SUITABLE_INVIDIOUS_INSTANCE,
       );
     }
-    return urlList[0];
+    return instanceList[0];
   }
 
-  async extractSingleInstanceUrl(): Promise<string> {
-    const instance = await this.extractSingleInstance();
+  /**
+   * Extracts the url from an invidious instance
+   * @param instance The invidious instance
+   * @returns The extracted url
+   */
+  private extractSingleInstanceUrl(instance: InvidiousData): string {
     return instance.uri;
   }
 
-  isValidInstance(instance: InvidiousData): boolean {
+  /**
+   * Checks if an invidious instance matches certain criteria
+   * @param instance The invidious instance
+   * @returns True if the instance matches all criteria, False if the instance does not match all criteria
+   */
+  private isValidInstance(instance: InvidiousData): boolean {
     if (instance.type != "https") {
       return false;
     }
