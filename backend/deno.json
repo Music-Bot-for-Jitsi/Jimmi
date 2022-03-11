@@ -9,7 +9,10 @@
   },
   "fmt": {
     "files": {
-      "include": ["src/"]
+      "include": [
+        "src/",
+        "tests"
+      ]
     },
     "options": {
       "useTabs": false,
