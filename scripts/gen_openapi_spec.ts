@@ -12,7 +12,7 @@ if (Deno.args.length !== 1) {
  * backend folder and make paths resolvable on all platforms.
  *
  * @param paths - The paths to translate
- * @returns A translated path devided by the operating systems delimeter
+ * @returns A translated path divided by the operating systems delimiter
  */
 function translatePaths(...paths: string[]) {
   const __dirname = fromFileUrl(dirname(import.meta.url));
@@ -22,13 +22,12 @@ function translatePaths(...paths: string[]) {
 
 const swaggerDefinition = {
   info: {
-    title: 'Hello World', // Title (required)
-    version: '1.0.0', // Version (required)
-    description: 'A sample API', // Description (optional)
+    title: 'Jimmi API',
+    version: '1.0.0',
+    description: 'A sample API',
   },
-  host: `localhost:8000`, // Host (optional)
-  basePath: '/api', // Base path (optional)
-};
+  basePath: '/api', 
+}
 
 const options = {
   swaggerDefinition,
