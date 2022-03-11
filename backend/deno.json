@@ -11,7 +11,7 @@
     "files": {
       "include": [
         "src/",
-        "tests"
+        "tests/"
       ]
     },
     "options": {
