@@ -14,6 +14,7 @@ scripts:
       - cd backend  && trex run lint
   fmt:
     cmd:
+      - deno fmt --config backend/deno.json ./scripts/
       - cd frontend && trex run fmt
       - cd backend  && trex run fmt
   test:
