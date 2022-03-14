@@ -24,7 +24,7 @@ const swaggerDefinition = {
   info: {
     title: 'Jimmi API',
     version: '1.0.0',
-    description: 'A sample API',
+    description: 'The JIMMI backend REST api',
   },
   basePath: '/api',
 };
