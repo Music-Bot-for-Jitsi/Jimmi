@@ -8,7 +8,7 @@ import { getAllJimmiIds } from '../../service/Jimmi.service.ts';
  *     description: Returns a list of available Jimmi instances
  *     responses:
  *       200:
- *         description: hello world
+ *         description: Array of UUIDs
  */
 export const getHandler: RequestHandler = (_req, res, _next) => {
   res.json(getAllJimmiIds());

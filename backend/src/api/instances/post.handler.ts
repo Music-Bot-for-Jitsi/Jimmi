@@ -8,7 +8,7 @@ import { createJimmi } from '../../service/Jimmi.service.ts';
  *     description: Create a new Jimmi instance
  *     responses:
  *       200:
- *         description: hello world
+ *         description: Details about the created Jimmi instance
  */
 export const postHandler: RequestHandler = (_req, res, _next) => {
   res.json(createJimmi());
