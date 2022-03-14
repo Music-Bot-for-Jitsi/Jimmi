@@ -1,4 +1,5 @@
 import { RequestHandler } from 'opine/mod.ts';
+import { getJimmiBy } from '../../../service/Jimmi.service.ts';
 
 /**
  * @swagger
@@ -9,6 +10,7 @@ import { RequestHandler } from 'opine/mod.ts';
  *       200:
  *         description: hello world
  */
-export const getHandler: RequestHandler = (_req, res, _next) => {
-  res.send('I am Jimmi!');
+export const getHandler: RequestHandler = (req, res, _next) => {
+  const id = req.params.id;
+  res.json(getJimmiBy(id));
 };
