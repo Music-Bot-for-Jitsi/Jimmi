@@ -1,14 +1,15 @@
 import { RequestHandler } from 'opine/mod.ts';
+import { getAllJimmiIds } from '../../service/Jimmi.service.ts';
 
 /**
  * @swagger
  * /instances:
  *   get:
- *     description: Get all instances of Jimmi
+ *     description: Returns a list of available Jimmi instances
  *     responses:
  *       200:
  *         description: hello world
  */
 export const getHandler: RequestHandler = (_req, res, _next) => {
-  res.send('Knock Knock - Who is there?');
+  res.json(getAllJimmiIds());
 };
