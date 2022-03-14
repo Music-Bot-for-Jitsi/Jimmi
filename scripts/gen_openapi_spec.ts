@@ -1,5 +1,6 @@
-#!/usr/bin/env -S deno run --no-check --allow-read --allow-write --import-map import_map.json
-import { dirname, join, fromFileUrl } from 'std/path/mod.ts';
+#!/usr/bin/env -S deno run --no-check=remote --allow-read=. --allow-write=. --import-map import_map.json
+import { dirname, fromFileUrl, join } from 'std/path/mod.ts';
+import { expandGlobSync } from 'std/fs/mod.ts';
 import { swaggerDoc } from 'swagger-doc/mod.ts';
 
 if (Deno.args.length !== 1) {
@@ -8,32 +9,31 @@ if (Deno.args.length !== 1) {
 }
 
 /**
- * Simple helper function to resolve all relative paths from the
- * backend folder and make paths resolvable on all platforms.
+ * Simple helper function that recursively descends into the backend api folder
+ * and retrieves a list of files that might contain openapi documentation.
  *
- * @param paths - The paths to translate
- * @returns A translated path divided by the operating systems delimiter
+ * @returns A list of all typescript files in the backend api folder.
  */
-function translatePaths(...paths: string[]) {
+function getApiFiles(): string[] {
   const __dirname = fromFileUrl(dirname(import.meta.url));
-  const backendDir = join(__dirname, '..', 'backend');
-  return paths.map((path) => join(backendDir, ...path.split('/')));
+  const globPattern = join(__dirname, '..', 'backend', 'src', 'api', '**', '*.ts');
+  return [...expandGlobSync(globPattern)].map((entry) => entry.path);
 }
 
 const swaggerDefinition = {
   info: {
     title: 'Jimmi API',
     version: '1.0.0',
-    description: 'A sample API',
+    description: 'The JIMMI backend REST api',
   },
-  basePath: '/api', 
-}
+  basePath: '/api',
+};
 
 const options = {
   swaggerDefinition,
   // Path to the API docs (all files with swagger definitions)
   // Note that this path is relative to the backend directory.
-  apis: translatePaths('src/app.ts'),
+  apis: getApiFiles(),
 };
 
 const swaggerSpec = swaggerDoc(options);
