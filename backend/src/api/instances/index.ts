@@ -8,9 +8,9 @@ const instancesRouter = Router();
 /**
  * Validate the id parameter for all endpoints at /api/instances/[id]/*
  */
-instancesRouter.param('id', (req, _res, next, id) => {
+instancesRouter.param('id', (req, _res, next, id: string) => {
   if (!v4.validate(id)) return next('route');
-  req.params['id'] = String('' + id);
+  req.params['id'] = id;
   next();
 });
 
