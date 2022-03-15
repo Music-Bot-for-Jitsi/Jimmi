@@ -10,7 +10,7 @@ import { RequestHandler } from 'opine/mod.ts';
  *         name: id
  *         type: string
  *         required: true
- *         description: UUID of Jimmi instance
+ *         description: UUID of the Jimmi instance
  *     responses:
  *       200:
  *         description: Let\'s rock\'n roll!

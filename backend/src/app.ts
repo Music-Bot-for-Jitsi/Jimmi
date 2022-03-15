@@ -7,7 +7,7 @@ app.use(serveStatic('frontend'));
 
 app.use('/api', apiRouter);
 
-// Catch-All 404
+// Catch-all 404
 app.use((_req, res, _next) => res.setStatus(404).send());
 
 const port = 8000;

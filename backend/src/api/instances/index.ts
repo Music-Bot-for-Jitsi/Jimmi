@@ -6,7 +6,7 @@ import { v4 } from 'std/uuid/mod.ts';
 const instancesRouter = Router();
 
 /**
- * Validate the id parameter for all endpoints at /api/instances/[id]/*
+ * Validates the id parameter for all endpoints at /api/instances/[id]/*
  */
 instancesRouter.param('id', (req, _res, next, id: string) => {
   if (!v4.validate(id)) return next('route');
