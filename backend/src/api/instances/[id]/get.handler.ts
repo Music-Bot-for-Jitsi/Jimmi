@@ -20,5 +20,7 @@ import { getJimmiBy } from '../../../service/Jimmi.service.ts';
  */
 export const getHandler: RequestHandler = (req, res, _next) => {
   const id = req.params.id;
-  res.json(getJimmiBy(id));
+  const jimmi = getJimmiBy(id);
+  if (jimmi !== undefined) return void res.json(jimmi);
+  res.setStatus(404).send();
 };
