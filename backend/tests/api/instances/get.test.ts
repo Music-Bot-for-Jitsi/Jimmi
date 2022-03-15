@@ -6,7 +6,7 @@ Deno.test('GET /api/instances that it returns valid JSON!', async () => {
     .get('/api/instances')
     .expect('Content-Type', /json/)
     .expect(200)
-    .then(res => {
-      if (!(res.body instanceof Array)) throw new Error("res.body should be array");
-    })
+    .then((res) => {
+      if (!(res.body instanceof Array)) throw new Error('res.body should be array');
+    });
 });

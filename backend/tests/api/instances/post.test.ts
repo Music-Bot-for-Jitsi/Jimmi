@@ -6,8 +6,8 @@ Deno.test('POST /api/instances that it returns valid JSON!', async () => {
     .post('/api/instances')
     .expect('Content-Type', /json/)
     .expect(200)
-    .then(res => {
-      if (!(res.body instanceof Object)) throw new Error("res.body should be array");
-      if (!(Object.keys(res.body).includes('id'))) throw new Error("res.body should include id");
-    })
+    .then((res) => {
+      if (!(res.body instanceof Object)) throw new Error('res.body should be array');
+      if (!(Object.keys(res.body).includes('id'))) throw new Error('res.body should include id');
+    });
 });
