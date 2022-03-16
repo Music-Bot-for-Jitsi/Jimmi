@@ -22,7 +22,7 @@ export function getAllJimmiIds(): string[] {
 
 /**
  * Returns the Jimmi instance with the given id
- * @param id id of the Jimmi instance
+ * @param id - id of the Jimmi instance
  * @returns Jimmi instance
  */
 export function getJimmiBy(id: string): Jimmi | undefined {
