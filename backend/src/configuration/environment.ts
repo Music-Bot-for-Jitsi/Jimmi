@@ -6,7 +6,7 @@ const env = dotenvConfig();
 type EnvVars = { [key: string]: string | number | boolean };
 
 // Define validation for all env vars
-const envVarsSchema = Joi.object<EnvVars>({
+export const envVarsSchema = Joi.object<EnvVars>({
   PORT: Joi.number().port()
     .default(8000)
     .description('External application port'),
