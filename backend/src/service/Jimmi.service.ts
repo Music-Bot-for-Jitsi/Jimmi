@@ -21,7 +21,7 @@ export function getAllJimmiIds(): string[] {
 }
 
 /**
- * Returns Jimmi instance with the given id
+ * Returns the Jimmi instance with the given id
  * @param id id of the Jimmi instance
  * @returns Jimmi instance
  */
