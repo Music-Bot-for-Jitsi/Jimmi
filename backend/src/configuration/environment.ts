@@ -1,4 +1,4 @@
-import { config as dotenvConfig } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
+import { config as dotenvConfig } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
 import Joi from 'https://cdn.skypack.dev/joi?dts';
 
 const env = dotenvConfig();
@@ -15,7 +15,7 @@ const envVarsSchema = Joi.object<EnvVars>({
     .description('External hostname / bind address'),
   FRONTEND_DIR: Joi.string()
     .default('frontend')
-    .description('The frontend folder')
+    .description('The frontend folder'),
   // 1/2 Add new config pairs here
 }).required();
 

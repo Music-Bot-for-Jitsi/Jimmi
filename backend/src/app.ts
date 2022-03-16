@@ -1,6 +1,6 @@
 import { HTTPOptions, opine, serveStatic } from 'opine/mod.ts';
 import apiRouter from './api/index.ts';
-import config from './configuration/environment.ts'
+import config from './configuration/environment.ts';
 
 const app = opine();
 
@@ -14,7 +14,7 @@ app.use((_req, res, _next) => res.setStatus(404).send());
 const options: HTTPOptions = {
   port: config.port,
   hostname: config.hostname,
-}
+};
 
 app.listen(
   options,
