@@ -33,6 +33,10 @@ jobs:
           
       - name: Generate coverage report
         run: deno coverage --lcov --output=coverage_report.lcov frontend/coverage backend/coverage
+        
+      # https://community.sonarsource.com/t/code-coverage-doesnt-work-with-github-action/16747/3
+      - name: Fix coverage report paths
+        run: sed -i 's/\/home\/runner\/work\/Jimmi\/Jimmi\//\/github\/workspace\//g' coverage_report.lcov
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
