@@ -8,8 +8,9 @@ import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
 
 Deno.test(function testConstructor() {
   const testInstanceListUrl = 'https://sometestinstanceurl.com';
-  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder =
-    new YoutubeAudioUrlFinder(testInstanceListUrl);
+  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder(
+    testInstanceListUrl,
+  );
 
   assertEquals(
     youtubeAudioUrlFinder['invidiousInstanceFinder']['instanceListUrl'],
@@ -20,11 +21,9 @@ Deno.test(async function testFindAudioFileUrl() {
   const testAudioFileUrl = 'https://sometesturl.org';
   const testYoutubeUrl = 'https://sometestyoutubeurl.com';
   const testInvidiousInstanceUrl = 'https://invidious.snopyta.org';
-  const testInvidiousVideoUrl =
-    'https://invidious.snopyta.org/api/v1/videos/123456';
+  const testInvidiousVideoUrl = 'https://invidious.snopyta.org/api/v1/videos/123456';
 
-  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder =
-    new YoutubeAudioUrlFinder('');
+  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder('');
 
   const _findInvidiousInstanceUrl: Stub<InvidiousInstanceFinder> = stub(
     youtubeAudioUrlFinder['invidiousInstanceFinder'],
@@ -70,11 +69,9 @@ Deno.test(async function testFindAudioFileUrl() {
 Deno.test(function testBuildInvidiousUrl() {
   const testInvidiousInstanceUrl = 'https://invidious.snopyta.org';
   const testVideoParameter = '123456';
-  const expectedInvidiousUrl =
-    'https://invidious.snopyta.org/api/v1/videos/123456';
+  const expectedInvidiousUrl = 'https://invidious.snopyta.org/api/v1/videos/123456';
 
-  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder =
-    new YoutubeAudioUrlFinder('');
+  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder('');
 
   const _extractVideoParameter: Stub<YoutubeAudioUrlFinder> = stub(
     youtubeAudioUrlFinder,
@@ -97,8 +94,7 @@ Deno.test(function testExtractVideoParameter() {
   const testUrl2 = 'https://www.youtube?.com/watch?v=test&ab_channel=test';
   const testUrl3 = 'https://www.youtube.com/watch?test&ab_channel=test';
 
-  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder =
-    new YoutubeAudioUrlFinder('');
+  const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder('');
 
   assertEquals(
     youtubeAudioUrlFinder['extractVideoParameter'](testUrl1),

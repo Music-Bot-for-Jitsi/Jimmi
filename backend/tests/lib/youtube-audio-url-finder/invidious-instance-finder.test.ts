@@ -6,8 +6,9 @@ import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
 
 Deno.test(function testConstructor() {
   const testInstanceListUrl = 'https://sometestinstancelisturl.com';
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder(testInstanceListUrl);
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder(
+    testInstanceListUrl,
+  );
 
   assertEquals(invidiousInstanceFinder['instanceListUrl'], testInstanceListUrl);
 });
@@ -16,8 +17,7 @@ Deno.test(async function testFindInvidiousInstanceUrl() {
 });
 
 Deno.test(function testSetInstanceListUrl() {
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder('');
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   const testUrl = 'https://api.invidious.io/instances.json';
 
@@ -64,8 +64,7 @@ Deno.test(function testExtractFilteredOrderedInstances() {
     testInstance2,
   ];
 
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder('');
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   const _isValidInstance: Stub<InvidiousInstanceFinder> = stub(
     invidiousInstanceFinder,
@@ -98,8 +97,7 @@ Deno.test(function testExtractSingleInstance() {
   };
   const instanceList: InvidiousData[] = [testInstance1];
 
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder('');
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   assertEquals(
     invidiousInstanceFinder['extractSingleInstance'](instanceList),
@@ -127,8 +125,7 @@ Deno.test(function testExtractSingleInstanceUrl() {
     uri: testUri,
   };
 
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder('');
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   assertEquals(
     invidiousInstanceFinder['extractSingleInstanceUrl'](testInstance),
@@ -163,8 +160,7 @@ Deno.test(function isValidInstance() {
     uri: 'https://yewtu.be',
   };
 
-  const invidiousInstanceFinder: InvidiousInstanceFinder =
-    new InvidiousInstanceFinder('');
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   assertEquals(
     invidiousInstanceFinder['isValidInstance'](testInstance1),
