@@ -1,4 +1,4 @@
-DENO=deno compile --config backend/deno.json --import-map import_map.json --no-check --allow-read --allow-net
+DENO=deno compile --config backend/deno.json --import-map import_map.json --no-check --allow-read --allow-net --allow-env
 
 clean:
 	rm -r frontend/dist backend/dist
@@ -16,6 +16,10 @@ backend/dist/frontend/:
 	./scripts/gen_openapi_spec.ts frontend/dist/swagger.json
 	cp -r frontend/dist/ backend/dist/frontend/
 
+copy_environment:
+	mkdir -p backend/dist
+	cp backend/.env.example backend/dist/.env
+
 # static deno binaries
 x86_64-unknown-linux-gnu:
 	$(DENO) --target $@ -o backend/dist/jimmi-$@ backend/src/app.ts
@@ -30,22 +34,25 @@ aarch64-apple-darwin:
 	$(DENO) --target $@ -o backend/dist/jimmi-$@ backend/src/app.ts
 
 # portable versions
-x86_64-unknown-linux-gnu-portable: x86_64-unknown-linux-gnu backend/dist/frontend/
+x86_64-unknown-linux-gnu-portable: x86_64-unknown-linux-gnu backend/dist/frontend/ copy_environment
 	tar czf backend/dist/jimmi-$@.tar.gz -C backend/dist/ \
 		jimmi-x86_64-unknown-linux-gnu \
-		frontend
+		frontend \
+		.env
 
-x86_64-pc-windows-msvc-portable: x86_64-pc-windows-msvc backend/dist/frontend/
+x86_64-pc-windows-msvc-portable: x86_64-pc-windows-msvc backend/dist/frontend/ copy_environment
 	cd backend/dist/ && zip -r jimmi-$@.zip \
 		jimmi-x86_64-pc-windows-msvc.exe \
-		frontend
+		frontend \
+		.env
 
-x86_64-apple-darwin-portable: x86_64-apple-darwin backend/dist/frontend/
+x86_64-apple-darwin-portable: x86_64-apple-darwin backend/dist/frontend/ copy_environment
 	tar czf backend/dist/jimmi-$@.tar.gz -C backend/dist/ \
 		jimmi-x86_64-apple-darwin \
 		frontend
 
-aarch64-apple-darwin-portable: aarch64-apple-darwin backend/dist/frontend/
+aarch64-apple-darwin-portable: aarch64-apple-darwin backend/dist/frontend/ copy_environment
 	tar czf backend/dist/jimmi-$@.tar.gz -C backend/dist/ \
 		jimmi-aarch64-apple-darwin \
-		frontend
+		frontend \
+		.env
