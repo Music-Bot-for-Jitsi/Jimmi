@@ -4,6 +4,17 @@ import InvidiousInstanceFinder from "../../../lib/youtube-audio-url-finder/invid
 import { InvidiousData } from "../../../lib/youtube-audio-url-finder/invidious.interfaces.ts";
 import { Errors } from "../../../lib/youtube-audio-url-finder/errors.ts";
 
+Deno.test(function testConstructor() {
+  const testInstanceListUrl = "https://sometestinstancelisturl.com";
+  const invidiousInstanceFinder: InvidiousInstanceFinder =
+    new InvidiousInstanceFinder(testInstanceListUrl);
+
+  assertEquals(invidiousInstanceFinder["instanceListUrl"], testInstanceListUrl);
+});
+
+Deno.test(async function testFindInvidiousInstanceUrl() {
+});
+
 Deno.test(function testSetInstanceListUrl() {
   const invidiousInstanceFinder: InvidiousInstanceFinder =
     new InvidiousInstanceFinder("");
@@ -11,7 +22,7 @@ Deno.test(function testSetInstanceListUrl() {
   const testUrl = "https://api.invidious.io/instances.json";
 
   invidiousInstanceFinder.setInstanceListUrl(testUrl);
-  assertEquals(invidiousInstanceFinder.instanceListUrl, testUrl);
+  assertEquals(invidiousInstanceFinder["instanceListUrl"], testUrl);
 });
 
 Deno.test(function testExtractFilteredOrderedInstances() {
