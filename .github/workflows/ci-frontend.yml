@@ -42,4 +42,4 @@ jobs:
         with:
           deno-version: vx.x.x
       - name: Test the frontend
-        run: deno test --config deno.json --import-map=../import_map.json --allow-all
+        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all
