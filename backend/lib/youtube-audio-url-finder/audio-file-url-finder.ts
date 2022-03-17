@@ -1,15 +1,15 @@
-import { Errors } from "./errors.ts";
-import ErrorGenerator from "./error-generator.ts";
+import { Errors } from './errors.ts';
+import ErrorGenerator from './error-generator.ts';
 import {
   AudioFileAdaptiveFormat,
   AudioFileData,
-} from "./invidious.interfaces.ts";
+} from './invidious.interfaces.ts';
 
 export default class AudioFileUrlFinder {
   private invidiousVideoUrl: string;
 
   constructor() {
-    this.invidiousVideoUrl = "";
+    this.invidiousVideoUrl = '';
   }
 
   /**
@@ -42,10 +42,10 @@ export default class AudioFileUrlFinder {
   private async fetchAudioFileData(): Promise<AudioFileData> {
     try {
       const res: Response = await fetch(this.invidiousVideoUrl, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
         },
       });
       if (res.status != 200) {
