@@ -4,7 +4,7 @@
     "build": "deno compile --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net -o dist/jimmi src/app.ts",
     "lint": "deno lint     --config deno.json",
     "fmt": "deno fmt       --config deno.json",
-    "test": "deno test     --config deno.json --import-map=../import_map.json --allow-read --allow-net --coverage=coverage_report",
+    "test": "deno test     --config deno.json --import-map=../import_map.json --allow-all --coverage=coverage_report",
     "cov": "deno coverage coverage_report",
     "report": "deno coverage coverage_report --lcov --output=coverage_report.lcov"
   },
