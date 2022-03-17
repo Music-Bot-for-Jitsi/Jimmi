@@ -6,7 +6,7 @@ import {
 } from "./invidious.interfaces.ts";
 
 export default class AudioFileUrlFinder {
-  invidiousVideoUrl: string;
+  private invidiousVideoUrl: string;
 
   constructor() {
     this.invidiousVideoUrl = "";

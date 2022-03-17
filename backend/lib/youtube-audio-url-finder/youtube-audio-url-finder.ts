@@ -4,11 +4,10 @@ import AudioFileUrlFinder from "./audio-file-url-finder.ts";
 import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
 
 export default class YoutubeAudioUrlFinder {
-  invidiousInstanceFinder: InvidiousInstanceFinder;
-  audioFileUrlFinder: AudioFileUrlFinder;
-  instanceListUrl: string;
+  private invidiousInstanceFinder: InvidiousInstanceFinder;
+  private audioFileUrlFinder: AudioFileUrlFinder;
+
   constructor(instanceListUrl: string) {
-    this.instanceListUrl = instanceListUrl;
     this.invidiousInstanceFinder = new InvidiousInstanceFinder(
       instanceListUrl,
     );

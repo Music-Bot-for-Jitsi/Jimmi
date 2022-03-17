@@ -3,7 +3,7 @@ import ErrorGenerator from "./error-generator.ts";
 import { InvidiousData, InvidiousInstance } from "./invidious.interfaces.ts";
 
 export default class InvidiousIstanceFinder {
-  instanceListUrl: string;
+  private instanceListUrl: string;
   constructor(instanceListUrl: string) {
     this.instanceListUrl = instanceListUrl;
   }
