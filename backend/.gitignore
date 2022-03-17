@@ -1,1 +1,4 @@
-/dist
+dist/
+trex_storage/
+coverage_report/
+.env
