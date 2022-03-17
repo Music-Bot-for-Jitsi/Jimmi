@@ -23,16 +23,16 @@ jobs:
         with:
           deno-version: vx.x.x
 
-      - name: Generate frontend coverage
+      - name: Check frontend coverage
         working-directory: frontend
-        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage
+        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
 
-      - name: Generate backend coverage
+      - name: Check backend coverage
         working-directory: backend
-        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage
+        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
           
       - name: Generate coverage report
-        run: deno coverage --lcov --output=coverage_report.lcov frontend/coverage backend/coverage
+        run: deno coverage --lcov --output=coverage_report.lcov frontend/coverage_results backend/coverage_results
         
       # https://community.sonarsource.com/t/code-coverage-doesnt-work-with-github-action/16747/3
       - name: Fix coverage report paths
