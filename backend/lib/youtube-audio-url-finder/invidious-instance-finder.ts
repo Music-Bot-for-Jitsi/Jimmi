@@ -31,7 +31,8 @@ export default class InvidiousIstanceFinder {
   /**
    * Sets the instance list url used to retrieve an instance list from
    *
-   * @param instanceListUrl The instance list url
+   * @param instanceListUrl - The instance list url
+
    */
   setInstanceListUrl(instanceListUrl: string): void {
     this.instanceListUrl = instanceListUrl;
@@ -43,6 +44,7 @@ export default class InvidiousIstanceFinder {
    * @returns The instance list, instance data entries are stripped of names
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   * Thrown if no response or an invalid response was received
    */
   private async fetchInstanceList(): Promise<InvidiousData[]> {
     try {
@@ -70,7 +72,8 @@ export default class InvidiousIstanceFinder {
   /**
    * Filters an instance list
    *
-   * @param instanceList The instance list to filter
+   * @param instanceList - The instance list to filter
+
    * @returns The filtered instance list
    */
   private extractFilteredOrderedInstances(
@@ -85,10 +88,11 @@ export default class InvidiousIstanceFinder {
   /**
    * Extracts the first instance from an instance list, if there is any instance in it
    *
-   * @param instanceList The instance list
+   * @param instanceList - The instance list
    * @returns The first instance of the list
    *
    * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   * Thrown if no suitable invidious instance was found
    */
   private extractSingleInstance(instanceList: InvidiousData[]): InvidiousData {
     if (instanceList.length === 0) {
@@ -101,7 +105,8 @@ export default class InvidiousIstanceFinder {
 
   /**
    * Extracts the url from an invidious instance
-   * @param instance The invidious instance
+   *
+   * @param instance - The invidious instance
    * @returns The extracted url
    */
   private extractSingleInstanceUrl(instance: InvidiousData): string {
