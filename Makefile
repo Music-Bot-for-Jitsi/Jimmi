@@ -49,7 +49,8 @@ x86_64-pc-windows-msvc-portable: x86_64-pc-windows-msvc backend/dist/frontend/ c
 x86_64-apple-darwin-portable: x86_64-apple-darwin backend/dist/frontend/ copy_environment
 	tar czf backend/dist/jimmi-$@.tar.gz -C backend/dist/ \
 		jimmi-x86_64-apple-darwin \
-		frontend
+		frontend \
+		.env
 
 aarch64-apple-darwin-portable: aarch64-apple-darwin backend/dist/frontend/ copy_environment
 	tar czf backend/dist/jimmi-$@.tar.gz -C backend/dist/ \
