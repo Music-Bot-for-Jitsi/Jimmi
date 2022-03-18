@@ -65,10 +65,11 @@ export default class YoutubeAudioUrlFinder {
    * Extracts the search query parameter that identifies the video from a given youtube
    * video url
    *
-   * @param youtubeVideoUrl The youtube video url
+   * @param youtubeVideoUrl - The youtube video url
    * @returns The search query parameter that identifies the video
    *
    * @throws Errors.MALFORMED_YOUTUBE_URL
+   * Thrown if the youtube url cannot be interpreted
    */
   private extractVideoParameter(youtubeVideoUrl: string) {
     const parts: string[] = youtubeVideoUrl.split("?");
