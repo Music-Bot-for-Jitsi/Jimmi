@@ -25,18 +25,18 @@ jobs:
 
       - name: Check frontend coverage
         working-directory: frontend
-        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
+        run: deno task test:cov
 
       - name: Check backend coverage
         working-directory: backend
-        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
-          
+        run: deno task test:cov
+
       - name: Generate coverage report
-        run: deno coverage --lcov --output=coverage_report.lcov frontend/coverage_results backend/coverage_results
-        
+        run: deno task cov:report
+
       # https://community.sonarsource.com/t/code-coverage-doesnt-work-with-github-action/16747/3
       - name: Fix coverage report paths
-        run: sed -i 's/\/home\/runner\/work\/Jimmi\/Jimmi\//\/github\/workspace\//g' coverage_report.lcov
+        run: sed -i 's|/home/runner/work/Jimmi/Jimmi/|/github/workspace/|g' coverage_report.lcov
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
