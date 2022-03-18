@@ -40,9 +40,11 @@ export default class AudioFileUrlFinder {
 
   /**
    * Collects data about the audio file from the invidious api
-   * @returns Data on the audio file
+   *
+   * @returns Data of the audio file
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   * Thrown if no supported audio format was received
    */
   private async fetchAudioFileData(): Promise<AudioFileData> {
     try {
