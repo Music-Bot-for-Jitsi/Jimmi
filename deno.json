@@ -1,0 +1,13 @@
+{
+  "importMap": "./import_map.json",
+  "tasks": {
+    "start": "vr start",
+    "build": "vr build",
+    "lint": "vr lint",
+    "fmt": "vr fmt",
+    "test": "vr test",
+    "cov": "vr cov",
+    "report": "vr report",
+    "gen:openapi": "deno run --no-check=remote --allow-read=. --allow-write=. ./scripts/gen_openapi_spec.ts"
+  }
+}
