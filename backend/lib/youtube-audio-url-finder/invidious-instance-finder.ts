@@ -110,7 +110,8 @@ export default class InvidiousIstanceFinder {
 
   /**
    * Checks if an invidious instance matches certain criteria
-   * @param instance The invidious instance
+   *
+   * @param instance - The invidious instance
    * @returns True if the instance matches all criteria, False if the instance does not match all criteria
    */
   private isValidInstance(instance: InvidiousData): boolean {
