@@ -1,7 +1,7 @@
-import { Errors } from "./errors.ts";
-import ErrorGenerator from "./error-generator.ts";
-import AudioFileUrlFinder from "./audio-file-url-finder.ts";
-import InvidiousInstanceFinder from "./invidious-instance-finder.ts";
+import { Errors } from './errors.ts';
+import ErrorGenerator from './error-generator.ts';
+import AudioFileUrlFinder from './audio-file-url-finder.ts';
+import InvidiousInstanceFinder from './invidious-instance-finder.ts';
 
 export default class YoutubeAudioUrlFinder {
   private invidiousInstanceFinder: InvidiousInstanceFinder;
@@ -64,7 +64,7 @@ export default class YoutubeAudioUrlFinder {
     youtubeVideoUrl: string,
     invidiousInstanceUrl: string,
   ): string {
-    return invidiousInstanceUrl + "/api/v1/videos/" +
+    return invidiousInstanceUrl + '/api/v1/videos/' +
       this.extractVideoParameter(youtubeVideoUrl);
   }
 
@@ -79,14 +79,14 @@ export default class YoutubeAudioUrlFinder {
    * Thrown if the youtube url cannot be interpreted
    */
   private extractVideoParameter(youtubeVideoUrl: string) {
-    const parts: string[] = youtubeVideoUrl.split("?");
+    const parts: string[] = youtubeVideoUrl.split('?');
     if (parts.length != 2) {
       throw new ErrorGenerator().createNamedError(Errors.MALFORMED_YOUTUBE_URL);
     }
     const params: URLSearchParams = new URLSearchParams(parts[1]);
-    if (!params.has("v")) {
+    if (!params.has('v')) {
       throw new ErrorGenerator().createNamedError(Errors.MALFORMED_YOUTUBE_URL);
     }
-    return params.get("v");
+    return params.get('v');
   }
 }

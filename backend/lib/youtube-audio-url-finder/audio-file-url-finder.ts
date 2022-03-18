@@ -1,9 +1,6 @@
 import { Errors } from './errors.ts';
 import ErrorGenerator from './error-generator.ts';
-import {
-  AudioFileAdaptiveFormat,
-  AudioFileData,
-} from './invidious.interfaces.ts';
+import { AudioFileAdaptiveFormat, AudioFileData } from './invidious.interfaces.ts';
 
 export default class AudioFileUrlFinder {
   private invidiousVideoUrl: string;
@@ -80,8 +77,7 @@ export default class AudioFileUrlFinder {
    * Thrown if no supported audio format was received
    */
   private extractAudioFileUrl(audioFileData: AudioFileData): string {
-    const adaptiveFormatList: AudioFileAdaptiveFormat[] =
-      audioFileData.adaptiveFormats;
+    const adaptiveFormatList: AudioFileAdaptiveFormat[] = audioFileData.adaptiveFormats;
     if (adaptiveFormatList.length === 0) {
       throw new ErrorGenerator().createNamedError(
         Errors.NO_SUITABLE_ADAPTIVE_FORMATS,

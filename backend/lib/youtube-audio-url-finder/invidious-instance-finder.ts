@@ -1,6 +1,6 @@
-import { Errors } from "./errors.ts";
-import ErrorGenerator from "./error-generator.ts";
-import { InvidiousData, InvidiousInstance } from "./invidious.interfaces.ts";
+import { Errors } from './errors.ts';
+import ErrorGenerator from './error-generator.ts';
+import { InvidiousData, InvidiousInstance } from './invidious.interfaces.ts';
 
 export default class InvidiousIstanceFinder {
   private instanceListUrl: string;
@@ -34,7 +34,6 @@ export default class InvidiousIstanceFinder {
    * Sets the instance list url used to retrieve an instance list from
    *
    * @param instanceListUrl - The instance list url
-
    */
   setInstanceListUrl(instanceListUrl: string): void {
     this.instanceListUrl = instanceListUrl;
@@ -51,10 +50,10 @@ export default class InvidiousIstanceFinder {
   private async fetchInstanceList(): Promise<InvidiousData[]> {
     try {
       const res: Response = await fetch(this.instanceListUrl, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
         },
       });
       if (res.status != 200) {
@@ -122,13 +121,13 @@ export default class InvidiousIstanceFinder {
    * @returns True if the instance matches all criteria, False if the instance does not match all criteria
    */
   private isValidInstance(instance: InvidiousData): boolean {
-    if (instance.type != "https") {
+    if (instance.type != 'https') {
       return false;
     }
     if (instance.api != false) {
       return false;
     }
-    if (instance.uri === "https://yewtu.be") {
+    if (instance.uri === 'https://yewtu.be') {
       return false;
     }
     return true;
