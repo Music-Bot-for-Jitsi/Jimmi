@@ -14,8 +14,10 @@ export default class InvidiousIstanceFinder {
    * @returns The invidious instance url
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   * Thrown if no response or an invalid response was received
    *
    * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   * Thrown if no suitable invidious instance was found
    */
   async findInvidiousInstanceUrl(): Promise<string> {
     const instanceList: InvidiousData[] = await this.fetchInstanceList();

@@ -14,7 +14,8 @@ export default class AudioFileUrlFinder {
 
   /**
    * Sets the invidious video url used to receive data about a video
-   * @param invidiousVideoUrl The invidious video url
+   *
+   * @param invidiousVideoUrl - The invidious video url
    */
   setInvidiousVideoUrl(invidiousVideoUrl: string): void {
     this.invidiousVideoUrl = invidiousVideoUrl;
@@ -71,10 +72,12 @@ export default class AudioFileUrlFinder {
 
   /**
    * Extracts an audio file url from audio file data
+   *
    * @param audioFileData The audio file data
    * @returns The audio file url
    *
    * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
+   * Thrown if no supported audio format was received
    */
   private extractAudioFileUrl(audioFileData: AudioFileData): string {
     const adaptiveFormatList: AudioFileAdaptiveFormat[] =
