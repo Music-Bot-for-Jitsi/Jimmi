@@ -14,10 +14,6 @@ Published the Jitsi API Client Module on [deno.land](https://deno.land/x/jitsi_a
 
 Published the Jimmi API Client Module on [deno.land](https://deno.land/x/jimmi_api_client). This module represents a convenience wrapper for the Jimmi backend REST-API.
 
-### Jimmi
-
-Published the Jimmi Module on [deno.land](https://deno.land/x/jimmi). This module represents the Jimmi application for listening to music in a Jitsi conference call 🎶.
-
 ## Fixes
 
 ### `deno-swagger-doc` Module
