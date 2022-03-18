@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "deno run     --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net --watch src/app.ts",
-    "build": "deno compile --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net -o dist/jimmi src/app.ts",
+    "start": "deno run     --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net --allow-env --watch src/app.ts",
+    "build": "deno compile --config deno.json --import-map=../import_map.json --no-check --allow-read --allow-net --allow-env -o dist/jimmi src/app.ts",
     "lint": "deno lint     --config deno.json",
     "fmt": "deno fmt       --config deno.json",
     "test": "deno test     --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results",
