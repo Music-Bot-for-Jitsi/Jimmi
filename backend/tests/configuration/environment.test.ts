@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertExists, assertThrows } from 'std/testing/asserts.ts';
-import { DotenvConfig } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
+import { DotenvConfig } from 'dotenv/mod.ts';
 import { envVarsSchema } from '../../src/configuration/environment.ts';
 
 const defaultConfig: DotenvConfig = {
