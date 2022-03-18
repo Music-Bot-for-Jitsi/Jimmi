@@ -1,5 +1,7 @@
 import { assertEquals, assertThrows } from 'std/testing/asserts.ts';
 import { Stub, stub } from 'mock/mod.ts';
+import { assertSpyCall } from 'mock/mod.ts';
+
 import InvidiousInstanceFinder from '../../../lib/youtube-audio-url-finder/invidious-instance-finder.ts';
 import { InvidiousData } from '../../../lib/youtube-audio-url-finder/invidious.interfaces.ts';
 import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
@@ -14,6 +16,68 @@ Deno.test(function testConstructor() {
 });
 
 Deno.test(async function testFindInvidiousInstanceUrl() {
+  const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
+
+  const testInstanceList: InvidiousData[] = [{
+    type: 'https',
+    api: true,
+    uri: 'https://testuri.com',
+  }];
+
+  const _findInvidiousInstanceUrl: Stub<InvidiousInstanceFinder> = stub(
+    invidiousInstanceFinder,
+    'fetchInstanceList',
+    () => {
+      return testInstanceList;
+    },
+  );
+
+  const extractFilteredOrderedInstances: Stub<InvidiousInstanceFinder> = stub(
+    invidiousInstanceFinder,
+    'extractFilteredOrderedInstances',
+    () => {
+      return testInstanceList;
+    },
+  );
+
+  const extractSingleInstance: Stub<InvidiousInstanceFinder> = stub(
+    invidiousInstanceFinder,
+    'extractSingleInstance',
+    () => {
+      return testInstanceList[0];
+    },
+  );
+
+  const extractSingleInstanceUrl: Stub<InvidiousInstanceFinder> = stub(
+    invidiousInstanceFinder,
+    'extractSingleInstanceUrl',
+    () => {
+      return testInstanceList[0].uri;
+    },
+  );
+
+  assertEquals(
+    await invidiousInstanceFinder['findInvidiousInstanceUrl'](),
+    testInstanceList[0].uri,
+  );
+
+  assertSpyCall(extractFilteredOrderedInstances, 0, {
+    args: [testInstanceList],
+    self: invidiousInstanceFinder,
+    returned: testInstanceList,
+  });
+
+  assertSpyCall(extractSingleInstance, 0, {
+    args: [testInstanceList],
+    self: invidiousInstanceFinder,
+    returned: testInstanceList[0],
+  });
+
+  assertSpyCall(extractSingleInstanceUrl, 0, {
+    args: [testInstanceList[0]],
+    self: invidiousInstanceFinder,
+    returned: testInstanceList[0].uri,
+  });
 });
 
 Deno.test(function testSetInstanceListUrl() {
