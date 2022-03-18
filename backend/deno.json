@@ -5,11 +5,9 @@
     "build": "deno compile --no-check=remote --allow-read=. --allow-net=localhost --allow-env -o dist/jimmi src/app.ts",
     "lint": "deno lint",
     "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
     "test": "deno test --no-check=remote --allow-all",
-    "test:cov": "deno task test -- --coverage=coverage_results",
-    "cov": "deno coverage coverage_results",
-    "cov:report": "deno task cov -- --lcov --output=coverage_report.lcov",
-    "cov:full": "deno task test:cov ; deno task cov:report"
+    "test:cov": "deno task test -- --coverage=coverage_results"
   },
   "lint": {
     "files": {

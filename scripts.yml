@@ -2,33 +2,25 @@
 scripts:
   start:
     pll: # These commands are executed in parallel
-      - cd backend  ; trex run start
-      - cd frontend ; trex run start
+      - cd backend  ; deno task start
+      - cd frontend ; deno task start
   build:
     cmd:
-      - cd frontend ; trex run build
-      - cd backend  ; trex run build
+      - cd frontend ; deno task build
+      - cd backend  ; deno task build
   lint:
     cmd:
-      - cd frontend ; trex run lint
-      - cd backend  ; trex run lint
+      - cd frontend ; deno task lint
+      - cd backend  ; deno task lint
   fmt:
     cmd:
       - deno fmt --config backend/deno.json ./scripts/
-      - cd frontend ; trex run fmt
-      - cd backend  ; trex run fmt
+      - cd frontend ; deno task fmt
+      - cd backend  ; deno task fmt
   test:
     cmd:
-      - cd frontend ; trex run test
-      - cd backend  ; trex run test
-  cov:
-    cmd:
-      - cd frontend ; trex run cov
-      - cd backend  ; trex run cov
-  report:
-    cmd:
-      - cd frontend ; trex run report
-      - cd backend  ; trex run report
+      - cd frontend ; deno task test
+      - cd backend  ; deno task test
   pre-commit: # these tasks should be executed automatically before each commit
     cmd:
       - vr fmt
