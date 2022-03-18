@@ -11,6 +11,7 @@ This file describes all used frameworks and packages, the reasoning behind them 
 ### Deno
 
 We use [deno.land](https://deno.land), the evolution of Node.js, as runtime for our TypeScript backend. Compared to [Node.js](https://nodejs.org/en/), Deno allows for much greater granularity when it comes to security permissions and has a good *secure-by-default*-rule set to limit what applications can do if no special permissions given.  
+One more benefit of Deno: It is heavily orientated on web standards and client-side JS. Therefore, its runtime provides a global window-object, which make it easy to migrate browser-focused libraries to run on a Deno powered backend component.  
 For deployment, we use the [deno compiler](https://deno.land/manual/tools/compiler) to provide a simple executable file that can run Jimmi without installation on all main platforms (Windows, Linux & macOS). The executable will run the backend and serve the static frontend.
 
 ### Svelte
