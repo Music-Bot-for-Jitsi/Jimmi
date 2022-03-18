@@ -17,6 +17,27 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Check frontend coverage
+        working-directory: frontend
+        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
+
+      - name: Check backend coverage
+        working-directory: backend
+        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all --coverage=coverage_results
+          
+      - name: Generate coverage report
+        run: deno coverage --lcov --output=coverage_report.lcov frontend/coverage_results backend/coverage_results
+        
+      # https://community.sonarsource.com/t/code-coverage-doesnt-work-with-github-action/16747/3
+      - name: Fix coverage report paths
+        run: sed -i 's/\/home\/runner\/work\/Jimmi\/Jimmi\//\/github\/workspace\//g' coverage_report.lcov
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

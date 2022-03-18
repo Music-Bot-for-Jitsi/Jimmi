@@ -5,6 +5,7 @@
     "lint": "vr lint",
     "fmt": "vr fmt",
     "test": "vr test",
-    "cov": "vr cov"
+    "cov": "vr cov",
+    "report": "vr report"
   }
 }

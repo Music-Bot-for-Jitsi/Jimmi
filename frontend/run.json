@@ -7,8 +7,9 @@
     "build": "snel build",
     "lint": "deno lint    --config deno.json",
     "fmt": "deno fmt      --config deno.json",
-    "test": "deno test    --config deno.json --import-map=../import_map.json",
-    "cov": "deno coverage --config deno.json"
+    "test": "deno test    --config deno.json --import-map=../import_map.json --allow-all --coverage=coverage_results",
+    "cov": "deno coverage coverage_results",
+    "report": "deno coverage coverage_results --lcov --output=coverage_report.lcov"
   },
   "files": [
     "./src",

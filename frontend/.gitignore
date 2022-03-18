@@ -1,4 +1,4 @@
-/public/dist/
+public/dist/
+dist/
+coverage_results/
 .DS_Store
-/dist
-
