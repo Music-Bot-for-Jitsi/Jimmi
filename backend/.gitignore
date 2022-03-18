@@ -1,4 +1,4 @@
 dist/
 trex_storage/
-coverage_report/
+coverage_results/
 .env
