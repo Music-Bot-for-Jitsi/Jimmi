@@ -21,8 +21,10 @@ export default class AudioFileUrlFinder {
   }
 
   /**
-   * Finds an audio file url (googlevideo) for the currently set invidious vieo url
+   * Finds an audio file url (googlevideo) for the currently set invidious video url
+   *
    * @returns The audio file url
+
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
    *
