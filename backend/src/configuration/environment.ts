@@ -1,5 +1,5 @@
-import { config as dotenvConfig } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
-import Joi from 'https://cdn.skypack.dev/joi?dts';
+import { config as dotenvConfig } from 'dotenv/mod.ts';
+import Joi from 'joi/?dts';
 
 const env = dotenvConfig();
 
