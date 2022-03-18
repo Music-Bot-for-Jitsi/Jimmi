@@ -46,7 +46,6 @@ jobs:
         working-directory: frontend/lib/jimmi-api-client
         run: |
           rm swagger.json
-          sudo mv src/index.ts src/mod.ts
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
@@ -80,7 +79,7 @@ jobs:
           committer: GitHub Action <action@github.com>
           branch: automation/api-client-update
           title: '[Automation] API Client Updated'
-          body: | 
+          body: |
             The remote api client repository *jimmi-api-client* has been updated.
             Please merge this PR to update the repos submodule to the newest version.
           labels: automation
