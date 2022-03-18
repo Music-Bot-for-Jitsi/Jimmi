@@ -6,7 +6,7 @@ import InvidiousInstanceFinder from '../../../lib/youtube-audio-url-finder/invid
 import { InvidiousData } from '../../../lib/youtube-audio-url-finder/invidious.interfaces.ts';
 import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
 
-Deno.test(function testConstructor() {
+Deno.test('that the InvidiousInstanceFinder constructor sets the provided instanceListUrl', function testConstructor() {
   const testInstanceListUrl = 'https://sometestinstancelisturl.com';
   const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder(
     testInstanceListUrl,
@@ -15,7 +15,7 @@ Deno.test(function testConstructor() {
   assertEquals(invidiousInstanceFinder['instanceListUrl'], testInstanceListUrl);
 });
 
-Deno.test(async function testFindInvidiousInstanceUrl() {
+Deno.test('that the findInvidiousInstanceUrl makes function calls wth the correct arguments and returns a correct invidious instance url', async function testFindInvidiousInstanceUrl() {
   const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   const testInstanceList: InvidiousData[] = [{
@@ -80,7 +80,7 @@ Deno.test(async function testFindInvidiousInstanceUrl() {
   });
 });
 
-Deno.test(function testSetInstanceListUrl() {
+Deno.test('that the setInstanceListUrl function sets the provided instance list url', function testSetInstanceListUrl() {
   const invidiousInstanceFinder: InvidiousInstanceFinder = new InvidiousInstanceFinder('');
 
   const testUrl = 'https://api.invidious.io/instances.json';
@@ -89,7 +89,7 @@ Deno.test(function testSetInstanceListUrl() {
   assertEquals(invidiousInstanceFinder['instanceListUrl'], testUrl);
 });
 
-Deno.test(function testExtractFilteredOrderedInstances() {
+Deno.test('that the extractFilteredOrderedInstances correctly filters an instance list', function testExtractFilteredOrderedInstances() {
   const testInstance1: InvidiousData = {
     type: 'https',
     api: true,
@@ -153,7 +153,7 @@ Deno.test(function testExtractFilteredOrderedInstances() {
   );
 });
 
-Deno.test(function testExtractSingleInstance() {
+Deno.test('that the extractSingleInstanceFunction extracts a single instace from an instance list and errors out if given an empty list', function testExtractSingleInstance() {
   const testInstance1: InvidiousData = {
     type: 'https',
     api: true,
@@ -180,7 +180,7 @@ Deno.test(function testExtractSingleInstance() {
   );
 });
 
-Deno.test(function testExtractSingleInstanceUrl() {
+Deno.test('that the extractSingleInstanceUrl extracts the correct url from a single instance', function testExtractSingleInstanceUrl() {
   const testUri = 'test.uri';
 
   const testInstance: InvidiousData = {
@@ -197,7 +197,7 @@ Deno.test(function testExtractSingleInstanceUrl() {
   );
 });
 
-Deno.test(function isValidInstance() {
+Deno.test('that the isValidInstance function correctly decides if an instance is valid', function isValidInstance() {
   const testInstance1: InvidiousData = {
     type: 'https',
     api: true,

@@ -6,7 +6,7 @@ import InvidiousInstanceFinder from '../../../lib/youtube-audio-url-finder/invid
 import AudioFileUrlFinder from '../../../lib/youtube-audio-url-finder/audio-file-url-finder.ts';
 import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
 
-Deno.test(function testConstructor() {
+Deno.test('that the YoutubeAudioUrlFinder constructor sets the provided instance list url', function testConstructor() {
   const testInstanceListUrl = 'https://sometestinstanceurl.com';
   const youtubeAudioUrlFinder: YoutubeAudioUrlFinder = new YoutubeAudioUrlFinder(
     testInstanceListUrl,
@@ -17,7 +17,7 @@ Deno.test(function testConstructor() {
     testInstanceListUrl,
   );
 });
-Deno.test(async function testFindAudioFileUrl() {
+Deno.test('that the findAudioFileUrl makes function calls with the correct parameters and returns the correct audio file url', async function testFindAudioFileUrl() {
   const testAudioFileUrl = 'https://sometesturl.org';
   const testYoutubeUrl = 'https://sometestyoutubeurl.com';
   const testInvidiousInstanceUrl = 'https://invidious.snopyta.org';
@@ -66,7 +66,7 @@ Deno.test(async function testFindAudioFileUrl() {
   });
 });
 
-Deno.test(function testBuildInvidiousUrl() {
+Deno.test('that the buildInvidiousUrl function builds the correct invidious url given a video parameter and an invidious instance url', function testBuildInvidiousUrl() {
   const testInvidiousInstanceUrl = 'https://invidious.snopyta.org';
   const testVideoParameter = '123456';
   const expectedInvidiousUrl = 'https://invidious.snopyta.org/api/v1/videos/123456';
@@ -89,7 +89,7 @@ Deno.test(function testBuildInvidiousUrl() {
   );
 });
 
-Deno.test(function testExtractVideoParameter() {
+Deno.test('that the extractVideoParameter extracts the correct video parameter from a youtube url and errors out if given an invalid url', function testExtractVideoParameter() {
   const testUrl1 = 'https://www.youtube.com/watch?v=test&ab_channel=test';
   const testUrl2 = 'https://www.youtube?.com/watch?v=test&ab_channel=test';
   const testUrl3 = 'https://www.youtube.com/watch?test&ab_channel=test';

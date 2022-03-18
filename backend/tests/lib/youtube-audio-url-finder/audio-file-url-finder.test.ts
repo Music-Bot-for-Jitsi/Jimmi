@@ -6,12 +6,12 @@ import { AudioFileData } from '../../../lib/youtube-audio-url-finder/invidious.i
 import { testAudioFileData } from './test-audio-file-data.ts';
 import { Errors } from '../../../lib/youtube-audio-url-finder/errors.ts';
 
-Deno.test(function testConstructor() {
+Deno.test('that the AudioFileUrlFinder constructor sets an empty invidiousVideoUrl', function testConstructor() {
   const audioFileUrlFinder: AudioFileUrlFinder = new AudioFileUrlFinder();
   assertEquals(audioFileUrlFinder['invidiousVideoUrl'], '');
 });
 
-Deno.test(function testSetInvidiousVideoUrl() {
+Deno.test('that the setter method for InvidiousVideoUrl sets an InvidiousVideourl', function testSetInvidiousVideoUrl() {
   const testInvidiousVideoUrl = 'https://sometestinvidiousvideourl';
   const audioFileUrlFinder: AudioFileUrlFinder = new AudioFileUrlFinder();
 
@@ -20,11 +20,11 @@ Deno.test(function testSetInvidiousVideoUrl() {
   assertEquals(audioFileUrlFinder['invidiousVideoUrl'], testInvidiousVideoUrl);
 });
 
-Deno.test(async function testFindAudioFileUrl() {
+Deno.test('that the findAudioUrlFunction makes function calls with correct arguments and returns the correct AudioFileUrl ', async function testFindAudioFileUrl() {
   const testAudioFileUrl = 'https://sometestaudiofileourl';
   const audioFileUrlFinder: AudioFileUrlFinder = new AudioFileUrlFinder();
 
-  const _findInvidiousInstanceUrl: Stub<AudioFileUrlFinder> = stub(
+  const _fetchAudioFileData: Stub<AudioFileUrlFinder> = stub(
     audioFileUrlFinder,
     'fetchAudioFileData',
     () => {
@@ -48,7 +48,7 @@ Deno.test(async function testFindAudioFileUrl() {
   });
 });
 
-Deno.test(function testExtractAudioFileUrl() {
+Deno.test('that the extractAudioFileUrl function returns an audio file url from an adaptiveFormat list and errors out if given an empty list', function testExtractAudioFileUrl() {
   const expectedUrl = testAudioFileData['adaptiveFormats'][0].url;
   const testEmptyAudioFileData: AudioFileData = { adaptiveFormats: [] };
   const audioFileUrlFinder: AudioFileUrlFinder = new AudioFileUrlFinder();

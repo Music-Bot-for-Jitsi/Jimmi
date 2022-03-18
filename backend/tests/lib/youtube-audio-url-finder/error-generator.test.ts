@@ -1,7 +1,7 @@
 import { assertEquals } from 'std/testing/asserts.ts';
 import ErrorGenerator from '../../../lib/youtube-audio-url-finder/error-generator.ts';
 
-Deno.test(function testCreateNamedError() {
+Deno.test('that the createdNamedError function returns a corrrectly named Error', function testCreateNamedError() {
   const name = 'testName';
   const errorGenerator: ErrorGenerator = new ErrorGenerator();
   const testError: Error = errorGenerator.createNamedError(name);
@@ -11,7 +11,7 @@ Deno.test(function testCreateNamedError() {
   assertEquals(testError, anotherError);
 });
 
-Deno.test(function testCreateNamedErrorWithMessage() {
+Deno.test('that the createdNamedError function returns a corrrectly named Error with the correct message set', function testCreateNamedErrorWithMessage() {
   const name = 'testName';
   const message = 'testMessage';
   const errorGenerator: ErrorGenerator = new ErrorGenerator();
