@@ -17,16 +17,20 @@ export default class YoutubeAudioUrlFinder {
   /**
    * Finds an audio file url (googlevideo) for a given youtube video url
    *
-   * @param youtubeVideoUrl The youtube video url
+   * @param youtubeVideoUrl - The youtube video url
    * @returns The audio file url
    *
    * @throws Errors.MALFORMED_YOUTUBE_URL
+   * Thrown if the youtube url cannot be interpreted
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   * Thrown if no response or an invalid response was received
    *
    * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   * Thrown if no supported invidious instance was found
    *
    * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
+   * Thrown if no supported audio format was received
    */
   async findAudioFileUrl(youtubeVideoUrl: string): Promise<string> {
     const invidiousInstanceUrl: string = await this.invidiousInstanceFinder
