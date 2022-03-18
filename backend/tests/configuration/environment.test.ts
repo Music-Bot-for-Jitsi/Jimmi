@@ -25,5 +25,5 @@ Deno.test('if config validation error works', () => {
     };
     const { error } = envVarsSchema.validate(config);
     if (error) throw new Error(`Config validation error: ${error?.message}`);
-  })
+  });
 });
