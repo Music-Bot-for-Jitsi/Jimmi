@@ -22,14 +22,12 @@ export default class AudioFileUrlFinder {
    * Finds an audio file url (googlevideo) for the currently set invidious video url
    *
    * @returns The audio file url
-
    *
    * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
    * Thrown if no response or an invalid response was received
    *
    * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
    * Thrown if no supported audio format was received
-
    */
   async findAudioFileUrl(): Promise<string> {
     const audioFileData: AudioFileData = await this.fetchAudioFileData();

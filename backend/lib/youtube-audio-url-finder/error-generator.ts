@@ -3,7 +3,6 @@ export default class ErrorGenerator {
    * Generates an error object with given name
    *
    * @param name - The name to generate the error with
-
    * @returns The generated error
    */
   createNamedError(name: string): Error {
@@ -17,7 +16,6 @@ export default class ErrorGenerator {
    *
    * @param name - The name to generate the error with
    * @param message - The message to generate the error with
-
    * @returns The generated error
    */
   createNamedErrorWithMessage(name: string, message: string): Error {

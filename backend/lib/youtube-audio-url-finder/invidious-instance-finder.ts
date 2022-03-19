@@ -74,7 +74,6 @@ export default class InvidiousIstanceFinder {
    * Filters an instance list
    *
    * @param instanceList - The instance list to filter
-
    * @returns The filtered instance list
    */
   private extractFilteredOrderedInstances(
