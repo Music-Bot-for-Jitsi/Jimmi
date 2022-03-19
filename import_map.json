@@ -5,6 +5,7 @@
     "https://deno.land/std/": "https://deno.land/std@0.126.0/",
     "swagger-doc/": "https://deno.land/x/deno_swagger_doc@releasev2.0.0/",
     "superdeno/": "https://deno.land/x/superdeno@4.7.2/",
+    "mock/": "https://deno.land/x/mock@0.13.0/",
     "joi/": "https://cdn.skypack.dev/joi/",
     "dotenv/": "https://deno.land/x/dotenv@v3.2.0/"
   }
