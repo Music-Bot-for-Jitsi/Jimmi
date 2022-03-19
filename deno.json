@@ -1,0 +1,12 @@
+{
+  "importMap": "./import_map.json",
+  "tasks": {
+    "start": "vr start",
+    "build": "vr build",
+    "lint": "vr lint",
+    "fmt": "vr fmt",
+    "test": "vr test",
+    "cov:report": "deno coverage --lcov --output=coverage_report.lcov frontend/coverage_results backend/coverage_results",
+    "gen:openapi": "deno run --no-check=remote --allow-read=. --allow-write=. ./scripts/gen_openapi_spec.ts"
+  }
+}

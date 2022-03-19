@@ -1,4 +1,14 @@
 {
+  "importMap": "../import_map.json",
+  "tasks": {
+    "start": "deno run     --no-check=remote --allow-read=. --allow-net=localhost --allow-env --watch src/app.ts",
+    "build": "deno compile --no-check=remote --allow-read=. --allow-net=localhost --allow-env -o dist/jimmi src/app.ts",
+    "lint": "deno lint",
+    "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
+    "test": "deno test --no-check=remote --allow-all",
+    "test:cov": "deno task test -- --coverage=coverage_results"
+  },
   "lint": {
     "files": {
       "include": ["src/"]

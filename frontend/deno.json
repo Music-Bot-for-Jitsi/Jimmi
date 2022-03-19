@@ -1,7 +1,22 @@
 {
+  "importMap": "../import_map.json",
+  "tasks": {
+    "dev": "snel dev",
+    "watch": "snel dev --watch",
+    "start": "snel serve",
+    "build": "snel build",
+    "lint": "deno lint",
+    "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
+    "test": "deno test --no-check=remote --allow-all",
+    "test:cov": "deno task test -- --coverage=coverage_results"
+  },
   "lint": {
     "files": {
-      "include": ["src/"]
+      "include": [
+        "lib/",
+        "src/"
+      ]
     },
     "rules": {
       "tags": ["recommended"]
@@ -9,7 +24,11 @@
   },
   "fmt": {
     "files": {
-      "include": ["src/"]
+      "include": [
+        "lib/",
+        "src/",
+        "test/"
+      ]
     },
     "options": {
       "useTabs": false,

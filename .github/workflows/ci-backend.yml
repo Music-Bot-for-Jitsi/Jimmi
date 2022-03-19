@@ -22,7 +22,7 @@ jobs:
         with:
           deno-version: vx.x.x
       - name: Check backend formatting
-        run: deno fmt --config deno.json --check
+        run: deno task fmt:check
 
   lint:
     runs-on: ubuntu-20.04
@@ -32,7 +32,7 @@ jobs:
         with:
           deno-version: vx.x.x
       - name: Lint the backend
-        run: deno lint --config deno.json
+        run: deno task lint
 
   test:
     runs-on: ubuntu-20.04
@@ -42,4 +42,4 @@ jobs:
         with:
           deno-version: vx.x.x
       - name: Test the backend
-        run: deno test --config deno.json --import-map=../import_map.json --no-check --allow-all
+        run: deno task test
