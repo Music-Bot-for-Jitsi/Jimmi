@@ -20,10 +20,7 @@ const options: HTTPOptions = {
 
 app.listen(
   options,
-  () =>
-    console.log(
-      `Server has started on http://${config.hostname}:${config.port}`,
-    ),
+  () => console.log(`Server has started on http://${config.hostname}:${config.port}`),
 );
 
 export default app;
