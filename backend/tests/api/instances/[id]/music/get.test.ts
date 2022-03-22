@@ -5,7 +5,7 @@ import Jimmi from '../../../../../src/service/Jimmi.class.ts';
 
 Deno.test('GET /api/instances/unknown-id/music that it returns 404!', async () => {
   await superdeno(app)
-    .get('/api/instances/unknown-id')
+    .get('/api/instances/unknown-id/music')
     .expect('Content-Type', /text/)
     .expect(404);
 });
@@ -13,7 +13,7 @@ Deno.test('GET /api/instances/unknown-id/music that it returns 404!', async () =
 Deno.test('GET /api/instances/known-id/music that it returns 200!', async () => {
   const testJimmi: Jimmi = createJimmi();
   await superdeno(app)
-    .get('/api/instances/' + testJimmi.id)
+    .get('/api/instances/' + testJimmi.id + '/music')
     .expect('Content-Type', 'application/json; charset=utf-8')
     .expect(200);
 });
