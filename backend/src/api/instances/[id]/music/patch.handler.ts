@@ -4,7 +4,7 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
 
 /**
  * @swagger
- * /instances/{id}/music:
+ * /instances/{id}/music/:
  *   patch:
  *     description: Changes the music stream to music from a provided video url
  *     parameters:
@@ -21,17 +21,23 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  *     responses:
  *       200:
  *         description: New music url set
+ *       400:
+ *         description: No video url provided
+ *       404:
+ *         description: No instance found under the given id
  */
-export const postHandler: RequestHandler = (req, res, _next) => {
+export const patchHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
+  const body = await req.body;
+
   if (jimmiInstance === undefined) {
-    res.setStatus(404).send('Instance not found');
+    res.setStatus(404).send();
     return;
   }
-  if (req.body.url === undefined) {
-    res.setStatus(400).send('No video url provided');
+  if (body.url === undefined) {
+    res.setStatus(400).send();
     return;
   }
-  jimmiInstance.changeMusicUrl(req.body.url);
-  res.setStatus(200).send('Changed music url');
+  jimmiInstance.changeMusicUrl(body.url);
+  res.setStatus(200).send();
 };

@@ -13,7 +13,7 @@ class Jimmi {
   public getMusicInfo(): string {
     return '';
   }
-  public changeMusicUrl(url: string): void {
+  public changeMusicUrl(_url: string): void {
   }
 }
 
