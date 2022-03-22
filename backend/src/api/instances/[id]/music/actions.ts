@@ -8,5 +8,4 @@ export enum ActionMessages {
   PAUSE = 'paused music stream',
   PLAY = 'started playing music stream',
   STOP = 'stopped music stream',
-  UNKNOWN = 'unknown action',
 }

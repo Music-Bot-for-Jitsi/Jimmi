@@ -22,27 +22,31 @@ import { ActionMessages, Actions } from './actions.ts';
  *     responses:
  *       200:
  *         description: Action performed
+ *       400:
+ *         description: Unknown action
+ *       404:
+ *         description: No instance found under the given id
  */
 export const postHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   if (jimmiInstance === undefined) {
-    res.setStatus(404).send('Instance not found');
+    res.setStatus(404).send();
     return;
   }
   switch (req.params.action) {
     case Actions.PLAY:
       jimmiInstance.play();
-      res.setStatus(200).send(ActionMessages.PLAY);
+      res.setStatus(200).send({ 'message': ActionMessages.PLAY });
       break;
     case Actions.PAUSE:
-      jimmiInstance.pause;
-      res.setStatus(200).send(ActionMessages.PAUSE);
+      jimmiInstance.pause();
+      res.setStatus(200).send({ 'message': ActionMessages.PAUSE });
       break;
     case Actions.STOP:
       jimmiInstance.stop();
-      res.setStatus(200).send(ActionMessages.STOP);
+      res.setStatus(200).send({ 'message': ActionMessages.STOP });
       break;
     default:
-      res.setStatus(400).send(ActionMessages.UNKNOWN);
+      res.setStatus(400).send();
   }
 };

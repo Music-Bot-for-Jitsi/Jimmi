@@ -15,12 +15,14 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  *         description: UUID of the Jimmi instance
  *     responses:
  *       200:
- *         description: Let\'s rock\'n roll!
+ *         description: Details about the running music
+ *       404:
+ *         description: No instance found under the given id
  */
 export const getHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   if (jimmiInstance === undefined) {
-    res.setStatus(404).send('Instance not found');
+    res.setStatus(404).send();
     return;
   }
   res.json(jimmiInstance.getMusicInfo());
