@@ -1,7 +1,7 @@
 import { RequestHandler } from 'opine/mod.ts';
 import { getJimmiBy } from '../../../../service/Jimmi.service.ts';
 import Jimmi from '../../../../service/Jimmi.class.ts';
-import { ActionMessages, Actions } from './actions.ts';
+import { Actions, StatusMessages } from './actions.ts';
 
 /**
  * @swagger
@@ -14,7 +14,7 @@ import { ActionMessages, Actions } from './actions.ts';
  *         type: string
  *         required: true
  *         description: UUID of the Jimmi instance
- *       - in: path
+ *       - in: body
  *         name: action
  *         type: string
  *         required: true
@@ -27,24 +27,25 @@ import { ActionMessages, Actions } from './actions.ts';
  *       404:
  *         description: No instance found under the given id
  */
-export const postHandler: RequestHandler = (req, res, _next) => {
+export const postHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
+  const body = await req.body;
   if (jimmiInstance === undefined) {
     res.setStatus(404).send();
     return;
   }
-  switch (req.params.action) {
+  switch (body.action) {
     case Actions.PLAY:
       jimmiInstance.play();
-      res.setStatus(200).send({ 'message': ActionMessages.PLAY });
+      res.setStatus(200).send({ 'status': StatusMessages.PLAY });
       break;
     case Actions.PAUSE:
       jimmiInstance.pause();
-      res.setStatus(200).send({ 'message': ActionMessages.PAUSE });
+      res.setStatus(200).send({ 'status': StatusMessages.PAUSE });
       break;
     case Actions.STOP:
       jimmiInstance.stop();
-      res.setStatus(200).send({ 'message': ActionMessages.STOP });
+      res.setStatus(200).send({ 'status': StatusMessages.STOP });
       break;
     default:
       res.setStatus(400).send();

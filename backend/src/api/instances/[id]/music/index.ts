@@ -8,7 +8,7 @@ const musicRouter = Router({
 });
 
 musicRouter.get('/', getHandler);
-musicRouter.post('/:action', postHandler);
+musicRouter.post('/', postHandler);
 musicRouter.patch('/', patchHandler);
 
 export default musicRouter;

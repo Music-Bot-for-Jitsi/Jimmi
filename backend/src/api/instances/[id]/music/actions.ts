@@ -4,8 +4,8 @@ export enum Actions {
   STOP = 'stop',
 }
 
-export enum ActionMessages {
-  PAUSE = 'paused music stream',
-  PLAY = 'started playing music stream',
-  STOP = 'stopped music stream',
+export enum StatusMessages {
+  PAUSE = 'paused',
+  PLAY = 'started',
+  STOP = 'stopped',
 }
