@@ -16,6 +16,11 @@ export const envVarsSchema = Joi.object<EnvVars>({
   FRONTEND_DIR: Joi.string()
     .default('frontend')
     .description('The frontend folder'),
+  BROWSER_NO_SANDBOX: Joi.boolean()
+    .default(false)
+    .description('Disable sandbox mode for browser'),
+  BROWSER_WS_ENDPOINT: Joi.string()
+    .description('Disable sandbox mode for browser'),
   // 1/2 Add new config pairs here
 }).required();
 
@@ -27,6 +32,10 @@ const config = {
   port: envVars.PORT as number,
   hostname: envVars.HOSTNAME as string,
   frontendDir: envVars.FRONTEND_DIR as string,
+  browser: {
+    noSandbox: envVars.BROWSER_NO_SANDBOX as boolean,
+    wsEndpoint: envVars.BROWSER_WS_ENDPOINT as string,
+  },
   // 2/2 Add new config pairs here
 };
 
