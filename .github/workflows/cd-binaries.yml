@@ -16,7 +16,7 @@ jobs:
         with:
           deno-version: vx.x.x
 
-      - name: Build all portables and thererby all binaries
+      - name: Build all portables and thereby all binaries
         run: make all_portable
 
       - uses: actions/upload-artifact@v3
