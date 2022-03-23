@@ -1,0 +1,30 @@
+version: "3"
+services:
+  devcontainer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VARIANT: bullseye
+    volumes:
+      - ..:/workspace:cached
+    environment:
+      - BROWSER_WS_ENDPOINT=ws://browserlessservice:3000
+    command: sleep infinity
+    links:
+      - browserlessservice
+
+  browserlessservice:
+    image: browserless/chrome
+    restart: unless-stopped
+    environment:
+      - DEFAULT_LAUNCH_ARGS=["--use-fake-ui-for-media-stream","--use-fake-device-for-media-stream","--disable-web-security","--disable-features=IsolateOrigins,site-per-process"]
+      - CONNECTION_TIMEOUT=-1
+    links:
+      - staticcontent
+
+  staticcontent:
+    image: nginx
+    restart: unless-stopped
+    volumes:
+      - ../backend/src/service/Jimmi.bridge.html:/usr/share/nginx/html/bridge.html:ro

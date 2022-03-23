@@ -1,11 +1,8 @@
 {
   "name": "Jimmi",
-   "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "VARIANT": "bullseye"
-    }
-  },
+  "dockerComposeFile": "docker-compose.yml",
+	"service": "devcontainer",
+  "workspaceFolder": "/workspace",
   "settings": {
     "deno.enable": true,
     "deno.lint": true,
@@ -15,6 +12,5 @@
     "denoland.vscode-deno",
     "svelte.svelte-vscode"
   ],
-  "postStartCommand": "vr start",
   "remoteUser": "vscode"
 }
