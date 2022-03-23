@@ -11,7 +11,7 @@ all_portable: \
 
 backend/dist/frontend/:
 	cd frontend
-	trex run build
+	deno task build
 	cd ..
 	./scripts/gen_openapi_spec.ts frontend/dist/swagger.json
 	cp -r frontend/dist/ backend/dist/frontend/
