@@ -5,7 +5,7 @@ import { Actions, StatusMessages } from './actions.ts';
 
 /**
  * @swagger
- * /instances/{id}/music/{action}:
+ * /instances/{id}/music/:
  *   post:
  *     description: Perform an action on the music stream, e.g. play, pause or stop
  *     parameters:
