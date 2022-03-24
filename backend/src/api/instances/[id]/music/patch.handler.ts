@@ -4,7 +4,7 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
 
 /**
  * @swagger
- * /instances/{id}/music/:
+ * /instances/{id}/music:
  *   patch:
  *     description: Changes the music stream to music from a provided video url
  *     parameters:
