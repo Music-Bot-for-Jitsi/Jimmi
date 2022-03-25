@@ -10,11 +10,6 @@ on:
   workflow_dispatch:
 
 
-defaults:
-  run:
-    working-directory: frontend
-
-
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -74,7 +69,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
+          context: frontend
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
