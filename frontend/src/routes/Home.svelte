@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { _ } from "svelte-i18n/";
 </script>
 
-<h1>Hello World!</h1>
+<h1>{$_("routes.home.mainContent.heading")}</h1>
 <p>
   Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how
   to build Svelte apps.

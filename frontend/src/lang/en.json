@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "home": {
+      "mainContent": {
+        "heading": "Welcome to JIMMI - The Jitsi Integrated Musicbot Management Interface!"
+      }
+    }
+  }
+}

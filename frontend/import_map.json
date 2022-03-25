@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "svelte-i18n/": "https://cdn.skypack.dev/svelte-i18n/"
+  }
+}
