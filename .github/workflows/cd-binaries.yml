@@ -1,0 +1,28 @@
+name: CD - Build Binaries
+
+on:
+  release:
+    types:
+    - published
+  workflow_dispatch:
+
+
+jobs:
+  build_all_portable:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Build all portables and thereby all binaries
+        run: make all_portable
+
+      - uses: actions/upload-artifact@v3
+        working-directory: backend/dist/
+        with:
+          path: |
+            *.tar.gz
+            *.zip
