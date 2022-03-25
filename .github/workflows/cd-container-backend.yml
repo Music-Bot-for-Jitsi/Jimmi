@@ -10,6 +10,11 @@ on:
   workflow_dispatch:
 
 
+defaults:
+  run:
+    working-directory: backend
+
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
