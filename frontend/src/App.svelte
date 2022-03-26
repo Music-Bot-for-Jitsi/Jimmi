@@ -21,7 +21,7 @@
         <Route path="/instance/:id" component={Instance} let:params>
           <Instance id={params.id} />
         </Route>
-        <footer class="text-center bg-slate-800 text-gray-200">
+        <footer class="text-center fixed bottom-0 w-full bg-slate-800 text-gray-200">
           The Footer
         </footer>
       </div>
