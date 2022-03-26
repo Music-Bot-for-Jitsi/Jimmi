@@ -13,7 +13,7 @@ class Jimmi {
   private roomName: string | null = null;
 
   private queue: string[] = [];
-  private isReady = false;
+  private isInitalized = false;
 
   constructor(private page: Page) {
     this.id = crypto.randomUUID();
@@ -24,7 +24,7 @@ class Jimmi {
    * @returns
    */
   async init(debug = false): Promise<void> {
-    if (this.isReady) return;
+    if (this.isInitalized) return;
     await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
 
     if (debug) {
@@ -38,7 +38,7 @@ class Jimmi {
         .on('requestfailed', (req) => console.log(`${req.failure().errorText} ${req.url()}`));
     }
 
-    this.isReady = true;
+    this.isInitalized = true;
   }
 
   /**
