@@ -10,6 +10,9 @@ export const envVarsSchema = Joi.object<EnvVars>({
   PORT: Joi.number().port()
     .default(8000)
     .description('External application port'),
+  BOTNAME: Joi.string()
+    .default('DJ Jimmi')
+    .description('Name used to join jitsi conference'),
   HOSTNAME: Joi.string()
     .default('localhost')
     .description('External hostname / bind address'),
@@ -38,6 +41,7 @@ if (!envVars) throw new Error('Config parsing error!');
 
 const config = {
   port: envVars.PORT as number,
+  botname: envVars.BOTNAME as string,
   hostname: envVars.HOSTNAME as string,
   frontendDir: envVars.FRONTEND_DIR as string,
   gain: envVars.GAIN as number,

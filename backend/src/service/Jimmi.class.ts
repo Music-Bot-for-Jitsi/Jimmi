@@ -7,7 +7,7 @@ type ExposableFunction = (arg0: any) => any;
 class Jimmi {
   public readonly id: string;
   private isInitalized = false;
-  private botName = 'DJ Jimmi';
+  private botName = config.botname;
 
   private instance: string | null = null;
   private roomName: string | null = null;
