@@ -2,6 +2,9 @@
   import svelteFormsLib from 'svelte-forms-lib';
   import yup from 'yup';
   import { _ } from 'svelte-i18n';
+  import { navigate } from 'svelte-routing';
+  import Spinner from 'svelte-tailwind-widgets/Spinner.svelte';
+  import { createConfiguration, DefaultApi, ServerConfiguration } from 'jimmi-api-client/mod.ts';
   import config from '../config.ts';
 
   const domainRegex = new RegExp(
@@ -21,8 +24,12 @@
       room: yup.string().trim().min(1).matches(jitsiRoomRegex).required(),
       password: yup.string().optional(),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: (settings: IJimmiSettings) => {
+      if (!settings.domain) {
+        settings.domain = config.defaultJitsiUrl;
+      }
+      isLoading = true;
+      createJimmiInstance(settings);
     },
   });
 
@@ -50,9 +57,18 @@
   }
 
   $: href = `${$form.domain || config.defaultJitsiUrl}/${$form.room}`;
+
+  $: isLoading = false;
 </script>
 
-<section class="text-gray-600 body-font">
+{#if isLoading}
+  <div class="flex flex-col items-center justify-center">
+    <Spinner>
+      <p class="p-5">{$_("general.connecting")}...</p>
+    </Spinner>
+  </div>
+{/if}
+<section class="text-gray-600 body-font" class:hidden={isLoading}>
   <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
     <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
       <h1 class="title-font font-medium text-3xl text-gray-900">
