@@ -20,7 +20,7 @@ class Jimmi {
   }
 
   /**
-   * Initialize the browser page
+   * Initialize the browser page.
    * @returns
    */
   async init(debug = false): Promise<void> {
@@ -42,12 +42,16 @@ class Jimmi {
   }
 
   /**
-   * Join conference on a given instance and room
+   * Join conference on a given instance and room.
+   * Will reset the audioplay if a song is currently bering played.
+   * 
    * @param domain - domain of jitsi instance
    * @param roomName - name of the room
    * @returns Jimmi instance
    */
   async join(domain: string, roomName: string): Promise<ThisType<Jimmi>> {
+    if (this.instance !== undefined && this.roomName) await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
+
     const { gain } = config;
     await this.page.evaluate(
       `joinConference('${domain}', '${roomName}', '${this.botName}', ${gain})`,
@@ -63,7 +67,7 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Status overview about the instance
+   * Status overview about the instance.
    */
   get status() {
     return {
@@ -77,14 +81,14 @@ class Jimmi {
   }
 
   /**
-   * Instance is playing a song
+   * Instance is playing a song.
    */
   get isPlaying() {
     return this.currentTrack !== null;
   }
 
   /**
-   * Overview about music
+   * Overview about music.
    */
   get music() {
     return {
@@ -109,7 +113,7 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Play the oldes song in the queue if available
+   * Play the oldes song in the queue if available.
    * @param url -
    * @returns Jimmi instance
    */
@@ -124,7 +128,7 @@ class Jimmi {
   }
 
   /**
-   * Play the oldes song in the queue if available
+   * Play the oldes song in the queue if available.
    * @returns Jimmi instance
    */
   async playNextSong(): Promise<ThisType<Jimmi>> {
@@ -135,7 +139,7 @@ class Jimmi {
   }
 
   /**
-   * Pause the current song
+   * Pause the current song.
    * @returns Jimmi instance
    */
   async pause(): Promise<ThisType<Jimmi>> {
@@ -144,7 +148,7 @@ class Jimmi {
   }
 
   /**
-   * Stop the current song
+   * Stop the current song.
    * @returns Jimmi instance
    */
   async stop(): Promise<ThisType<Jimmi>> {
@@ -158,7 +162,7 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Add url to queue and start playing if not song is played
+   * Add url to queue and start playing if not song is played.
    * @param url - url to mp3 file
    * @returns Jimmi instance
    */
@@ -169,7 +173,7 @@ class Jimmi {
   }
 
   /**
-   * Remove item at given from queue
+   * Remove item at given from queue.
    * @param index - item at index to remove
    * @returns Jimmi instance
    */
@@ -179,7 +183,7 @@ class Jimmi {
   }
 
   /**
-   * Clear the current queue
+   * Clear the current queue.
    * @returns Jimmi instance
    */
   clearQueue(): ThisType<Jimmi> {
@@ -192,7 +196,7 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Shortcut to expose a function and add an event listener
+   * Shortcut to expose a function and add an event listener.
    *
    * @param fn - The function to expose
    */
