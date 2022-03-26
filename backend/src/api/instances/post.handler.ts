@@ -9,6 +9,14 @@ import { createJimmi } from '../../service/Jimmi.service.ts';
  *     responses:
  *       200:
  *         description: Details about the created Jimmi instance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: The instance ID.
  */
 export const postHandler: RequestHandler = async (_req, res, _next) => {
   const jimmi = await createJimmi();

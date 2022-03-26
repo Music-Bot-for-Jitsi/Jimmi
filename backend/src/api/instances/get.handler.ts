@@ -9,6 +9,12 @@ import { getAllJimmiIds } from '../../service/Jimmi.service.ts';
  *     responses:
  *       200:
  *         description: Array of UUIDs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
  */
 export const getHandler: RequestHandler = (_req, res, _next) => {
   res.json(getAllJimmiIds());
