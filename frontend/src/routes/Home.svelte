@@ -2,6 +2,7 @@
   import svelteFormsLib from 'svelte-forms-lib';
   import yup from 'yup';
   import { _ } from 'svelte-i18n';
+  import config from '../config.ts';
 
   const domainRegex = new RegExp(
     /^$|^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/
@@ -48,7 +49,7 @@
     }
   }
 
-  $: href = `${$form.domain || 'meet.jit.si'}/${$form.room}`;
+  $: href = `${$form.domain || config.defaultJitsiUrl}/${$form.room}`;
 </script>
 
 <section class="text-gray-600 body-font">
@@ -79,7 +80,7 @@
           on:beforeinput={beforeInput}
           on:change={handleChange}
           bind:value={$form.domain}
-          placeholder="meet.jit.si"
+          placeholder="{config.defaultJitsiUrl}"
           class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         />
         {#if $errors.domain}

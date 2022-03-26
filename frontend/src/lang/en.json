@@ -1,6 +1,7 @@
 {
   "general": {
     "advancedConfiguration": "Advanced configuration",
+    "forkMeOn": "Fork me on",
     "password": "Password"
   },
   "routes": {
