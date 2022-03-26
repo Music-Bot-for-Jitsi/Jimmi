@@ -6,14 +6,15 @@ type ExposableFunction = (arg0: any) => any;
 
 class Jimmi {
   public readonly id: string;
-  private currentTrack: string | null = null;
+  private isInitalized = false;
   private botName = 'DJ Jimmi';
 
   private instance: string | null = null;
   private roomName: string | null = null;
 
+  private isAudioPlaying = false;
   private queue: string[] = [];
-  private isInitalized = false;
+  private currentTrack: string | null = null;
 
   constructor(private page: Page) {
     this.id = crypto.randomUUID();
@@ -44,13 +45,15 @@ class Jimmi {
   /**
    * Join conference on a given instance and room.
    * Will reset the audioplay if a song is currently bering played.
-   * 
+   *
    * @param domain - domain of jitsi instance
    * @param roomName - name of the room
    * @returns Jimmi instance
    */
   async join(domain: string, roomName: string): Promise<ThisType<Jimmi>> {
-    if (this.instance !== undefined && this.roomName) await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
+    if (this.instance !== undefined && this.roomName) {
+      await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
+    }
 
     const { gain } = config;
     await this.page.evaluate(
@@ -73,7 +76,7 @@ class Jimmi {
     return {
       id: this.id,
       name: this.botName,
-      isPlaying: this.isPlaying,
+      isPlaying: this.isAudioPlaying,
       conference: this.conference,
       currentTrack: this.currentTrack,
       queueLength: this.queue.length,
@@ -81,17 +84,14 @@ class Jimmi {
   }
 
   /**
-   * Instance is playing a song.
-   */
-  get isPlaying() {
-    return this.currentTrack !== null;
-  }
-
-  /**
    * Overview about music.
    */
   get music() {
+    let status = 'stopped';
+    if (this.currentTrack !== null) status = this.isAudioPlaying ? 'playing' : 'paused';
+
     return {
+      status,
       queue: this.queue,
       current: this.currentTrack,
     };
@@ -118,12 +118,13 @@ class Jimmi {
    * @returns Jimmi instance
    */
   async play(url?: string): Promise<ThisType<Jimmi>> {
-    if (url === undefined && this.currentTrack !== undefined) {
+    if (url === undefined && this.currentTrack !== null) {
       await this.page.evaluate('void audio.play()');
     } else if (url !== undefined) {
       await this.page.evaluate(`playAudio('${url}')`);
       this.currentTrack = url;
     }
+    this.isAudioPlaying = this.currentTrack !== null;
     return this;
   }
 
@@ -144,6 +145,7 @@ class Jimmi {
    */
   async pause(): Promise<ThisType<Jimmi>> {
     await this.page.evaluate('void audio.pause()');
+    this.isAudioPlaying = false;
     return this;
   }
 
@@ -153,7 +155,8 @@ class Jimmi {
    */
   async stop(): Promise<ThisType<Jimmi>> {
     await this.page.evaluate('stopAudio()');
-    this.currentTrack = '';
+    this.currentTrack = null;
+    this.isAudioPlaying = false;
     return this;
   }
 
@@ -168,7 +171,7 @@ class Jimmi {
    */
   async addToQueue(url: string): Promise<ThisType<Jimmi>> {
     this.queue.push(url);
-    if (!this.isPlaying) await this.playNextSong();
+    if (!this.isAudioPlaying) await this.playNextSong();
     return this;
   }
 
@@ -213,7 +216,11 @@ class Jimmi {
    * Responsible for adding the next item from the queue.
    */
   private onAudioEnded(): void {
-    if (this.queue.length == 0) return void (this.currentTrack = null);
+    if (this.queue.length == 0) {
+      this.currentTrack = null;
+      this.isAudioPlaying = false;
+      return;
+    }
     this.playNextSong();
   }
 
@@ -225,6 +232,7 @@ class Jimmi {
    */
   private async participantKickedOut(event: { kicked: { local: boolean } }): Promise<void> {
     if (!event.kicked.local) return;
+    this.isAudioPlaying = false;
     this.roomName = this.instance = null;
     await this.page.reload();
   }

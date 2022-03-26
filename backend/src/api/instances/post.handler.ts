@@ -11,6 +11,6 @@ import { createJimmi } from '../../service/Jimmi.service.ts';
  *         description: Details about the created Jimmi instance
  */
 export const postHandler: RequestHandler = async (_req, res, _next) => {
-  const jimmi = await createJimmi()
+  const jimmi = await createJimmi();
   res.json(jimmi.status);
 };

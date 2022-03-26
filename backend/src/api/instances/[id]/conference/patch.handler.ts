@@ -19,15 +19,18 @@ const reqBodySchema = Joi.object<Record<string, string>>({
  *         required: true
  *         description: UUID of the Jimmi instance
  *       - in: body
- *         name: instance
- *         type: string
+ *         name: conference
  *         required: true
- *         description: URL of the jitsi instance
- *       - in: body
- *         name: room
- *         type: string
- *         required: true
- *         description: Name of the conference
+ *         schema:
+ *           type: object
+ *           required:
+ *             - room
+ *             - instance
+ *           properties:
+ *             room:
+ *               type: string
+ *             instance:
+ *               type: string
  *     responses:
  *       200:
  *         description: Conference information updated
