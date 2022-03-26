@@ -2,7 +2,7 @@
   "imports": {
     "svelte-forms-lib": "https://dev.jspm.io/svelte-forms-lib",
     "svelte-i18n": "https://cdn.skypack.dev/svelte-i18n",
-    "svelte-tailwind-widgets/": "https://raw.githubusercontent.com/Music-Bot-for-Jitsi/svelte-tailwind-widgets/main/",
+    "svelte-tailwind-widgets/": "https://deno.land/x/svelte_tailwind_widgets/",
     "yup": "https://dev.jspm.io/yup"
   }
 }
