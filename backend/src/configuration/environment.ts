@@ -16,11 +16,19 @@ export const envVarsSchema = Joi.object<EnvVars>({
   FRONTEND_DIR: Joi.string()
     .default('frontend')
     .description('The frontend folder'),
+  GAIN: Joi.number()
+    .min(0)
+    .max(100)
+    .default(20)
+    .description('Default gain'),
+  BROWSER_BRIDGE: Joi.string()
+    .default('https://bridges.jimmi.xyz/bridge.html')
+    .description('Bridge page for browser'),
   BROWSER_NO_SANDBOX: Joi.boolean()
     .default(false)
     .description('Disable sandbox mode for browser'),
   BROWSER_WS_ENDPOINT: Joi.string()
-    .description('Disable sandbox mode for browser'),
+    .description('Remote endpoint for browser'),
   // 1/2 Add new config pairs here
 }).required();
 
@@ -32,7 +40,9 @@ const config = {
   port: envVars.PORT as number,
   hostname: envVars.HOSTNAME as string,
   frontendDir: envVars.FRONTEND_DIR as string,
+  gain: envVars.GAIN as number,
   browser: {
+    bridge: envVars.BROWSER_BRIDGE as string,
     noSandbox: envVars.BROWSER_NO_SANDBOX as boolean,
     wsEndpoint: envVars.BROWSER_WS_ENDPOINT as string,
   },
