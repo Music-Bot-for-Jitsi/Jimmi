@@ -1,7 +1,8 @@
 import { RequestHandler } from 'opine/mod.ts';
 import { getJimmiBy } from '../../../../service/Jimmi.service.ts';
 import Jimmi from '../../../../service/Jimmi.class.ts';
-import { Actions, StatusMessages } from './actions.ts';
+import { Actions } from './actions.ts';
+import { Response } from './response.ts';
 
 /**
  * @swagger
@@ -15,20 +16,20 @@ import { Actions, StatusMessages } from './actions.ts';
  *         required: true
  *         description: UUID of the Jimmi instance
  *      - in: body
- *         name: action
+ *         name: status
  *         type: string
  *         required: true
- *         description: The desired action
+ *         description: The desired status change
  *       - in: body
- *         name: url
+ *         name: current
  *         type: string
  *         required: false
  *         description: The desired new video url
  *     responses:
  *       200:
- *         description: New music url set
+ *         description: Status and url updated
  *       400:
- *         description: No video url provided
+ *         description: Unknown status change requested or invalid video url type provided, videio url must be string if specified
  *       404:
  *         description: No instance found under the given id
  */
@@ -40,28 +41,40 @@ export const patchHandler: RequestHandler = async (req, res, _next) => {
     res.setStatus(404).send();
     return;
   }
-  switch (body.action) {
+  if (body.current) {
+    console.log(typeof (body.current));
+    if (typeof body.current === 'string') {
+      jimmiInstance.changeMusicUrl(body.current);
+    } else {
+      res.setStatus(400).send();
+      return;
+    }
+  }
+  const responseJSON: Response = {
+    status: '',
+    queue: jimmiInstance.getQueue(),
+    current: jimmiInstance.getCurrent(),
+  };
+  switch (body.status) {
     case Actions.PLAY:
       jimmiInstance.play();
-      res.setStatus(200).send({ 'status': StatusMessages.PLAY });
+      responseJSON.status = jimmiInstance.getStatus();
+      res.json(responseJSON);
+      res.setStatus(200).send();
       break;
     case Actions.PAUSE:
       jimmiInstance.pause();
-      res.setStatus(200).send({ 'status': StatusMessages.PAUSE });
+      responseJSON.status = jimmiInstance.getStatus();
+      res.json(responseJSON);
+      res.setStatus(200).send();
       break;
     case Actions.STOP:
       jimmiInstance.stop();
-      res.setStatus(200).send({ 'status': StatusMessages.STOP });
-      break;
-    case Actions.SWITCHURL:
-      if (body.url === undefined) {
-        res.setStatus(400).send({ 'status': StatusMessages.MISSINGURL });
-        return;
-      }
-      jimmiInstance.changeMusicUrl(body.url);
-      res.setStatus(200).send({ 'status': StatusMessages.SWITCHMUSICURL });
+      responseJSON.status = jimmiInstance.getStatus();
+      res.json(responseJSON);
+      res.setStatus(200).send();
       break;
     default:
-      res.setStatus(400).send({ 'status': StatusMessages.UNKNOWNACTION });
+      res.setStatus(400).send();
   }
 };

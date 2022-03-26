@@ -21,7 +21,7 @@ Deno.test('that JIMMI can perform a change music url action', function testChang
   jimmi.changeMusicUrl(testUrl);
 });
 
-Deno.test('that JIMMI can perform a get music info action', function testGetMusicInfo() {
+Deno.test('that JIMMI can perform a get queue action', function testGetMusicInfo() {
   const jimmi: Jimmi = new Jimmi();
-  jimmi.getMusicInfo();
+  jimmi.getQueue;
 });

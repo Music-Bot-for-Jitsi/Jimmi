@@ -10,10 +10,24 @@ class Jimmi {
   }
   public stop(): void {
   }
-  public getMusicInfo(): string {
+  public getStatus(): string {
+    return '';
+  }
+  public getQueue(): string[] {
+    return [];
+  }
+  public getCurrent(): string {
     return '';
   }
   public changeMusicUrl(_url: string): void {
+  }
+  public clearPlaylist(): void {
+  }
+  public removeTrackFromPlaylist(_index: number): void {
+  }
+  public skip(): void {
+  }
+  public addToPlaylist(_url: string): void {
   }
 }
 
