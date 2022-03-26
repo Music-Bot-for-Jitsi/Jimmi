@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isLoading } from 'svelte-i18n/';
+  import { isLoading } from 'svelte-i18n';
   import Router from 'svelte-routing/Router.svelte';
   import Route from 'svelte-routing/Route.svelte';
   import Link from 'svelte-routing/Link.svelte';
@@ -21,8 +21,8 @@
         <Route path="/instance/:id" component={Instance} let:params>
           <Instance id={params.id} />
         </Route>
-        <footer>
-          <Link to="instance/abc123">Dashboard</Link>
+        <footer class="text-center bg-slate-800 text-gray-200">
+          The Footer
         </footer>
       </div>
     </Router>
@@ -30,16 +30,5 @@
 {/if}
 
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
 </style>

@@ -1,4 +1,4 @@
-import { getLocaleFromNavigator, init, register } from 'svelte-i18n/';
+import { getLocaleFromNavigator, init, register } from 'svelte-i18n';
 
 register('en', () => import('./lang/en.json'));
 

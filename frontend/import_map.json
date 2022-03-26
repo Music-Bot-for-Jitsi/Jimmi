@@ -1,5 +1,7 @@
 {
   "imports": {
-    "svelte-i18n/": "https://cdn.skypack.dev/svelte-i18n/"
+    "svelte-forms-lib": "https://dev.jspm.io/svelte-forms-lib",
+    "svelte-i18n": "https://cdn.skypack.dev/svelte-i18n",
+    "yup": "https://dev.jspm.io/yup"
   }
 }
