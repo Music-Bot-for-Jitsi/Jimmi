@@ -1,13 +1,18 @@
 FROM denoland/deno:debian as APP_BUILDER
+
 WORKDIR /app
-COPY . . 
+
+COPY frontend/ frontend/ 
+COPY ./import_map.json .
+
+WORKDIR /app/frontend
+
 RUN ["deno", "run", "--allow-run", "--allow-read", "https://deno.land/x/snel/install.ts"]
 RUN ["snel", "build"]
 
-
 FROM nginx:1.21 as NGINX_BUILDER
-COPY nginx/nginx.conf /etc/nginx/
-COPY nginx/jimmi.conf /etc/nginx/conf.d/default.conf
+COPY frontend/nginx/nginx.conf /etc/nginx/
+COPY frontend/nginx/jimmi.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /opt/var/cache/nginx && \
     cp -a --parents /usr/lib/nginx /opt && \
     cp -a --parents /usr/share/nginx /opt && \
@@ -29,6 +34,6 @@ RUN mkdir -p /opt/var/cache/nginx && \
 
 FROM gcr.io/distroless/base-debian11
 COPY --from=NGINX_BUILDER /opt /
-COPY --from=APP_BUILDER /app/dist /usr/share/nginx/html
+COPY --from=APP_BUILDER /app/frontend/dist /usr/share/nginx/html
 EXPOSE 80 443
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]

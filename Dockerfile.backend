@@ -6,7 +6,11 @@ WORKDIR /app
 # COPY deps.ts .
 # RUN ["deno", "cache", "deps.ts"]
 
-COPY . .
+COPY backend/ backend/
+COPY import_map.json .
+
+WORKDIR /app/backend
+
 # Compile the main app so that it doesn't need to be compiled each startup/entry.
 RUN ["deno", "cache", "--no-check", "src/app.ts"]
 
