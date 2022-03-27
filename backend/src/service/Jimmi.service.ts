@@ -1,6 +1,6 @@
 import Jimmi from './Jimmi.class.ts';
 import config from '../configuration/environment.ts';
-import puppeteer, { Browser } from 'https://deno.land/x/puppeteer@9.0.2/mod.ts';
+import puppeteer, { Browser } from 'puppeteer/mod.ts';
 
 const instances: Record<string, Jimmi> = {};
 const args = [

@@ -1,4 +1,4 @@
-import type { Page } from 'https://deno.land/x/puppeteer@9.0.2/mod.ts';
+import type { Page } from 'puppeteer/mod.ts';
 import config from '../configuration/environment.ts';
 
 // deno-lint-ignore no-explicit-any
@@ -113,8 +113,8 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Play the oldes song in the queue if available.
-   * @param url -
+   * Continue playing or play the given song.
+   * @param url - url to song
    * @returns Jimmi instance
    */
   async play(url?: string): Promise<ThisType<Jimmi>> {
@@ -129,7 +129,7 @@ class Jimmi {
   }
 
   /**
-   * Play the oldes song in the queue if available.
+   * Play the oldest song in the queue if available.
    * @returns Jimmi instance
    */
   async playNextSong(): Promise<ThisType<Jimmi>> {
@@ -141,6 +141,7 @@ class Jimmi {
 
   /**
    * Pause the current song.
+   * 
    * @returns Jimmi instance
    */
   async pause(): Promise<ThisType<Jimmi>> {
@@ -151,6 +152,7 @@ class Jimmi {
 
   /**
    * Stop the current song.
+   * 
    * @returns Jimmi instance
    */
   async stop(): Promise<ThisType<Jimmi>> {
@@ -165,7 +167,8 @@ class Jimmi {
    * ********************* */
 
   /**
-   * Add url to queue and start playing if not song is played.
+   * Add url to queue and start playing if no song is played.
+   * 
    * @param url - url to mp3 file
    * @returns Jimmi instance
    */
@@ -176,7 +179,8 @@ class Jimmi {
   }
 
   /**
-   * Remove item at given from queue.
+   * Remove item at given index from queue.
+   * 
    * @param index - item at index to remove
    * @returns Jimmi instance
    */
@@ -187,6 +191,7 @@ class Jimmi {
 
   /**
    * Clear the current queue.
+   * 
    * @returns Jimmi instance
    */
   clearQueue(): ThisType<Jimmi> {
@@ -226,9 +231,9 @@ class Jimmi {
 
   /**
    * Detect when participant gets kicked out of the meeting. If the bot gets
-   * kicked out, he will end the browsing session.
+   * kicked out, it will end the browsing session.
    *
-   * @param event - The Participant kicked event
+   * @param event - The participant kicked event
    */
   private async participantKickedOut(event: { kicked: { local: boolean } }): Promise<void> {
     if (!event.kicked.local) return;
