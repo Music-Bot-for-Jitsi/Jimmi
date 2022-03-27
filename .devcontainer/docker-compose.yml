@@ -22,3 +22,9 @@ services:
       - CONNECTION_TIMEOUT=-1
     links:
       - staticcontent
+
+  staticcontent:
+    image: nginx
+    restart: unless-stopped
+    volumes:
+      - ../backend/src/service/Jimmi.bridge.html:/usr/share/nginx/html/bridge.html:ro
