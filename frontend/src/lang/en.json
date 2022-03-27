@@ -7,7 +7,7 @@
   },
   "routes": {
     "home": {
-      "domainError": "Please enter a valid domain name (leave enter to join the main jitsi instance).",
+      "domainError": "Please enter a valid domain name (leave empty to join the main jitsi instance).",
       "domainLabel": "Instance",
       "joinButtonText": "Join now",
       "joinRoomFootnote": "Jim will join",
