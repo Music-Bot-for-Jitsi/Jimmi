@@ -75,7 +75,6 @@ class Jimmi {
   get status() {
     return {
       id: this.id,
-      name: this.botName,
       isPlaying: this.isAudioPlaying,
       conference: this.conference,
       currentTrack: this.currentTrack,
