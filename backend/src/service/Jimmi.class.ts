@@ -123,7 +123,10 @@ class Jimmi {
     } else if (url !== undefined) {
       await this.page.evaluate(`playAudio('${url}')`);
       this.currentTrack = url;
+    } else {
+      this.playNextSong();
     }
+
     this.isAudioPlaying = this.currentTrack !== null;
     return this;
   }
