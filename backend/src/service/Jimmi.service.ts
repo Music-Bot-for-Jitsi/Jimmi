@@ -29,7 +29,7 @@ try {
 
     console.info('Using chrome on local instance');
     browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium',
+      executablePath: config.browser.path,
       headless: true,
       args,
     });

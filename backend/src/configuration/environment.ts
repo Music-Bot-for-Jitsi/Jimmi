@@ -30,6 +30,9 @@ export const envVarsSchema = Joi.object<EnvVars>({
   BROWSER_NO_SANDBOX: Joi.boolean()
     .default(false)
     .description('Disable sandbox mode for browser'),
+  BROWSER_PATH: Joi.string()
+    .default('/usr/bin/chromium')
+    .description('Path to local chrome/chromium installation'),
   BROWSER_WS_ENDPOINT: Joi.string()
     .description('Remote endpoint for browser'),
   // 1/2 Add new config pairs here
@@ -48,6 +51,7 @@ const config = {
   browser: {
     bridge: envVars.BROWSER_BRIDGE as string,
     noSandbox: envVars.BROWSER_NO_SANDBOX as boolean,
+    path: envVars.BROWSER_PATH as string,
     wsEndpoint: envVars.BROWSER_WS_ENDPOINT as string,
   },
   // 2/2 Add new config pairs here
