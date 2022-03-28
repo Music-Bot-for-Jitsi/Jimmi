@@ -141,7 +141,7 @@ class Jimmi {
 
   /**
    * Pause the current song.
-   * 
+   *
    * @returns Jimmi instance
    */
   async pause(): Promise<ThisType<Jimmi>> {
@@ -152,7 +152,7 @@ class Jimmi {
 
   /**
    * Stop the current song.
-   * 
+   *
    * @returns Jimmi instance
    */
   async stop(): Promise<ThisType<Jimmi>> {
@@ -168,7 +168,7 @@ class Jimmi {
 
   /**
    * Add url to queue and start playing if no song is played.
-   * 
+   *
    * @param url - url to mp3 file
    * @returns Jimmi instance
    */
@@ -180,18 +180,18 @@ class Jimmi {
 
   /**
    * Remove item at given index from queue.
-   * 
+   *
    * @param index - item at index to remove
    * @returns Jimmi instance
    */
   removeFromQueue(index: number): ThisType<Jimmi> {
-    this.queue.slice(index, 1);
+    this.queue.splice(index, 1);
     return this;
   }
 
   /**
    * Clear the current queue.
-   * 
+   *
    * @returns Jimmi instance
    */
   clearQueue(): ThisType<Jimmi> {
