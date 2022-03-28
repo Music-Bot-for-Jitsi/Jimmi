@@ -51,7 +51,7 @@ class Jimmi {
    * @returns Jimmi instance
    */
   async join(domain: string, roomName: string): Promise<ThisType<Jimmi>> {
-    if (this.instance !== undefined && this.roomName) {
+    if (this.instance !== null && this.roomName) {
       await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
     }
 
