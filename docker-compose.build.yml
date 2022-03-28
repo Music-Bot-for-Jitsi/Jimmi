@@ -1,6 +1,10 @@
 version: '3.0'
 services:
   frontend:
-    build: ./frontend
+    build:
+      dockerfile: ./frontend/Dockerfile
+      context: .
   backend:
-    build: ./backend
+    build:
+      dockerfile: ./backend/Dockerfile
+      context: .
