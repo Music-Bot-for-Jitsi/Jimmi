@@ -3,7 +3,7 @@ import envConfig from '../configuration/environment.ts';
 import puppeteer, { Browser } from 'puppeteer/mod.ts';
 
 const instances: Record<string, Jimmi> = {};
-const args = [
+export const args = [
   '--use-fake-ui-for-media-stream', // disable asking for webcam & video
   '--use-fake-device-for-media-stream', // use fake microphone
   '--disable-web-security', // enable playback of cross origin media/resources

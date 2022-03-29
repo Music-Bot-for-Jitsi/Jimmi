@@ -1,8 +1,8 @@
 import Jimmi from '../../src/service/Jimmi.class.ts';
-import { assertSpyCallAsync, resolvesNext, stub } from 'https://deno.land/x/mock@0.15.0/mod.ts';
+import { assertSpyCallAsync, resolvesNext, stub } from 'mock/mod.ts';
 import type { Page } from 'puppeteer/mod.ts';
 import config from '../../src/configuration/environment.ts';
-import { assert, assertEquals } from 'https://deno.land/std@0.130.0/testing/asserts.ts';
+import { assert, assertEquals } from 'std/testing/asserts.ts';
 
 Deno.test('Jimmi instance constructor', () => {
   const fakePage: Page = {} as unknown as Page;
@@ -12,15 +12,21 @@ Deno.test('Jimmi instance constructor', () => {
 });
 
 Deno.test('Jimmi instance initialization', async () => {
-  const fakePage: Page = { goto: () => {} } as unknown as Page;
+  const fakePage: Page = { goto: () => {}, on: () => {} } as unknown as Page;
   const pageGotoMock = stub(fakePage, 'goto', resolvesNext([undefined]));
-  const jimmi = new Jimmi(fakePage);
+  const jimmi1 = new Jimmi(fakePage);
 
-  jimmi.init();
+  await jimmi1.init();
 
   await assertSpyCallAsync(pageGotoMock, 0, {
     args: [config.browser.bridge, { waitUntil: 'load' }],
   });
+
+  const pageOnMock = stub(fakePage, 'on', () => fakePage);
+  const jimmi2 = new Jimmi(fakePage);
+
+  await jimmi2.init(true);
+  assertEquals(pageOnMock.calls.length, 4)
 });
 
 Deno.test('Jimmi join function', async () => {

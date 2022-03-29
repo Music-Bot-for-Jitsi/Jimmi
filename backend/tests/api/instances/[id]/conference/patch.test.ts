@@ -1,5 +1,5 @@
 import { superdeno } from 'superdeno/mod.ts';
-import { createJimmi, getJimmiBy } from '../../../../../src/service/Jimmi.service.ts';
+import { createJimmi } from '../../../../../src/service/Jimmi.service.ts';
 import app from '../../../../import.app.symlink.ts';
 import {
   assertEquals,
