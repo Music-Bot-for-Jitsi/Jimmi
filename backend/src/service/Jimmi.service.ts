@@ -1,9 +1,9 @@
 import Jimmi from './Jimmi.class.ts';
-import config from '../configuration/environment.ts';
+import envConfig from '../configuration/environment.ts';
 import puppeteer, { Browser } from 'puppeteer/mod.ts';
 
 const instances: Record<string, Jimmi> = {};
-const args = [
+export const args = [
   '--use-fake-ui-for-media-stream', // disable asking for webcam & video
   '--use-fake-device-for-media-stream', // use fake microphone
   '--disable-web-security', // enable playback of cross origin media/resources
@@ -14,30 +14,46 @@ const args = [
   '--disable-gpu',
 ];
 
-let browser: Browser;
-try {
-  if (config.browser.wsEndpoint !== undefined) {
-    console.info('Using chrome on remote endpoint!');
-    browser = await puppeteer.connect({
-      browserWSEndpoint: config.browser.wsEndpoint,
-    });
-  } else {
-    if (config.browser.noSandbox) {
-      args.push('--no-sandbox');
-      console.warn('Warning: Browser started with --no-sandbox flag!');
-    }
+const browser: Browser = await initializeBrowser(envConfig, puppeteer);
 
-    console.info('Using chrome on local instance');
-    browser = await puppeteer.launch({
-      executablePath: config.browser.path,
-      headless: true,
-      args,
-    });
+/**
+ * Setup browser
+ * ! Export only for unit testing, rewire doesn't work :-/
+ *
+ * @param config - environment configuration
+ * @param ppter - puppeteer module
+ * @returns browser - Initialized browser
+ */
+export async function initializeBrowser(
+  config: typeof envConfig,
+  ppter: typeof puppeteer,
+): Promise<Browser> {
+  try {
+    let browser: Browser;
+    if (config.browser.wsEndpoint !== undefined) {
+      console.info('Using chrome on remote endpoint!');
+      browser = await ppter.connect({
+        browserWSEndpoint: config.browser.wsEndpoint,
+      });
+    } else {
+      if (config.browser.noSandbox) {
+        args.push('--no-sandbox');
+        console.warn('Warning: Browser started with --no-sandbox flag!');
+      }
+
+      console.info('Using chrome on local instance');
+      browser = await ppter.launch({
+        executablePath: config.browser.path,
+        headless: true,
+        args,
+      });
+    }
+    return browser;
+  } catch (error) {
+    console.error('Could not create browser!');
+    console.error(error);
+    Deno.exit(1);
   }
-} catch (error) {
-  console.error('Could not create browser!');
-  console.error(error);
-  Deno.exit(1);
 }
 
 /**

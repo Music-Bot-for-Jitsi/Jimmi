@@ -51,7 +51,7 @@ class Jimmi {
    * @returns Jimmi instance
    */
   async join(domain: string, roomName: string): Promise<ThisType<Jimmi>> {
-    if (this.instance !== undefined && this.roomName) {
+    if (this.instance !== null && this.roomName) {
       await this.page.goto(config.browser.bridge, { waitUntil: 'load' });
     }
 
@@ -59,6 +59,8 @@ class Jimmi {
     await this.page.evaluate(
       `joinConference('${domain}', '${roomName}', '${this.botName}', ${gain})`,
     );
+    this.instance = domain;
+    this.roomName = roomName;
 
     this.exposeListenerFunction(this.onAudioEnded);
     this.exposeListenerFunction(this.participantKickedOut);
@@ -75,7 +77,6 @@ class Jimmi {
   get status() {
     return {
       id: this.id,
-      name: this.botName,
       isPlaying: this.isAudioPlaying,
       conference: this.conference,
       currentTrack: this.currentTrack,
