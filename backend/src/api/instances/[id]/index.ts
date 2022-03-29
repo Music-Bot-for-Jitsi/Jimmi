@@ -1,5 +1,5 @@
 import { Router } from 'opine/mod.ts';
-import conferenceRouter from "./conference/index.ts";
+import conferenceRouter from './conference/index.ts';
 import { getHandler } from './get.handler.ts';
 import musicRouter from './music/index.ts';
 

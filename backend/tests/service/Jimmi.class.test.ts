@@ -26,7 +26,7 @@ Deno.test('Jimmi instance initialization', async () => {
   const jimmi2 = new Jimmi(fakePage);
 
   await jimmi2.init(true);
-  assertEquals(pageOnMock.calls.length, 4)
+  assertEquals(pageOnMock.calls.length, 4);
 });
 
 Deno.test('Jimmi join function', async () => {
