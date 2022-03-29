@@ -35,6 +35,9 @@ export const envVarsSchema = Joi.object<EnvVars>({
     .description('Path to local chrome/chromium installation'),
   BROWSER_WS_ENDPOINT: Joi.string()
     .description('Remote endpoint for browser'),
+  INVIDIOUS_INSTANCELIST_URL: Joi.string()
+    .default('https://api.invidious.io/instances.json')
+    .description('Url to get Invidious instance urls from'),
   // 1/2 Add new config pairs here
 }).required();
 
@@ -54,6 +57,7 @@ const config = {
     path: envVars.BROWSER_PATH as string,
     wsEndpoint: envVars.BROWSER_WS_ENDPOINT as string,
   },
+  invidiousInstanceListurl: envVars.INVIDIOUS_INSTANCELIST_URL as string,
   // 2/2 Add new config pairs here
 };
 

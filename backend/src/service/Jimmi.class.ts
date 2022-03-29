@@ -1,5 +1,6 @@
 import type { Page } from 'puppeteer/mod.ts';
 import config from '../configuration/environment.ts';
+import YoutubeAudioUrlFinder from '../../lib/youtube-audio-url-finder/mod.ts';
 
 // deno-lint-ignore no-explicit-any
 type ExposableFunction = (arg0: any) => any;
@@ -16,8 +17,13 @@ class Jimmi {
   private queue: string[] = [];
   private currentTrack: string | null = null;
 
+  private youtubeAudioUrlFinder: YoutubeAudioUrlFinder;
+
   constructor(private page: Page) {
     this.id = crypto.randomUUID();
+    this.youtubeAudioUrlFinder = new YoutubeAudioUrlFinder(
+      config.invidiousInstanceListurl,
+    );
   }
 
   /**
@@ -63,6 +69,28 @@ class Jimmi {
     this.exposeListenerFunction(this.onAudioEnded);
     this.exposeListenerFunction(this.participantKickedOut);
     return this;
+  }
+
+  /**
+   * Gets an audio file url for a given youtube video using the youtubeAudioUrlFinder
+   *
+   * @param videoUrl The youtube video url
+   * @returns The audio file url
+   *
+   * @throws Errors.MALFORMED_YOUTUBE_URL
+   * Thrown if the youtube url cannot be interpreted
+   *
+   * @throws Errors.UNEXPECTED_OR_NO_RESPONSE
+   * Thrown if no response or an invalid response was received
+   *
+   * @throws Errors.NO_SUITABLE_INVIDIOUS_INSTANCE
+   * Thrown if no supported invidious instance was found
+   *
+   * @throws Errors.NO_SUITABLE_ADAPTIVE_FORMATS
+   * Thrown if no supported audio format was received
+   */
+  async getAudioFileUrl(videoUrl: string) {
+    return await this.youtubeAudioUrlFinder.findAudioFileUrl(videoUrl);
   }
 
   /** *********************

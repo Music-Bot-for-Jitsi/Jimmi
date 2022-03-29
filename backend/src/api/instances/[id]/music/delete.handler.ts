@@ -5,8 +5,8 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
 /**
  * @swagger
  * /instances/{id}/music:
- *   get:
- *     description: Get details about the status, current track and playlist
+ *   delete:
+ *     description: Clear the music playlist
  *     parameters:
  *       - in: path
  *         name: id
@@ -14,16 +14,17 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  *         required: true
  *         description: UUID of the Jimmi instance
  *     responses:
- *       200:
- *         description: Details about the running music
+ *       204:
+ *         description: Playlist cleared
  *       404:
  *         description: No instance found under the given id
  */
-export const getHandler: RequestHandler = (req, res, _next) => {
+export const deleteHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   if (jimmiInstance === undefined) {
     res.setStatus(404).send();
     return;
   }
-  res.setStatus(200).json(jimmiInstance.music).send();
+  jimmiInstance.clearQueue();
+  res.setStatus(204).send();
 };
