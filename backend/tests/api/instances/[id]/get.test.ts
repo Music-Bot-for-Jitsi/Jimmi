@@ -16,7 +16,7 @@ Deno.test('GET /api/instances/id that it returns the id of the created instance'
     .expect('Content-Type', /json/)
     .expect(200)
     .then((res) => {
-      if (!(Object.keys(res.body).includes('id'))) throw new Error('res.body should include id');
+      if (!('id' in res.body)) throw new Error('res.body should include id');
       if (res.body.id !== jimmi.id) throw new Error('id should match created jimmi instance');
     });
 });
