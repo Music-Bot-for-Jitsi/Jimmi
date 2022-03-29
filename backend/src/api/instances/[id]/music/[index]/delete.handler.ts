@@ -38,10 +38,11 @@ export const deleteHandler: RequestHandler = (req, res, _next) => {
     jimmiInstance.playNextSong();
     res.setStatus(204);
   }
-  if (
-    indexNumber < 0 || indexNumber > jimmiInstance.status.queueLength ||
-    isNaN(indexNumber)
-  ) {
+  if (indexNumber < 0 || isNaN(indexNumber)) {
+    res.setStatus(400).send();
+    return;
+  }
+  if (indexNumber > jimmiInstance.status.queueLength) {
     res.setStatus(400).send();
     return;
   }
