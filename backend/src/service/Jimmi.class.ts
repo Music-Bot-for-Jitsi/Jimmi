@@ -236,12 +236,14 @@ class Jimmi {
 
   /**
    * Detect when participant gets kicked out of the meeting. If the bot gets
-   * kicked out, it will end the browsing session.
+   * kicked out, it will reset itself.
    *
    * @param event - The participant kicked event
    */
   private async participantKickedOut(event: { kicked: { local: boolean } }): Promise<void> {
     if (!event.kicked.local) return;
+    this.currentTrack = null;
+    this.queue = [];
     this.isAudioPlaying = false;
     this.roomName = this.instance = null;
     await this.page.reload();
