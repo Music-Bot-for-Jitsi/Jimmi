@@ -48,6 +48,7 @@ Deno.test('Jimmi service browser initialization', async () => {
     }],
   });
 
+  // This produces an expected traceback in the console, don't get confused here
   await assertRejects(async () => {
     await initializeBrowser(config, {} as unknown as typeof puppeteer);
   });

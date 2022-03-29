@@ -62,8 +62,8 @@ class Jimmi {
     this.instance = domain;
     this.roomName = roomName;
 
-    this.exposeListenerFunction(this.onAudioEnded);
-    this.exposeListenerFunction(this.participantKickedOut);
+    await this.exposeListenerFunction(this.onAudioEnded);
+    await this.exposeListenerFunction(this.participantKickedOut);
     return this;
   }
 
