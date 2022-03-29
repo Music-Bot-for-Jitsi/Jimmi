@@ -4,7 +4,8 @@
   "deno.lint": true,
   "deno.codeLens.testArgs": [
     "--allow-all",
-    "--unstable"
+    "--unstable",
+    "--no-check=remote"
   ],
   "editor.defaultFormatter": "denoland.vscode-deno"
 }
