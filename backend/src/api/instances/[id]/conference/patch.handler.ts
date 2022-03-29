@@ -3,7 +3,7 @@ import { getJimmiBy } from '../../../../service/Jimmi.service.ts';
 import Joi from 'joi/?dts';
 
 const reqBodySchema = Joi.object<Record<string, string>>({
-  instance: Joi.string().uri().required(),
+  instance: Joi.string().required(),
   room: Joi.string().required(),
 });
 

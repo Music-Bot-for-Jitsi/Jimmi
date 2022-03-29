@@ -1,8 +1,9 @@
-import { HTTPOptions, opine, serveStatic } from 'opine/mod.ts';
+import { HTTPOptions, json, opine, serveStatic } from 'opine/mod.ts';
 import apiRouter from './api/index.ts';
 import config from './configuration/environment.ts';
 
 const app = opine();
+app.use(json());
 
 app.use(serveStatic(config.frontendDir));
 

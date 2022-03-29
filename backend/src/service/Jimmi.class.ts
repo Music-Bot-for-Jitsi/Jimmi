@@ -59,6 +59,8 @@ class Jimmi {
     await this.page.evaluate(
       `joinConference('${domain}', '${roomName}', '${this.botName}', ${gain})`,
     );
+    this.instance = domain;
+    this.roomName = roomName;
 
     this.exposeListenerFunction(this.onAudioEnded);
     this.exposeListenerFunction(this.participantKickedOut);
