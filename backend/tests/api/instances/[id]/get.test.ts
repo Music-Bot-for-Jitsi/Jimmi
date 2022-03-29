@@ -12,7 +12,7 @@ Deno.test('GET /api/instances/unknown-id that it returns 404!', async () => {
 Deno.test('GET /api/instances/id that it returns the id of the created instance', async () => {
   const jimmi = await createJimmi();
   await superdeno(app)
-    .post(`/api/instances/${jimmi.id}`)
+    .get(`/api/instances/${jimmi.id}`)
     .expect('Content-Type', /json/)
     .expect(200)
     .then((res) => {

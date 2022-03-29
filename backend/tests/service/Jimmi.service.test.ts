@@ -1,5 +1,5 @@
 import { createJimmi, getAllJimmiIds, getJimmiBy } from '../../src/service/Jimmi.service.ts';
-import { assert } from 'https://deno.land/std@0.130.0/testing/asserts.ts';
+import { assert } from 'std/testing/asserts.ts';
 
 Deno.test('Jimmi service methods', async () => {
   const jimmi = await createJimmi();
