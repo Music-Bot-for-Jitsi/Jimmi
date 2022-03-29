@@ -10,12 +10,31 @@ export const envVarsSchema = Joi.object<EnvVars>({
   PORT: Joi.number().port()
     .default(8000)
     .description('External application port'),
+  BOTNAME: Joi.string()
+    .default('DJ Jimmi')
+    .description('Name used to join jitsi conference'),
   HOSTNAME: Joi.string()
     .default('localhost')
     .description('External hostname / bind address'),
   FRONTEND_DIR: Joi.string()
     .default('frontend')
     .description('The frontend folder'),
+  GAIN: Joi.number()
+    .min(0)
+    .max(100)
+    .default(20)
+    .description('Default gain'),
+  BROWSER_BRIDGE: Joi.string()
+    .default('https://bridges.jimmi.xyz/bridge.html')
+    .description('Bridge page for browser'),
+  BROWSER_NO_SANDBOX: Joi.boolean()
+    .default(false)
+    .description('Disable sandbox mode for browser'),
+  BROWSER_PATH: Joi.string()
+    .default('/usr/bin/chromium')
+    .description('Path to local chrome/chromium installation'),
+  BROWSER_WS_ENDPOINT: Joi.string()
+    .description('Remote endpoint for browser'),
   // 1/2 Add new config pairs here
 }).required();
 
@@ -25,8 +44,16 @@ if (!envVars) throw new Error('Config parsing error!');
 
 const config = {
   port: envVars.PORT as number,
+  botname: envVars.BOTNAME as string,
   hostname: envVars.HOSTNAME as string,
   frontendDir: envVars.FRONTEND_DIR as string,
+  gain: envVars.GAIN as number,
+  browser: {
+    bridge: envVars.BROWSER_BRIDGE as string,
+    noSandbox: envVars.BROWSER_NO_SANDBOX as boolean,
+    path: envVars.BROWSER_PATH as string,
+    wsEndpoint: envVars.BROWSER_WS_ENDPOINT as string,
+  },
   // 2/2 Add new config pairs here
 };
 

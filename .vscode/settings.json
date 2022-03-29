@@ -2,5 +2,10 @@
   "deno.enable": true,
   "deno.importMap": "./import_map.json",
   "deno.lint": true,
+  "deno.codeLens.testArgs": [
+    "--allow-all",
+    "--unstable",
+    "--no-check=remote"
+  ],
   "editor.defaultFormatter": "denoland.vscode-deno"
 }
