@@ -26,7 +26,7 @@ Deno.test('PATCH /api/instances/known-id/music/ with status change to playing an
   const _play: Stub<Jimmi> = stub(
     testJimmi,
     'play',
-    async () => {
+    () => {
     },
   );
 
@@ -72,17 +72,17 @@ Deno.test('PATCH /api/instances/known-id/music/ that it returns 200 for actions 
   const _play: Stub<Jimmi> = stub(
     testJimmi,
     'play',
-    async () => {},
+    () => {},
   );
   const _pause: Stub<Jimmi> = stub(
     testJimmi,
     'pause',
-    async () => {},
+    () => {},
   );
   const _stop: Stub<Jimmi> = stub(
     testJimmi,
     'stop',
-    async () => {},
+    () => {},
   );
 
   await superdeno(app)
