@@ -44,7 +44,7 @@ class Jimmi {
 
   /**
    * Join conference on a given instance and room.
-   * Will reset the audioplay if a song is currently bering played.
+   * Will reset the audioplay if a song is currently being played.
    *
    * @param domain - domain of jitsi instance
    * @param roomName - name of the room
@@ -115,6 +115,7 @@ class Jimmi {
 
   /**
    * Continue playing or play the given song.
+   *
    * @param url - url to song
    * @returns Jimmi instance
    */
