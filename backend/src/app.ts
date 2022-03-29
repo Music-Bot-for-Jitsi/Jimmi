@@ -7,6 +7,8 @@ app.use(json());
 
 app.use(serveStatic(config.frontendDir));
 
+app.use(json());
+
 app.use('/api', apiRouter);
 
 // Catch-all 404
