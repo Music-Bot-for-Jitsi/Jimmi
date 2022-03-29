@@ -47,6 +47,6 @@ export const deleteHandler: RequestHandler = (req, res, _next) => {
     return;
   }
 
-  jimmiInstance.removeFromQueue(indexNumber);
+  jimmiInstance.removeFromQueue(indexNumber - 1);
   res.setStatus(204).send();
 };

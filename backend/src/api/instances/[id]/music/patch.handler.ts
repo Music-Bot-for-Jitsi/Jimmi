@@ -53,14 +53,11 @@ export const patchHandler: RequestHandler = async (req, res, _next) => {
       if (body.current) {
         if (typeof body.current === 'string') {
           try {
-            const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(
-              body.current,
-            );
+            const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(body.current);
             await jimmiInstance.play(audioFileUrl);
           } catch (error) {
-            if (error.name == Errors.MALFORMED_YOUTUBE_URL) {
-              res.setStatus(400).send();
-            } else {
+            if (error.name == Errors.MALFORMED_YOUTUBE_URL) res.setStatus(400).send();
+            else {
               res.setStatus(502).send();
             }
           }
