@@ -1,13 +1,15 @@
 FROM denoland/deno:debian as APP_BUILDER
+
+COPY frontend/ /app/ 
+COPY ./import_map.json .
 WORKDIR /app
-COPY . . 
+
 RUN ["deno", "run", "--allow-run", "--allow-read", "https://deno.land/x/snel/install.ts"]
 RUN ["snel", "build"]
 
-
 FROM nginx:1.21 as NGINX_BUILDER
-COPY nginx/nginx.conf /etc/nginx/
-COPY nginx/jimmi.conf /etc/nginx/conf.d/default.conf
+COPY frontend/nginx/nginx.conf /etc/nginx/
+COPY frontend/nginx/jimmi.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /opt/var/cache/nginx && \
     cp -a --parents /usr/lib/nginx /opt && \
     cp -a --parents /usr/share/nginx /opt && \

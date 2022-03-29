@@ -10,11 +10,6 @@ on:
   workflow_dispatch:
 
 
-defaults:
-  run:
-    working-directory: backend
-
-
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -43,7 +38,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@1e95c1de343b5b0c23352d6417ee3e48d5bcd422
         with:
-          cosign-release: v1.4.0
+          cosign-release: v1.6.0
 
 
       # Workaround: https://github.com/docker/build-push-action/issues/461
@@ -75,6 +70,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
+          file: backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
