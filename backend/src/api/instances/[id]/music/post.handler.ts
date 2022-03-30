@@ -36,9 +36,7 @@ export const postHandler: RequestHandler = async (req, res, _next) => {
 
   if (jimmiInstance === undefined) return void res.setStatus(404).send();
 
-  if (body.url === undefined || !(typeof body.url === 'string')) {
-    return void res.setStatus(400).send();
-  }
+  if (body.url === undefined || !(typeof body.url === 'string')) return void res.setStatus(400).send();
 
   try {
     const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(
