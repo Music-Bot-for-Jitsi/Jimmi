@@ -11,14 +11,21 @@ Deno.test('DELETE /api/instances/unknown-id/music/index that it returns 404!', a
     .expect(404);
 });
 
-Deno.test('DELETE /api/instances/known-id/music/valid-index-other-than-0 that it returns 204!', async () => {
+Deno.test('DELETE /api/instances/known-id/music/valid-index that it returns 204!', async () => {
   const testJimmi: Jimmi = await createJimmi();
+
   const removeFromQueue: Stub<Jimmi> = stub(
     testJimmi,
     'removeFromQueue',
     () => {},
   );
-  const status: Stub<Jimmi> = stub(
+  const playNextSong: Stub<Jimmi> = stub(
+    testJimmi,
+    'playNextSong',
+    () => {},
+  );
+
+  const _status: Stub<Jimmi> = stub(
     testJimmi,
     'status',
     () => {
@@ -36,11 +43,16 @@ Deno.test('DELETE /api/instances/known-id/music/valid-index-other-than-0 that it
   await superdeno(app)
     .delete('/api/instances/' + testJimmi.id + '/music/' + '1')
     .expect(204);
+  await superdeno(app)
+    .delete('/api/instances/' + testJimmi.id + '/music/' + '0')
+    .expect(204);
+  assertSpyCall(removeFromQueue, 0);
+  assertSpyCall(playNextSong, 0);
 });
 
 Deno.test('DELETE /api/instances/known-id/music/invalid-index that it returns 400!', async () => {
   const testJimmi: Jimmi = await createJimmi();
-  const removeFromQueue: Stub<Jimmi> = stub(
+  const _removeFromQueue: Stub<Jimmi> = stub(
     testJimmi,
     'removeFromQueue',
     () => {},

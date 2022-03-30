@@ -13,7 +13,7 @@ Deno.test('PATCH /api/instances/unknown-id/music that it returns 404!', async ()
     .expect(404);
 });
 
-Deno.test('PATCH /api/instances/known-id/music/ with status change to playing and provided current field that it returns 400 for an invalid type or status change other than playing', async () => {
+Deno.test('PATCH /api/instances/known-id/music/ that it returns 200 with status change to playing and correctly provided current field and that it returns 400 for an invalid type current field or status change other than playing', async () => {
   const testJimmi: Jimmi = await createJimmi();
   const _getAudioFileUrl: Stub<Jimmi> = stub(
     testJimmi,
