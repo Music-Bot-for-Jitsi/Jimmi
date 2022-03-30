@@ -34,7 +34,6 @@ jobs:
       - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client
         run: |
-          rm swagger.json
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
