@@ -53,9 +53,7 @@ export const patchHandler: RequestHandler = async (req, res, _next) => {
             res.setStatus(200).json(jimmiInstance.music).send();
           } catch (error) {
             if (error.name == Errors.MALFORMED_YOUTUBE_URL) return void res.setStatus(400).send();
-            else {
-              res.setStatus(502).send();
-            }
+            res.setStatus(502).send();
           }
         } else {
           res.setStatus(400).send();
