@@ -41,19 +41,19 @@ Deno.test('PATCH /api/instances/known-id/music/ that it returns 200 with status 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music')
     .send({ 'status': Actions.PAUSE, 'current': testUrl })
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music')
     .send({ 'status': Actions.STOP, 'current': testUrl })
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music')
     .send({ 'status': Actions.PLAY, 'current': 1 })
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
 });
 
@@ -63,7 +63,7 @@ Deno.test('PATCH /api/instances/known-id/music/ that it returns 400 if current i
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music/')
     .send({ 'current': testUrl })
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
 });
 
@@ -104,10 +104,10 @@ Deno.test('PATCH /api/instances/known-id/music/ that it returns 200 for actions 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music/')
     .send({ 'status': 'unknown' })
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music/')
-    .expect('Content-Type', /text/)
+    .expect('Content-Type', /json/)
     .expect(400);
 });

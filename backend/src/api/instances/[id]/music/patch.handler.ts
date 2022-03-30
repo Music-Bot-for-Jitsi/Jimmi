@@ -3,6 +3,16 @@ import { getJimmiBy } from '../../../../service/Jimmi.service.ts';
 import Jimmi from '../../../../service/Jimmi.class.ts';
 import { Actions } from './actions.ts';
 import { Errors } from '../../../../../lib/youtube-audio-url-finder/errors.ts';
+import Joi from 'joi/?dts';
+
+const reqBodySchema = Joi.object<Record<string, string>>({
+  status: Joi.string().required(),
+  current: Joi.alternatives().conditional('status', {
+    is: Actions.PLAY,
+    then: Joi.string(),
+    otherwise: Joi.forbidden(),
+  }),
+});
 
 /**
  * @swagger
@@ -37,26 +47,22 @@ import { Errors } from '../../../../../lib/youtube-audio-url-finder/errors.ts';
  */
 export const patchHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
-  const body = await req.body;
 
   if (jimmiInstance === undefined) return void res.setStatus(404).send();
 
-  if (body.current && !(body.status === Actions.PLAY)) return void res.setStatus(400).send();
+  const { error, value: body } = reqBodySchema.validate(req.body);
+  if (error) return void res.setStatus(400).json(error);
 
   switch (body.status) {
     case Actions.PLAY:
       if (body.current) {
-        if (typeof body.current === 'string') {
-          try {
-            const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(body.current);
-            await jimmiInstance.play(audioFileUrl);
-            res.setStatus(200).json(jimmiInstance.music).send();
-          } catch (error) {
-            if (error.name == Errors.MALFORMED_YOUTUBE_URL) return void res.setStatus(400).send();
-            res.setStatus(502).send();
-          }
-        } else {
-          res.setStatus(400).send();
+        try {
+          const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(body.current);
+          await jimmiInstance.play(audioFileUrl);
+          res.setStatus(200).json(jimmiInstance.music).send();
+        } catch (error) {
+          if (error.name == Errors.MALFORMED_YOUTUBE_URL) return void res.setStatus(400).send();
+          res.setStatus(502).send();
         }
       } else {
         await jimmiInstance.play();

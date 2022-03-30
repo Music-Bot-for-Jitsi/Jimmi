@@ -2,6 +2,11 @@ import { RequestHandler } from 'opine/mod.ts';
 import { getJimmiBy } from '../../../../service/Jimmi.service.ts';
 import Jimmi from '../../../../service/Jimmi.class.ts';
 import { Errors } from '../../../../../lib/youtube-audio-url-finder/errors.ts';
+import Joi from 'joi/?dts';
+
+const reqBodySchema = Joi.object<Record<string, string>>({
+  url: Joi.string().required(),
+});
 
 /**
  * @swagger
@@ -32,11 +37,11 @@ import { Errors } from '../../../../../lib/youtube-audio-url-finder/errors.ts';
  */
 export const postHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
-  const body = await req.body;
 
   if (jimmiInstance === undefined) return void res.setStatus(404).send();
 
-  if (body.url === undefined || !(typeof body.url === 'string')) return void res.setStatus(400).send();
+  const { error, value: body } = reqBodySchema.validate(req.body);
+  if (error) return void res.setStatus(400).json(error);
 
   try {
     const audioFileUrl: string = await jimmiInstance.getAudioFileUrl(

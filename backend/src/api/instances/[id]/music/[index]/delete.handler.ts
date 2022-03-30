@@ -1,6 +1,9 @@
 import { RequestHandler } from 'opine/mod.ts';
 import { getJimmiBy } from '../../../../../service/Jimmi.service.ts';
 import Jimmi from '../../../../../service/Jimmi.class.ts';
+import Joi from 'joi/?dts';
+
+const indexSchema = Joi.number().min(0);
 
 /**
  * @swagger
@@ -28,19 +31,15 @@ import Jimmi from '../../../../../service/Jimmi.class.ts';
  */
 export const deleteHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
-  const index: string = req.params.index;
-
   if (jimmiInstance === undefined) return void res.setStatus(404).send();
 
-  const indexNumber: number = parseInt(index);
+  const { error, value: indexNumber } = indexSchema.validate(req.params.index);
+  if (error) return void res.setStatus(400).json(error).send();
+  if (indexNumber > jimmiInstance.status.queueLength) return void res.setStatus(400).send();
   if (indexNumber === 0) {
     jimmiInstance.playNextSong();
-    return void res.setStatus(204).send();
+  } else {
+    jimmiInstance.removeFromQueue(indexNumber - 1);
   }
-  if (indexNumber < 0 || isNaN(indexNumber)) return void res.setStatus(400).send();
-
-  if (indexNumber > jimmiInstance.status.queueLength) return void res.setStatus(400).send();
-
-  jimmiInstance.removeFromQueue(indexNumber - 1);
   res.setStatus(204).send();
 };
