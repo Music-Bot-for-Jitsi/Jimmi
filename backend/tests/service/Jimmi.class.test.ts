@@ -1,8 +1,9 @@
 import Jimmi from '../../src/service/Jimmi.class.ts';
-import { assertSpyCallAsync, resolvesNext, stub } from 'mock/mod.ts';
+import { assertSpyCallAsync, resolvesNext, Stub, stub } from 'mock/mod.ts';
 import type { Page } from 'puppeteer/mod.ts';
 import config from '../../src/configuration/environment.ts';
 import { assert, assertEquals } from 'std/testing/asserts.ts';
+import YoutubeAudioUrlFinder from '../../lib/youtube-audio-url-finder/mod.ts';
 
 Deno.test('Jimmi instance constructor', () => {
   const fakePage: Page = {} as unknown as Page;
@@ -43,6 +44,29 @@ Deno.test('Jimmi join function', async () => {
 
   await assertSpyCallAsync(pageEvaluateMock, 0, {
     args: [`joinConference('${domain}', '${room}', '${config.botname}', ${config.gain})`],
+  });
+});
+
+Deno.test('Get audio file url function', async () => {
+  const fakePage: Page = {} as unknown as Page;
+  const jimmi = new Jimmi(fakePage);
+  const testUrl = 'test.test.test';
+
+  const getAudioFileUrl: Stub<YoutubeAudioUrlFinder> = stub(
+    jimmi['youtubeAudioUrlFinder'],
+    'findAudioFileUrl',
+    async () => {
+      return await testUrl;
+    },
+  );
+
+  const result = await jimmi.getAudioFileUrl(testUrl);
+
+  assert(result === testUrl);
+
+  await assertSpyCallAsync(getAudioFileUrl, 0, {
+    args: [testUrl],
+    self: jimmi['youtubeAudioUrlFinder'],
   });
 });
 
