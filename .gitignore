@@ -1,1 +1,2 @@
 *.lcov
+/swagger.json

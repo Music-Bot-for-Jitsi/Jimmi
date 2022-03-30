@@ -28,19 +28,8 @@ jobs:
         with:
           deno-version: vx.x.x
 
-      - name: Generate swagger json file
-        run: deno task gen:openapi frontend/lib/jimmi-api-client/swagger.json
-
       - name: Generate api client
-        working-directory: frontend/lib/jimmi-api-client
-        run: |
-          docker run --rm \
-            -v "$(pwd)":/local \
-            openapitools/openapi-generator-cli generate \
-            -i /local/swagger.json \
-            -c /local/config.yml \
-            -g typescript \
-            -o /local/src/
+        run: make jimmi_api_client
 
       - name: Commit and push changes in submodule
         working-directory: frontend/lib/jimmi-api-client

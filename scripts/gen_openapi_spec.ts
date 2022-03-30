@@ -21,12 +21,13 @@ function getApiFiles(): string[] {
 }
 
 const swaggerDefinition = {
+  openapi: '3.0.1',
   info: {
     title: 'Jimmi API',
     version: '1.0.0',
     description: 'The JIMMI backend REST api',
   },
-  basePath: '/api',
+  servers: [{ url: '/', variables: { basePath: { default: '/api'} }}],
 };
 
 const options = {

@@ -10,7 +10,8 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
  *     responses:

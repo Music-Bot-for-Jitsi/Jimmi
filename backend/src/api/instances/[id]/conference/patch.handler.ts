@@ -15,25 +15,35 @@ const reqBodySchema = Joi.object<Record<string, string>>({
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
- *       - in: body
- *         name: conference
- *         required: true
- *         schema:
- *           type: object
- *           required:
- *             - room
- *             - instance
- *           properties:
- *             room:
- *               type: string
- *             instance:
- *               type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               room:
+ *                 description: The room to join
+ *                 type: string
+ *               instance:
+ *                 description: The instance to join
+ *                 type: string
+ *             required:
+ *               - room
+ *               - instance
+ *             example:
+ *               instance: meet.jit.si
+ *               room: YourConference
  *     responses:
  *       200:
  *         description: Conference information updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
  *       400:
  *         description: Invalid request body
  *       404:

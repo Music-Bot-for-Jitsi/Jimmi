@@ -1,4 +1,5 @@
 DENO=deno compile --config backend/deno.json --import-map import_map.json --no-check --allow-read --allow-net --allow-env
+jimmi-api-client=frontend/lib/jimmi-api-client
 
 clean:
 	rm -r frontend/dist backend/dist
@@ -19,6 +20,20 @@ backend/dist/frontend/:
 copy_environment:
 	mkdir -p backend/dist
 	cp backend/.env.example backend/dist/.env
+
+swagger.json:
+	deno task gen:openapi swagger.json
+
+jimmi_api_client: swagger.json
+	mv swagger.json $(jimmi-api-client)
+	cd $(jimmi-api-client) && docker run --rm \
+		-v "`pwd`:/local" \
+		openapitools/openapi-generator-cli generate \
+		-i /local/swagger.json \
+		-c /local/config.yml \
+		-g typescript \
+		-o /local/src/
+	rm $(jimmi-api-client)/swagger.json
 
 # static deno binaries
 x86_64-unknown-linux-gnu:

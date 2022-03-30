@@ -9,12 +9,17 @@ import { getJimmiBy } from '../../../service/Jimmi.service.ts';
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
  *     responses:
  *       200:
  *         description: Jimmi instance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
  *       404:
  *         description: No instance found under the given id
  */

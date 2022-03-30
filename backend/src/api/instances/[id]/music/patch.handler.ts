@@ -22,22 +22,32 @@ const reqBodySchema = Joi.object<Record<string, string>>({
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
- *      - in: body
- *         name: status
- *         type: string
- *         required: true
- *         description: The desired status change
- *       - in: body
- *         name: current
- *         type: string
- *         required: false
- *         description: The desired new video url
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 description: The desired status change
+ *                 type: string
+ *               current:
+ *                 description: The desired new video url
+ *                 type: string
+ *             required:
+ *               - status
+ *               - current
  *     responses:
  *       200:
  *         description: Status and url updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
  *       400:
  *         description: Unknown status change requested, invalid video url provided or url provided with new status other than "playing"
  *       404:
