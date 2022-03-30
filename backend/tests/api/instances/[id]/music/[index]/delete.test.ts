@@ -45,20 +45,6 @@ Deno.test('DELETE /api/instances/known-id/music/invalid-index that it returns 40
     'removeFromQueue',
     () => {},
   );
-  const status: Stub<Jimmi> = stub(
-    testJimmi,
-    'status',
-    () => {
-      return {
-        id: 'test',
-        name: 'test',
-        isPlaying: 'false',
-        conference: undefined,
-        currentTrack: 'test',
-        queueLength: 2,
-      };
-    },
-  );
 
   await superdeno(app)
     .delete('/api/instances/' + testJimmi.id + '/music/' + '-1')
@@ -66,7 +52,7 @@ Deno.test('DELETE /api/instances/known-id/music/invalid-index that it returns 40
   await superdeno(app)
     .delete('/api/instances/' + testJimmi.id + '/music/' + 'abc')
     .expect(400);
-    await superdeno(app)
-    .delete('/api/instances/' + testJimmi.id + '/music/' + '42')
+  await superdeno(app)
+    .delete('/api/instances/' + testJimmi.id + '/music/' + (testJimmi.status.queueLength + 1))
     .expect(400);
 });
