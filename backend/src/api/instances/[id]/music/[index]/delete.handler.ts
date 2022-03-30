@@ -36,7 +36,8 @@ export const deleteHandler: RequestHandler = (req, res, _next) => {
   const indexNumber: number = parseInt(index);
   if (indexNumber === 0) {
     jimmiInstance.playNextSong();
-    res.setStatus(204);
+    res.setStatus(204).send();
+    return;
   }
   if (indexNumber < 0 || isNaN(indexNumber)) {
     res.setStatus(400).send();
