@@ -21,9 +21,6 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  */
 export const getHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
-  if (jimmiInstance === undefined) {
-    res.setStatus(404).send();
-    return;
-  }
+  if (jimmiInstance === undefined) return void res.setStatus(404).send();
   res.setStatus(200).json(jimmiInstance.music).send();
 };
