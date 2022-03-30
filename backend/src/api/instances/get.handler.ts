@@ -14,7 +14,7 @@ import { getAllJimmiIds } from '../../service/Jimmi.service.ts';
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 type: string
  */
 export const getHandler: RequestHandler = (_req, res, _next) => {
   res.json(getAllJimmiIds());
