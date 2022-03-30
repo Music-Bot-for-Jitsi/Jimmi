@@ -4,11 +4,17 @@
   import { _ } from 'svelte-i18n';
   import { navigate } from 'svelte-routing';
   import Spinner from 'svelte-tailwind-widgets/Spinner.svelte';
-  import { createConfiguration, DefaultApi, ServerConfiguration } from 'jimmi-api-client/mod.ts';
+  import { api } from 'jimmi-api-client/mod.ts';
   import config from '../config.ts';
 
+  interface IJimmiSettings {
+    domain: string;
+    room: string;
+    password: string;
+  }
+
   const domainRegex = new RegExp(
-    /^([a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?\.)*[a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?$/
+    /^$|^([a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?\.)*[a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?$/
   );
 
   const jitsiRoomRegex = new RegExp(/^[^?&:"'%#]+$/); // only given characters are excluded
@@ -32,6 +38,25 @@
       createJimmiInstance(settings);
     },
   });
+
+  /**
+   * Creates a new Jimmi instance and redirects the user to the corresponding dashboard
+   *
+   * @param settings - The Jimmi instance settings
+   */
+  async function createJimmiInstance(settings: IJimmiSettings) {
+    const apiConfig = api.createConfiguration({
+      baseServer: new api.ServerConfiguration(config.apiBaseUrl),
+    });
+    const jimmiApi = new api.DefaultApi(apiConfig);
+    const instance = await jimmiApi.instancesPost();
+    const test = await jimmiApi.instancesGet()
+    await jimmiApi.instancesIdConferencePatch(instance.id, {
+      room: $form.room,
+      instance: $form.domain,
+    });
+    navigate(`/instance/${instance.id}`);
+  }
 
   /**
    * EventHandler for onBeforeInput event. If a complete jitsi url is pasted into the input field,
