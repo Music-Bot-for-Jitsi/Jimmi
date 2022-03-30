@@ -13,12 +13,14 @@ const indexSchema = Joi.number().min(0);
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
- *      - in: path
+ *       - in: path
  *         name: index
- *         type: int
+ *         schema:
+ *           type: int
  *         required: true
  *         description: Track position in queue (starting with 1, submitting index 0 skips the current track)
  *     responses:

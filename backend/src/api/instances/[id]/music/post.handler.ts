@@ -16,18 +16,28 @@ const reqBodySchema = Joi.object<Record<string, string>>({
  *     parameters:
  *       - in: path
  *         name: id
- *         type: string
+ *         schema:
+ *           type: string
  *         required: true
  *         description: UUID of the Jimmi instance
- *     parameters:
- *       - in: body
- *         name: url
- *         type: string
- *         required: true
- *         description: The desired new video url
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 description: The desired new video url
+ *                 type: string
+ *             required:
+ *               - url
  *     responses:
  *       201:
  *         description: Successfully added url to playlist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
  *       400:
  *         description: No url or invalid url provided
  *       404:
