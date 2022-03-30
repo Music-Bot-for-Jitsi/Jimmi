@@ -10,7 +10,7 @@ import { assertSpyCall } from 'mock/mod.ts';
 Deno.test('POST /api/instances/unknown-id/music that it returns 404!', async () => {
   await superdeno(app)
     .post('/api/instances/unknown-id/music')
-    .expect('Content-Type', /json/)
+    .expect('Content-Type', /text/)
     .expect(404);
 });
 
@@ -73,7 +73,7 @@ Deno.test('POST /api/instances/known-id/music that it returns 400 for a malforme
   await superdeno(app)
     .post('/api/instances/' + testJimmi.id + '/music')
     .send({ 'url': testUrl })
-    .expect('Content-Type', /json/)
+    .expect('Content-Type', /text/)
     .expect(400);
 
   _getAudioFileUrl = stub(
@@ -89,6 +89,6 @@ Deno.test('POST /api/instances/known-id/music that it returns 400 for a malforme
   await superdeno(app)
     .post('/api/instances/' + testJimmi.id + '/music')
     .send({ 'url': testUrl })
-    .expect('Content-Type', /json/)
+    .expect('Content-Type', /text/)
     .expect(502);
 });

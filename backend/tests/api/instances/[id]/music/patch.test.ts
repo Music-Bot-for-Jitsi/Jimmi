@@ -104,7 +104,7 @@ Deno.test('PATCH /api/instances/known-id/music/ that it returns 200 for actions 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music/')
     .send({ 'status': 'unknown' })
-    .expect('Content-Type', /json/)
+    .expect('Content-Type', /text/)
     .expect(400);
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music/')
