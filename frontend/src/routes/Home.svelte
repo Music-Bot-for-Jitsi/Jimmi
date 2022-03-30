@@ -8,7 +8,7 @@
   import config from '../config.ts';
 
   const domainRegex = new RegExp(
-    /^$|^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/
+    /^([a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?\.)*[a-zA-Z](?:(?:([a-zA-Z]|[0-9]|-)+)?[a-zA-Z]|[0-9])?$/
   );
 
   const jitsiRoomRegex = new RegExp(/^[^?&:"'%#]+$/); // only given characters are excluded
@@ -20,7 +20,7 @@
       password: '',
     },
     validationSchema: yup.object().shape({
-      domain: yup.string().trim().matches(domainRegex),
+      domain: yup.string().trim().max(63).matches(domainRegex),
       room: yup.string().trim().min(1).matches(jitsiRoomRegex).required(),
       password: yup.string().optional(),
     }),
