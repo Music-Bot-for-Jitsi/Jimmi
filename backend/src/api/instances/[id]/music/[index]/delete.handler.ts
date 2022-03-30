@@ -6,7 +6,7 @@ import Jimmi from '../../../../../service/Jimmi.class.ts';
  * @swagger
  * /instances/{id}/music/{index}:
  *   delete:
- *     description: Removes a track from the queue or skip the current track
+ *     description: Remove a track from the queue or skip the current track
  *     parameters:
  *       - in: path
  *         name: id
