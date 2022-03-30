@@ -29,24 +29,17 @@ import Jimmi from '../../../../../service/Jimmi.class.ts';
 export const deleteHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   const index: string = req.params.index;
-  if (jimmiInstance === undefined) {
-    res.setStatus(404).send();
-    return;
-  }
+
+  if (jimmiInstance === undefined) return void res.setStatus(404).send();
+
   const indexNumber: number = parseInt(index);
   if (indexNumber === 0) {
     jimmiInstance.playNextSong();
-    res.setStatus(204).send();
-    return;
+    return void res.setStatus(204).send();
   }
-  if (indexNumber < 0 || isNaN(indexNumber)) {
-    res.setStatus(400).send();
-    return;
-  }
-  if (indexNumber > jimmiInstance.status.queueLength) {
-    res.setStatus(400).send();
-    return;
-  }
+  if (indexNumber < 0 || isNaN(indexNumber)) return void res.setStatus(400).send();
+
+  if (indexNumber > jimmiInstance.status.queueLength) return void res.setStatus(400).send();
 
   jimmiInstance.removeFromQueue(indexNumber - 1);
   res.setStatus(204).send();

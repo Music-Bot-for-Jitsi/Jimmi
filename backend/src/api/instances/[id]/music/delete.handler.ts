@@ -21,10 +21,7 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  */
 export const deleteHandler: RequestHandler = (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
-  if (jimmiInstance === undefined) {
-    res.setStatus(404).send();
-    return;
-  }
+  if (jimmiInstance === undefined) return void res.setStatus(404).send();
   jimmiInstance.clearQueue();
   res.setStatus(204).send();
 };

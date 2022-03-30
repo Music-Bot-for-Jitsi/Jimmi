@@ -34,14 +34,10 @@ export const postHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   const body = await req.body;
 
-  if (jimmiInstance === undefined) {
-    res.setStatus(404).send();
-    return;
-  }
+  if (jimmiInstance === undefined) return void res.setStatus(404).send();
 
   if (body.url === undefined || !(typeof body.url === 'string')) {
-    res.setStatus(400).send();
-    return;
+    return void res.setStatus(400).send();
   }
 
   try {

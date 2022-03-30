@@ -39,14 +39,9 @@ export const patchHandler: RequestHandler = async (req, res, _next) => {
   const jimmiInstance: Jimmi | undefined = getJimmiBy(req.params.id);
   const body = await req.body;
 
-  if (jimmiInstance === undefined) {
-    res.setStatus(404).send();
-    return;
-  }
-  if (body.current && !(body.status === Actions.PLAY)) {
-    res.setStatus(400).send();
-    return;
-  }
+  if (jimmiInstance === undefined) return void res.setStatus(404).send();
+
+  if (body.current && !(body.status === Actions.PLAY)) return void res.setStatus(400).send();
 
   switch (body.status) {
     case Actions.PLAY:
@@ -57,7 +52,7 @@ export const patchHandler: RequestHandler = async (req, res, _next) => {
             await jimmiInstance.play(audioFileUrl);
             res.setStatus(200).json(jimmiInstance.music).send();
           } catch (error) {
-            if (error.name == Errors.MALFORMED_YOUTUBE_URL) res.setStatus(400).send();
+            if (error.name == Errors.MALFORMED_YOUTUBE_URL) return void res.setStatus(400).send();
             else {
               res.setStatus(502).send();
             }
