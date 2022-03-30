@@ -34,12 +34,6 @@ Deno.test('PATCH /api/instances/known-id/music/ with status change to playing an
 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music')
-    .send({ 'status': Actions.PLAY, 'current': testUrl })
-    .expect('Content-Type', /json/)
-    .expect(200);
-
-  await superdeno(app)
-    .patch('/api/instances/' + testJimmi.id + '/music')
     .send({ 'status': Actions.PAUSE, 'current': testUrl })
     .expect('Content-Type', /text/)
     .expect(400);
