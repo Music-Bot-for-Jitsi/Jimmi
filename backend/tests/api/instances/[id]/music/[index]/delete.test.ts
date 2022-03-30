@@ -66,7 +66,4 @@ Deno.test('DELETE /api/instances/known-id/music/invalid-index that it returns 40
   await superdeno(app)
     .delete('/api/instances/' + testJimmi.id + '/music/' + 'abc')
     .expect(400);
-  // await superdeno(app)
-  //   .delete('/api/instances/' + testJimmi.id + '/music/' + '4')
-  //   .expect(400);
 });

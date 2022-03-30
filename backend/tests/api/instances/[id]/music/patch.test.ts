@@ -13,7 +13,7 @@ Deno.test('PATCH /api/instances/unknown-id/music that it returns 404!', async ()
     .expect(404);
 });
 
-Deno.test('PATCH /api/instances/known-id/music/ with status change to playing and provided current field that it returns 200 for a provided string url and 400 for an invalid type or status change other than playing', async () => {
+Deno.test('PATCH /api/instances/known-id/music/ with status change to playing and provided current field that it returns 400 for an invalid type or status change other than playing', async () => {
   const testJimmi: Jimmi = await createJimmi();
   const _getAudioFileUrl: Stub<Jimmi> = stub(
     testJimmi,
@@ -31,11 +31,6 @@ Deno.test('PATCH /api/instances/known-id/music/ with status change to playing an
   );
 
   const testUrl = 'test.test.test';
-  // await superdeno(app)
-  //   .patch("/api/instances/" + testJimmi.id + "/music")
-  //   .send({ "status": Actions.PLAY, "current": testUrl })
-  //   .expect("Content-Type", /json/)
-  //   .expect(200);
 
   await superdeno(app)
     .patch('/api/instances/' + testJimmi.id + '/music')
