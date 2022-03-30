@@ -50,7 +50,7 @@
     });
     const jimmiApi = new api.DefaultApi(apiConfig);
     const instance = await jimmiApi.instancesPost();
-    const test = await jimmiApi.instancesGet()
+    const test = await jimmiApi.instancesGet();
     await jimmiApi.instancesIdConferencePatch(instance.id, {
       room: $form.room,
       instance: $form.domain,
@@ -89,7 +89,7 @@
 {#if isLoading}
   <div class="flex flex-col items-center justify-center">
     <Spinner>
-      <p class="p-5">{$_("general.connecting")}...</p>
+      <p class="p-5">{$_('general.connecting')}...</p>
     </Spinner>
   </div>
 {/if}
@@ -121,7 +121,7 @@
           on:beforeinput={beforeInput}
           on:change={handleChange}
           bind:value={$form.domain}
-          placeholder="{config.defaultJitsiUrl}"
+          placeholder={config.defaultJitsiUrl}
           class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         />
         {#if $errors.domain}
