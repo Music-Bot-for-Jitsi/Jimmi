@@ -39,7 +39,7 @@ Install a chromium-based browser such as Google Chrome and note down the executa
 
 ## Create Configuration File
 
-Inside the backend folder copy and rename `.env.example` to `.env` and fill in your desired settings.
+Inside the `backend` folder copy and rename `.env.example` to `.env` and fill in your desired settings.
 
 ## Starting the Application components
 

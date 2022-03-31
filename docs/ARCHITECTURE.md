@@ -50,7 +50,7 @@ Advantages:
 
 ### Trex and Velociraptor
 
-[Trex](https://deno.land/x/trex) is a package management tool for Deno similar to NPM but keeping close to the Deno philosophy. Packages are cached and only one `import_map.json` file is generated. **Update:** As deno has implemented its own task runner with `v.1.20` we have removed Trex as dependency.
+[Trex](https://deno.land/x/trex) is a package management tool for Deno similar to NPM but keeping close to the Deno philosophy. Packages are cached and only one `import_map.json` file is generated. **Update:** As deno has implemented its own task runner with `v1.20.1` we have removed Trex as dependency.
 [Velociraptor](https://deno.land/x/velociraptor) is a script runner for Deno, inspired by NPM's `package.json` scripts. It offers a similar experience but with out-of-the-box support for declarative Deno CLI options, environment variables, concurrency and git hooks.  
 In this project we use Velociraptor to have a single command that starts frontend and backend (or other tasks) in parallel.
 
