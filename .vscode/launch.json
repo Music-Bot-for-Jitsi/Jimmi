@@ -10,7 +10,7 @@
       "type": "node",
       "program": "${workspaceFolder}/backend/src/app.ts",
       "cwd": "${workspaceFolder}/backend",
-      "runtimeExecutable": "C:\\ProgramData\\chocolatey\\bin\\deno.EXE",
+      "runtimeExecutable":"deno",
       "runtimeArgs": [
         "run",
         "--no-check=remote",
