@@ -15,7 +15,7 @@ services:
       - browserlessservice
 
   browserlessservice:
-    image: browserless/chrome
+    image: browserless/chrome:1-chrome-stable
     restart: unless-stopped
     environment:
       - DEFAULT_LAUNCH_ARGS=["--use-fake-ui-for-media-stream","--use-fake-device-for-media-stream","--disable-web-security","--disable-features=IsolateOrigins,site-per-process"]
