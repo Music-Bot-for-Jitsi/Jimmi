@@ -1,7 +1,7 @@
 import { config as dotenvConfig } from 'dotenv/mod.ts';
 import Joi from 'joi/?dts';
 
-const env = dotenvConfig({ export: true });
+dotenvConfig({ export: true });
 
 type EnvVars = { [key: string]: string | number | boolean };
 
