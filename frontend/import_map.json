@@ -3,6 +3,7 @@
     "svelte-forms-lib": "https://dev.jspm.io/svelte-forms-lib",
     "svelte-i18n": "https://cdn.skypack.dev/svelte-i18n",
     "svelte-tailwind-widgets/": "https://deno.land/x/svelte_tailwind_widgets/",
-    "yup": "https://dev.jspm.io/yup"
+    "yup": "https://dev.jspm.io/yup",
+    "jimmi-api-client/": "https://deno.land/x/jimmi_api_client/"
   }
 }
