@@ -14,11 +14,11 @@
     PAUSE: 'paused',
     PLAY: 'playing',
     STOP: 'stopped',
-  }
+  };
 
   let isAudioPaused = false;
 
-  export function updateState(state: State) {
+  export function updateState(state: State): void {
     isAudioPaused = state.status !== Actions.PLAY;
     queue = state.queue;
   }
@@ -26,14 +26,33 @@
   /**
    * Toggle the current music playback state
    */
-  async function togglePause() {
+  async function togglePause(): Promise<void> {
     const res = await jimmiApi.instancesIdMusicPatch(id, {
       status: isAudioPaused ? Actions.PLAY : Actions.PAUSE,
     });
     updateState(res);
   }
 
-  function playNext(id) {}
+  /**
+   * Skip the current track
+   */
+  async function skip(): Promise<void> {
+    await jimmiApi.instancesIdMusicIndexDelete(id, 0);
+    jimmiApi.instancesIdMusicGet(id).then((res) => updateState(res));
+  }
+
+  /**
+   * Play the given song next
+   *
+   * @param idx - The index of the song in the queue
+   */
+  async function playNext(idx: number): Promise<void> {
+    await jimmiApi.instancesIdMusicIndexDelete(id, idx);
+    const res = await jimmiApi.instancesIdMusicPatch(id, {
+      url: queue[idx + 1],
+    });
+    updateState(res);
+  }
 
   // initially fetch current playback state and queue
   jimmiApi.instancesIdMusicGet(id).then((res) => updateState(res));
@@ -81,7 +100,7 @@
           >
         {/if}
       </button>
-      <button class="focus:outline-none">
+      <button class="focus:outline-none" on:click={skip}>
         <svg
           class="w-4 h-4"
           viewBox="0 0 24 24"
