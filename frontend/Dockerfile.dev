@@ -1,0 +1,6 @@
+# A simple development proxy to circumvent cors issues
+# Build: docker build . -f Dockerfile.dev -t jimmi-proxy
+# Run: docker run --network host -p 8080:8080 jimmi-proxy
+FROM nginx:alpine
+COPY nginx/dev-proxy.conf /etc/nginx/conf.d/default.conf
+EXPOSE 8080

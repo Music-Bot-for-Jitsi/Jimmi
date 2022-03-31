@@ -1,40 +1,35 @@
 <script lang="ts">
-  import Router from "svelte-routing/Router.svelte";
-  import Route from "svelte-routing/Route.svelte";
-  import Link from "svelte-routing/Link.svelte";
-  import Home from "./routes/Home.svelte";
-  import Instance from "./routes/Instance.svelte";
+  import { _, isLoading } from 'svelte-i18n';
+  import Router from 'svelte-routing/Router.svelte';
+  import Route from 'svelte-routing/Route.svelte';
+  import Link from 'svelte-routing/Link.svelte';
+  import Home from './routes/Home.svelte';
+  import Instance from './routes/Instance.svelte';
+  import config from './config.ts';
 
   export let url = ''; // required by the svelte router
 </script>
 
-<main>
-  <Router url="{url}">
-    <div>
-      <Route path="/">
-        <Home />
-      </Route>
-      <Route path="/instance/:id" component="{Instance}" let:params>
-        <Instance id="{params.id}" />
-      </Route>
-      <footer>
-        <Link to="instance/abc123">Dashboard</Link>
-      </footer>
-    </div>
-  </Router>
-</main>
+{#if $isLoading}
+  Please wait...
+{:else}
+  <main>
+    <Router {url}>
+      <div>
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/instance/:id" component={Instance} let:params>
+          <Instance id={params.id} />
+        </Route>
+        <footer class="text-center fixed bottom-0 w-full bg-slate-800 text-gray-200">
+          {$_('general.forkMeOn')} <a class="text-indigo-300" href="{config.githubUrl}">GitHub</a>
+        </footer>
+      </div>
+    </Router>
+  </main>
+{/if}
 
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
 </style>
