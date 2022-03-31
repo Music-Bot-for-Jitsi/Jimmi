@@ -22,7 +22,7 @@
   }
 </script>
 
-<div class="lg:w-2/3 w-full mx-auto sm:space-y-8 space-y-8">
+<div class="lg:w-2/3 w-full mt-16 mx-auto sm:space-y-8 space-y-8">
   <div class="flex sm:flex-row flex-col items-end px-8 sm:space-x-4 sm:px-0">
     <div class="relative flex-grow w-full">
       <label for="full-name" class="leading-7 text-sm text-gray-600"
