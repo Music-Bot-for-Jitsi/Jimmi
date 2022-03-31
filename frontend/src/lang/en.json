@@ -20,8 +20,8 @@
       "roomLabel": "Room name"
     },
     "instance": {
-      "play": "Play",
-      "playbackUrl": "Playback URL"
+      "playbackUrl": "Playback URL",
+      "queue": "Queue"
     }
   }
 }
