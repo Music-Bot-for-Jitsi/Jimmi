@@ -15,4 +15,4 @@ RUN ["deno", "cache", "--no-check", "src/app.ts"]
 
 EXPOSE 8000
 ENV PORT 8000
-CMD ["run", "--no-check", "--allow-net", "--allow-read", "src/app.ts"]
+CMD ["run", "--no-check", "--allow-net", "--allow-read", "--allow-env", "src/app.ts"]

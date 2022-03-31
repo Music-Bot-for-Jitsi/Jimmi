@@ -20,6 +20,10 @@ services:
   backend:
     image: ghcr.io/music-bot-for-jitsi/jimmi/backend:latest
     restart: unless-stopped
+    links:
+      - browserlessservice
+    environment:
+      - BROWSER_WS_ENDPOINT=ws://browserlessservice:3000
     labels:
       - "traefik.enable=true"
       # HTTP
@@ -30,6 +34,15 @@ services:
       # - "traefik.http.routers.backend-tls.entrypoints=websecure"
       # - "traefik.http.routers.backend-tls.tls=true"
       # - "traefik.http.routers.backend-tls.tls.certresolver=jimmi-tls"
+ 
+  browserlessservice:
+    image: browserless/chrome:1-chrome-stable
+    restart: unless-stopped
+    environment:
+      - DEFAULT_LAUNCH_ARGS=["--use-fake-ui-for-media-stream","--use-fake-device-for-media-stream","--disable-web-security","--disable-features=IsolateOrigins,site-per-process"]
+      - CONNECTION_TIMEOUT=-1
+    labels:
+      - "traefik.enable=false"
 
   reverse-proxy:
     image: traefik:v2.5

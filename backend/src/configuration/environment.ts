@@ -39,9 +39,9 @@ export const envVarsSchema = Joi.object<EnvVars>({
     .default('https://api.invidious.io/instances.json')
     .description('Url to get Invidious instance urls from'),
   // 1/2 Add new config pairs here
-}).required();
+}).unknown().required();
 
-const { error, value: envVars } = envVarsSchema.validate(env);
+const { error, value: envVars } = envVarsSchema.validate(Deno.env.toObject());
 if (error) throw new Error(`Config validation error: ${error?.message}`);
 if (!envVars) throw new Error('Config parsing error!');
 
