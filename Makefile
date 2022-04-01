@@ -11,9 +11,7 @@ all_portable: \
 	aarch64-apple-darwin-portable
 
 backend/dist/frontend/:
-	cd frontend
-	deno task build
-	cd ..
+	cd frontend && deno task build
 	./scripts/gen_openapi_spec.ts frontend/dist/swagger.json
 	cp -r frontend/dist/ backend/dist/frontend/
 
