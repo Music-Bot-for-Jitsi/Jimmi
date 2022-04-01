@@ -20,8 +20,10 @@ jobs:
       - name: Build all portables and thereby all binaries
         run: make all_portable
 
+      - name: Copy files
+        run: cp backend/dist/*.{tar.gz,zip} .
+
       - uses: actions/upload-artifact@v3
-        working-directory: backend/dist/
         with:
           path: |
             *.tar.gz
