@@ -16,6 +16,9 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: vx.x.x
+      
+      - name: Install snel
+        run: deno run --allow-run --allow-read https://deno.land/x/snel/install.ts
 
       - name: Build all portables and thereby all binaries
         run: make all_portable
