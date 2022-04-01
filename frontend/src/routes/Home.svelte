@@ -4,7 +4,7 @@
   import { _ } from 'svelte-i18n';
   import { navigate } from 'svelte-routing';
   import Spinner from 'svelte-tailwind-widgets/Spinner.svelte';
-  import { api } from 'jimmi-api-client/mod.ts';
+  import jimmiApi from '../api.ts';
   import config from '../config.ts';
 
   interface IJimmiSettings {
@@ -45,10 +45,6 @@
    * @param settings - The Jimmi instance settings
    */
   async function createJimmiInstance(settings: IJimmiSettings) {
-    const apiConfig = api.createConfiguration({
-      baseServer: new api.ServerConfiguration(config.apiBaseUrl),
-    });
-    const jimmiApi = new api.DefaultApi(apiConfig);
     const instance = await jimmiApi.instancesPost();
     const test = await jimmiApi.instancesGet();
     await jimmiApi.instancesIdConferencePatch(instance.id, {

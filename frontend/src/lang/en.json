@@ -18,6 +18,10 @@
       },
       "roomError": "Please enter a valid room name.",
       "roomLabel": "Room name"
+    },
+    "instance": {
+      "playbackUrl": "Playback URL",
+      "queue": "Queue"
     }
   }
 }

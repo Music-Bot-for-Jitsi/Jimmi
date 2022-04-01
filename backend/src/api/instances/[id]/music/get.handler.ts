@@ -17,6 +17,10 @@ import Jimmi from '../../../../service/Jimmi.class.ts';
  *     responses:
  *       200:
  *         description: Details about the running music
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
  *       404:
  *         description: No instance found under the given id
  */
