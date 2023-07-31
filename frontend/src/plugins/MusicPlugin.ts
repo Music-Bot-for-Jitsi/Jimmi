@@ -54,8 +54,10 @@ export default class MusicPlugin extends JimmiPlugin {
       }
     },
   };
-
-  private baseUrl = "https://invidious.snopyta.org";
+  private chooseRandomBaseUrl(): string {
+    const instances = ["https://vid.puffyan.us", "https://invidious.tiekoetter.com", "https://invidious.flokinet.to", "https://inv.bp.projectsegfau.lt", "https://yt.artemislena.eu", "https://invidious.projectsegfau.lt", "https://invidious.lunar.icu"];
+    return instances[Math.floor(instances.length * Math.random())];
+  }
 
   /**
    * Internal fetch method that contructs the API url and formats the response as json
@@ -64,7 +66,7 @@ export default class MusicPlugin extends JimmiPlugin {
    * @returns Promise of the given type wich describes the json response
    */
   private async fetch<T>(endpoint: string): Promise<T> {
-    const res = await fetch(`${this.baseUrl}/api/v1/${endpoint}`, {
+    const res = await fetch(`${this.chooseRandomBaseUrl()}/api/v1/${endpoint}`, {
       referrerPolicy: 'no-referrer',
     });
     return await res.json();
