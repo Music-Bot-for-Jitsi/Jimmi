@@ -34,8 +34,8 @@
   <a href="https://meet.jit.si/">
     <img src="https://img.shields.io/badge/Built%20for-Jitsi%20Meet-5e87d4" />
   </a>
-  <a href="https://jimmi.xyz/">
-    <img src="https://img.shields.io/badge/https://-jimmi.xyz-6366f1" />
+  <a href="https://app.jimmi.party/">
+    <img src="https://img.shields.io/badge/https://-app.jimmi.party-6366f1" />
   </a>
 </p>
 
@@ -47,7 +47,7 @@ I am Jimmi! Your Jitsi Integrated Musicbot Management Interface.
 
 # :tada: How does Jimmi help me?
 
-An awesome Jitsi Meet Party has never been so easy! - Go to [jimmi.xyz](https://jimmi.xyz/) fill in the party location and start listening to your music with your friends!
+An awesome Jitsi Meet Party has never been so easy! - Go to [app.jimmi.party](https://app.jimmi.party/) fill in the party location and start listening to your music with your friends!
 
 :warning: Remember that you have to install the browser extension before. See below for how to install.
 
@@ -75,7 +75,7 @@ Installation of the extension depends on your browser and is easiest in Chromium
 2. On the right hand side of the navigation bar activate the *Developer mode*
 3. Then press *Load unpacked*
 4. Select the `browser` folder
-5. Navigate to [jimmi.xyz](https://jimmi.xyz/) and let the party begin!
+5. Navigate to [app.jimmi.party](https://app.jimmi.party/) and let the party begin!
 
 # :blue_book: License
 

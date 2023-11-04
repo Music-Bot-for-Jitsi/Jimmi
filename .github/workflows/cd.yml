@@ -61,4 +61,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./frontend/dist
           destination_dir: ${{ steps.determine_sublocation.outputs.sublocation }}
-          cname: jimmi.xyz
+          cname: app.jimmi.party

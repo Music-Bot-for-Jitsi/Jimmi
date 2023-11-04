@@ -33,7 +33,7 @@
                 {
                     "header": "access-control-allow-origin",
                     "operation": "set",
-                    "value": "https://jimmi.xyz"
+                    "value": "https://app.jimmi.party"
                 },
                 {
                     "header": "access-control-allow-headers",
