@@ -10,7 +10,7 @@ export const config = {
     initialVolume: 20, // default initial audio volume
   },
   repoUrl: "https://github.com/p-fruck/Jimmi",
-  url: "https://jimmi.xyz", // the redirect url when clicking on the navbar logo
+  url: "https://app.jimmi.party", // the redirect url when clicking on the navbar logo
   logo: "/jimmi.svg", // location of the logo displayed in navbar
   plugins: [MusicPlugin, ModeratorPlugin], // list of all plugins
 }

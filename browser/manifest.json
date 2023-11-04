@@ -14,7 +14,7 @@
         "declarativeNetRequest"
     ],
     "host_permissions": [
-        "https://jimmi.xyz/*",
+        "https://app.jimmi.party/*",
         "https://*.googlevideo.com/*",
         "https://*/http-bind*"
     ],
