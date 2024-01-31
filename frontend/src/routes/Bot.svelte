@@ -53,7 +53,7 @@
         domain: params.instance,
         muc: `conference.${params.instance}`, // FIXME: use XEP-0030
       },
-      bosh: `https://${params.instance}/http-bind?room=${params.room}`,
+      serviceUrl: `https://${params.instance}/http-bind?room=${params.room}`,
     };
     await jitsi.joinConference(options); // jimmiApi is initialized during function call
 
