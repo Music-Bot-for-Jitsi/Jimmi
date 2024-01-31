@@ -1,6 +1,6 @@
 {
     "name": "JIMMI Media",
-    "version": "1.0",
+    "version": "1.1",
     "declarative_net_request": {
         "rule_resources": [
             {
@@ -15,8 +15,7 @@
     ],
     "host_permissions": [
         "https://app.jimmi.party/*",
-        "https://*.googlevideo.com/*",
-        "https://*/http-bind*"
+        "https://*.googlevideo.com/*"
     ],
     "manifest_version": 3
 }

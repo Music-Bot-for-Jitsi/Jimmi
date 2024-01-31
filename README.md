@@ -61,7 +61,7 @@ At the moment Jimmi only supports simple music playback but he already has an ex
 
 # :rocket: Get started!
 
-Caused by the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session and, depending on their configuration, connect to a foreign Jitsi instance.
+Caused by the [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/de/docs/Web/HTTP/CORS) restrictions you need a browser extension to load external YouTube videos into your session.
 
 There have been approaches to circumvent this CORS issues, e.g. the [v2 release of Jimmi](https://github.com/Music-Bot-for-Jitsi/Jimmi/releases/tag/v2.0.0) that you can treet like an April Fool because it was unmaintainable and very resource intensive. For the sake of simplicity and security, it has been decided to deal with the CORS restrictions using the declarativeNetRequest feature of Manifest V3.
 

@@ -50,10 +50,11 @@
   onMount(async () => {
     const options = {
       hosts: {
+        anonymousdomain: `guest.${params.instance}`,
         domain: params.instance,
         muc: `conference.${params.instance}`, // FIXME: use XEP-0030
       },
-      bosh: `https://${params.instance}/http-bind?room=${params.room}`,
+      serviceUrl: `wss://${params.instance}/xmpp-websocket?room=${params.room}`,
     };
     await jitsi.joinConference(options); // jimmiApi is initialized during function call
 
