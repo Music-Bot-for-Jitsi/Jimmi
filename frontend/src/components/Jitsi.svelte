@@ -156,9 +156,9 @@
   /**
    * Called when connection fails
    */
-  function onConnectionFailed() {
-    alert("Connection failed! Please report this issue");
-    console.error("Connection Failed!");
+  function onConnectionFailed(err) {
+    alert(`Connection failed (${err})! Please report this issue`);
+    console.error("Connection failed!", err);
   }
 
   /**
