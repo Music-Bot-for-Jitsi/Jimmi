@@ -55,7 +55,7 @@ export default class MusicPlugin extends JimmiPlugin {
     },
   };
   private chooseRandomBaseUrl(): string {
-    const instances = ["https://vid.puffyan.us", "https://invidious.tiekoetter.com", "https://invidious.flokinet.to", "https://inv.bp.projectsegfau.lt", "https://yt.artemislena.eu", "https://invidious.projectsegfau.lt", "https://invidious.lunar.icu"];
+    const instances = ["https://vid.puffyan.us", "https://invidious.flokinet.to", "https://inv.bp.projectsegfau.lt", "https://yt.artemislena.eu", "https://invidious.projectsegfau.lt", "https://invidious.lunar.icu"];
     return instances[Math.floor(instances.length * Math.random())];
   }
 
