@@ -8,7 +8,7 @@ export class Track {
   constructor(res: VideoResponse) {
     this.#thumbnailUrl = res.videoThumbnails[0].url;
     this.#title = res.title;
-    this.#source = res.adaptiveFormats.filter((format) => format.encoding === "opus")[0].url;
+    this.#source = res.adaptiveFormats[0].url;
   }
 
   get thumbnailUrl() {

@@ -15,11 +15,11 @@ export class JimmiApi {
   }
 
   mute() {
-    // ToDo: implement
+    this.conference.muteAudio(true);
   }
 
   unmute() {
-    // ToDo: implement
+    this.conference.muteAudio(false);
   }
 
   get queue(): Track[] {
