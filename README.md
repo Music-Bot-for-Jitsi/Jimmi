@@ -77,6 +77,33 @@ Installation of the extension depends on your browser and is easiest in Chromium
 4. Select the `browser` folder
 5. Navigate to [app.jimmi.party](https://app.jimmi.party/) and let the party begin!
 
+## Usage
+
+Jimmi is a chat bot. You can ask him to `!play some music` which will search `some music` on YouTube (or rather [invidious](https://invidious.io/)). For a full list of features, use the `!help` command.
+
+To ensure access to audio devices, please use the form on the app startpage to connect to a Jitsi instance. If you just reload the page `https://app.jimmi.party/#/bot/my.jitsi.instance/my-conference` (or connect to it directly) you might run into issues with [autoplay](https://goo.gl/xX8pDD).
+
+**Caveats**
+
+Jimmi uses a randomized list of Invidious instances to play back music. Those instances are run by volunteers and might suffer from bugs or downtime. If you notice that a specific instance is not functioning, please report this as an issue.
+
+Another unresolved issue is that googlevideo (where the music tracks are fetched from) might return 403 forbidden for some videos (idk why). In that case you wont be able to play that specific video and have to choose another song - Sorry for the inconvenience.
+
+Jitsi is complicated. YouTube too. If you experience any further problems, feel free to report problems using GitHub issues or discussions and submit pull requests if you have the required knowledge ;)
+
+## How it works
+
+Jimmi acts as a regular Jitsi user that would join your meeting. The main difference is, that his microphone output is simulated :astonished: Jimmi uses the integrated [MusicPlugin](frontend/src/plugins/MusicPlugin.ts) to interact with the [invidious](https://invidious.io/) (selfhosted YouTube) API and fetch video information. The audio track of the requested YouTube video is then embedded into the Jimmi web interface and piped into the microphone input. That way, Jimmi can broadcast the music stream to all participants!
+
+## ToDo's
+
+- A ton :smile:
+- Add further plugins (Jokes, mini-games)
+- Audio playback: Select sampling rate & Codec
+- Invidious Instances: Implement instance chooser
+- Web Interface: Add msuic selection into GUI
+- Error Handling: Show proper messages for common issues (CORS, missing extension, audio device access, missing video stream, ...)
+
 # :blue_book: License
 
 Jimmi is licensed under `GNU Affero General Public License v3.0`!
